@@ -1,3 +1,8 @@
 .choice-button-wrapper {
     padding:10px;
 }
+.hidden{
+    opacity:0.0;
+
+
+}

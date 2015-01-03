@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5248671c-decb-4b8b-9536-e7dc18d4ed2d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index_backup.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/navigation.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/choice_board.html" afterPath="$PROJECT_DIR$/templates/choice_board.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/choices.css" afterPath="$PROJECT_DIR$/choices.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/choices.js" afterPath="$PROJECT_DIR$/templates/choices.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/routing.js" afterPath="$PROJECT_DIR$/templates/routing.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="choices_choices.iws" />
@@ -303,7 +297,13 @@
       <option name="project" value="LOCAL" />
       <updated>1420278472023</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add_all_screens: this adds angular.js to the project, and moves some files to the templates directory. The files need to be further organized into folders, but this will do for now.  routing all works to different templates, but choices.js does not function properly when used in this code.  Not sure why. Removed unused navigation.js since angular will handle routing now.">
+      <created>1420280095722</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1420280095722</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -349,7 +349,8 @@
     </option>
     <MESSAGE value="adds Navigation script, adds html structure that puts each &quot;view&quot; into a div, and then allows the Navigation script to swap the innerHtml into the currentScreen." />
     <MESSAGE value="add_all_screens: this adds angular.js to the project, and moves some files to the templates directory. The files need to be further organized into folders, but this will do for now.  routing all works to different templates, but choices.js does not function properly when used in this code.  Not sure why." />
-    <option name="LAST_COMMIT_MESSAGE" value="add_all_screens: this adds angular.js to the project, and moves some files to the templates directory. The files need to be further organized into folders, but this will do for now.  routing all works to different templates, but choices.js does not function properly when used in this code.  Not sure why." />
+    <MESSAGE value="add_all_screens: this adds angular.js to the project, and moves some files to the templates directory. The files need to be further organized into folders, but this will do for now.  routing all works to different templates, but choices.js does not function properly when used in this code.  Not sure why. Removed unused navigation.js since angular will handle routing now." />
+    <option name="LAST_COMMIT_MESSAGE" value="add_all_screens: this adds angular.js to the project, and moves some files to the templates directory. The files need to be further organized into folders, but this will do for now.  routing all works to different templates, but choices.js does not function properly when used in this code.  Not sure why. Removed unused navigation.js since angular will handle routing now." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

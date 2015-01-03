@@ -1,5 +1,5 @@
 
-    var player = {
+var player = {
         name: "Nathan",
         state: "alive",
         health: 20,
@@ -187,6 +187,5 @@
     }
 
     game();
-
 
 

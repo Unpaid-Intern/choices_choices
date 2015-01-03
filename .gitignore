@@ -1,0 +1,9 @@
+.idea/*
+*.scssc
+tmp/
+log/
+public/system/images/
+db/development.sqlite3
+db/test.sqlite3
+config/database.yml
+Thumbs.db

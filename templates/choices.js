@@ -1,5 +1,6 @@
-
-var player = {
+$('#choice_board').ready(function()
+{
+    var player = {
         name: "Nathan",
         state: "alive",
         health: 20,
@@ -112,12 +113,13 @@ var player = {
                     //+ "choice " + choice_num + ": "
                 + "<h2 class='page-header'>" + activity + " with " + person + ".</h1>"
                 + "<p class='choice-description'>" + "choice description here" + "</p>"
-                + "<div class='choice-button-wrapper' choice-num='" + i + "'><button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
-                + "</div><!-- end span3 >"
+                + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
+                + "<!-- end span3 >"
             );
         }
 
-        $(".choice-button-wrapper").click(function () {
+
+        $(".choice-button").click(function () {
 
             output_text.html(" ");
 
@@ -187,5 +189,4 @@ var player = {
     }
 
     game();
-
-
+});

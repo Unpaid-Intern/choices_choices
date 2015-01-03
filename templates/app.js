@@ -5,30 +5,35 @@
 var choicesApp = angular.module('choicesApp', []);
 
 //Define Routing for app
+choicesApp.config(['$routeProvider', '$controllerProvider',
+    function($routeProvider, $controllerProvider)
+{
 
-choicesApp.config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-            when('/start_screen', {
+    choicesApp.registerCtrl = $controllerProvider.register;
+
+    $routeProvider
+        .when('/start_screen', {
                 templateUrl: 'templates/start_screen.html'
                 //,controller: 'start_screen_controller'
-            }).
-            when('/choice_board', {
+            })
+        .when('/choice_board', {
                 templateUrl: 'templates/choice_board.html'
                 //,controller: 'choice_board_controller'
-            }).
-            when('/about', {
-                templateUrl: 'templates/about.html',
-                controller: 'about_controller'
-            }).
-            when('/obituaries', {
+            })
+        .when('/about', {
+                templateUrl: 'templates/about.html'
+                //,controller: 'about_controller'
+            })
+        .when('/obituaries', {
                 templateUrl: 'templates/obituaries.html'
                 //,controller: 'obituaries_controller'
-            }).
-            otherwise({
+            })
+        .otherwise({
                 redirectTo: '/start_screen'
             });
     }]);
+
+
 
 /*
 choicesApp.controller('choice_board_controller', function($scope) {

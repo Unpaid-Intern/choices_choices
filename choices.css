@@ -3,6 +3,9 @@
 }
 .hidden{
     opacity:0.0;
+}
 
+#current_screen{
 
+    margin-top: 5em;
 }

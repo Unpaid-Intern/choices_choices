@@ -118,6 +118,7 @@
                     //+ "choice " + choice_num + ": "
                 + "<h2 class='page-header'>" + activity + " with " + person + ".</h1>"
                 + "<p class='choice-description'>" + "choice description here" + "</p>"
+                + '<img style="height:100px;width:45px;"class="status_img" src="templates/img/beverage.png">'
                 + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
                 + "<!-- end span3 >"
             );

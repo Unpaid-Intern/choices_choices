@@ -79,7 +79,10 @@ function getChoices(amt) {
     // choose your people
     for (i = 0; i < person_deck.length; i++) {
         var person = person_deck[i];
-        if (person.activities[current_stage.id]) {
+        if (person.connection >= 1) {
+
+        }
+        if (person.activities[current_stage.id] && (person.stage === current_stage || person.connection >= 1)) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }

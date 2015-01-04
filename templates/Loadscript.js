@@ -28,8 +28,6 @@
 
 /*global angular */
 
-// this function is supposed to add lazy loading to partial templates
-// scott feels like this works but it's unclear where hooks are or how to configure app to use it.
 (function (ng) {
     'use strict';
 

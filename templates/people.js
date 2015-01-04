@@ -23,8 +23,6 @@ stages.push(new Stage(2, 'Teen years', 'You have so much potential!'));
 stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.'));
 stages.push(new Stage(4, 'Adulthood', 'You are an adult now.'));
 stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.'));
-var current_stage = stages[0];
-
 
 function Goal(id, name, description, stat, stat_measure) {
     this.id = id;

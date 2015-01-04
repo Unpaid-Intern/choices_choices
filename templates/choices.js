@@ -82,7 +82,7 @@ function getChoices(amt) {
         if (person.connection >= 1) {
 
         }
-        if (person.activities[current_stage.id] && (person.stage === current_stage || person.connection >= current_stage)) {
+        if (person.activities[getCurrentStage().id] && (person.stage === getCurrentStage() || person.connection >= getCurrentStage())) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }
@@ -163,10 +163,18 @@ function evaluateChoice(choice, chosen_person) {
 
 }
 
+function getCurrentStage() {
+    return stages[Math.floor(player.turn/turns_per_stage)];
+}
+
 // game loop
+var turns_per_stage = 4;
+var amt_choices = 3;
 
 function renderGame() {
-    var amt_choices = 3;
+    var current_stage = getCurrentStage();
+    console.log(getCurrentStage());
+
     if (!player_deck) {
         var player_deck = getChoices(amt_choices);
     }

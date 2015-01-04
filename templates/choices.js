@@ -110,7 +110,7 @@ function displayChoices(array) {
         $("#input-container").append(
             "<div class='span3' >"
                 //+ "choice " + choice_num + ": "
-            + "<h2 class='page-header'>" + activity + " with " + person + ".</h1>"
+            + "<h5 class='page-header'>" + activity + " with " + person + ".</h5>"
             + "<p class='choice-description'>" + "choice description here" + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
             + "<!-- end span3 >"
@@ -163,7 +163,7 @@ function evaluateChoice(choice, chosen_person) {
 // game loop
 
 function renderGame() {
-    var amt_choices = 1;
+    var amt_choices = 3;
     if (!player_deck) {
         var player_deck = getChoices(amt_choices);
     }

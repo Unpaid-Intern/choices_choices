@@ -1,17 +1,3 @@
-
-var player = {
-    name: "Nathan",
-    state: "alive",
-    health: 20,
-    happiness: 10,
-    days_alone: 0,
-    turn: 0
-};
-
-var daytime_array = ["Day", "Night"];
-
-var daytime = daytime_array[0];
-
 var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 

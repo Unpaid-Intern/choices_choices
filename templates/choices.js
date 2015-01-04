@@ -1,5 +1,4 @@
-$('#choice_board').ready(function()
-{
+
     var player = {
         name: "Nathan",
         state: "alive",
@@ -189,4 +188,3 @@ $('#choice_board').ready(function()
     }
 
     game();
-});

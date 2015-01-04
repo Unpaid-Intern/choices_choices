@@ -8,6 +8,10 @@
 
 }
 
+.status_img
+{
+float:right;
+}
 
 .hidden{
     opacity:0.0;

@@ -5,11 +5,11 @@
 var choicesApp = angular.module('choicesApp', []);
 
 //Define Routing for app
-choicesApp.config(['$routeProvider', '$controllerProvider',
-    function($routeProvider, $controllerProvider)
+choicesApp.config(['$routeProvider',
+    function($routeProvider)
 {
 
-    choicesApp.registerCtrl = $controllerProvider.register;
+    //choicesApp.registerCtrl = $controllerProvider.register;
 
     $routeProvider
         .when('/start_screen', {
@@ -26,7 +26,7 @@ choicesApp.config(['$routeProvider', '$controllerProvider',
             })
         .when('/obituaries', {
                 templateUrl: 'templates/obituaries.html'
-                //,controller: 'obituaries_controller'
+                //,controller: 'ObituariesController'
             })
         .otherwise({
                 redirectTo: '/start_screen'

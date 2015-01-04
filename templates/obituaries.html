@@ -1,12 +1,61 @@
 
+
 <!--Obituaries Screen -->
-<div id="obituaries" class="is_nav">
-    <div class="row-fluid">
-        <div class="hero-unit span6">
-            Obituaries
+<div id="obituaries" >
+    <div class="row-fluid"  ng-controller ="ObituariesController">
+<h2 style="font-size:x-large;" class="hero-unit">Obituaries</h1>
+
+<div ng-repeat="item in obituaries">
+    <div class="hero-unit span12">
+
+    <img class="status_img" src="templates/img/headstone.jpg">
+
+            Name: {{item.name}}
+            <br />
+            lived: {{item.lifespan}}
+            <br />
+            Age: {{item.age}}
+            <br />
+            Score: {{item.score}}
+
+    </div>
         </div>
     </div>
 </div>
+
+<script>
+
+    function ObituariesController($scope) {
+        $scope.obituaries = [
+
+            {
+            'name': 'Johnny Silverheim',
+            'score': '100,000',
+            'lifespan': '1/2/2014-2/5/2065',
+                'age' : '26'
+            },
+            {
+                'name': 'Sara Freeman',
+                'score': '90,000',
+                'lifespan': '1/2/2014-2/5/2065',
+                'age' : '65'
+            },
+            {
+                'name': 'George Listholm',
+                'score': '88,000',
+                'lifespan': '1/2/2014-2/5/2065',
+                'age' : '45'
+            },
+            {
+                'name': 'Johnny "the squids" Higgledorfer',
+                'score': '50,000',
+                'lifespan': '1/2/2014-2/5/2065',
+                'age' : '13'
+            },
+
+
+        ]
+    }
+</script>
+
 <a class="btn" href="#start_screen">Back to Main Menu</a>
-
-

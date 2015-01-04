@@ -2,6 +2,15 @@ var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 
 
+var player = {
+    name: "Nathan",
+    state: "alive",
+    health: 20,
+    happiness: 10,
+    days_alone: 0,
+    turn: 0
+};
+
 function updateStatus() {
     $("#status").html("");
     $("#status").append("<p>Player Name: " + player.name + "</p>");
@@ -48,50 +57,55 @@ function evaluateGameState() {
 }
 
 function drawCard(array, amt) {
-    //make a copy of the array so as not to change it
-    var new_array = shuffle(array);
-    var card_array = array.slice(array.length - amt, array.length);
-    return card_array;
-}
-
-function createPerson(person) {
-    var new_card = card
+    var drawn_cards = [];
+    array = shuffle(array);
+    for (var i=0;i<array.length;i++) {
+        if (drawn_cards.length < amt) {
+            var card = array[i];
+            for (var j =0; j < drawn_cards.length; j++) {
+                if (JSON.stringify(card) === JSON.stringify(drawn_cards[j])) {
+                    drawn_cards.splice(j,1);
+                }
+            }
+            drawn_cards.push(card);
+        }
+    }
+    console.log(drawn_cards);
+    return drawn_cards;
 }
 
 function getChoices(amt) {
-    var all_choices = [];
+    var person_choices = [];
+    // choose your people
     for (i = 0; i < person_deck.length; i++) {
-        person = person_deck[i];
-        for (j = 0; j < person.activities.length; j++) {
-            var choice = [];
-            choice.push(person);
-            choice.push(person.activities[j]);
-            for (k = 0; k < person.connection; k++) {
-                all_choices.push(choice);
+        var person = person_deck[i];
+        if (person.activities[current_stage.id]) {
+            for (var j = 0; j <= person.connection; j++) {
+                person_choices.push(person);
             }
         }
     }
-    shuffle(all_choices);
-    choices = drawCard(all_choices, amt);
+    var chosen_persons = drawCard(person_choices, amt);
+    var encounter_choices = [];
+    for (var i = 0; i < chosen_persons.length; i++) {
+        var chosen_person = chosen_persons[i];
+        for (var j = 0; j < chosen_person.activities[current_stage.id].length; j++) {
 
-    for (i = 0; i < choices.length; i++) {
+            var activity = chosen_person.activities[current_stage.id][j];
+            encounter_choices.push([activity,chosen_person]);
+        }
     }
-    return choices;
+    return drawCard(encounter_choices, amt);
 }
 
 
 function displayChoices(array) {
-
-    //reset output_text
-
-
     var choices = array;
 
     for (i = 0; i < choices.length; i++) {
-        var person = choices[i][0].firstName;
-        var activity = choices[i][1];
+        var person = choices[i][1].firstName;
+        var activity = choices[i][0];
         var choice_num = i + 1;
-
 
         $("#input-container").append(
             "<div class='span3' >"
@@ -146,16 +160,10 @@ function evaluateChoice(choice, chosen_person) {
 
 }
 
-//console.log(deck);
-//var example_person = deck[Math.floor(Math.random()*deck.length)];
-
-//console.log(example_person);
-
-
 // game loop
 
 function renderGame() {
-    amt_choices = 4;
+    var amt_choices = 1;
     if (!player_deck) {
         var player_deck = getChoices(amt_choices);
     }

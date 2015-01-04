@@ -1,6 +1,39 @@
 
+function monster_dance(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
 
+function baby_talk(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
 
+function baby_feeding(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
+
+function babysitting(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
+
+function smoking(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
+
+function baby_talk(person) {
+    player.health += 1;
+    var output = person.firstName + " and you have sex. Your health = " + player.health;
+    return output;
+};
 
 
 function drinking(person) {

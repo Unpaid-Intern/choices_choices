@@ -25,12 +25,9 @@
  *
  * License: 2013 - released to the Public Domain.
  */
-$('a[href="#choice_board"]').click(function(){
-    $('choice_board_shim').removeClass('hidden');
 
-
-});
 /*global angular */
+
 (function (ng) {
     'use strict';
 

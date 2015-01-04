@@ -82,7 +82,7 @@ function getChoices(amt) {
         if (person.connection >= 1) {
 
         }
-        if (person.activities[current_stage.id] && (person.stage === current_stage || person.connection >= 1)) {
+        if (person.activities[current_stage.id] && (person.stage === current_stage || person.connection >= current_stage)) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }

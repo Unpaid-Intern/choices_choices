@@ -127,7 +127,7 @@ function displayChoices(array) {
 
         var choice = choices[choice_num];
 
-        evaluateChoice(choice, choice[0]);
+        evaluateChoice(choice, choice[1]);
 
     });
 
@@ -140,7 +140,7 @@ function evaluateChoice(choice, chosen_person) {
     output_prompt.html(" ");
 
 
-    $("#output-text").append("You chose " + choice[1] + " with " + chosen_person.firstName + ".");
+    $("#output-text").append("You chose " + choice[0] + " with " + chosen_person.firstName + ".");
 
     //increase connection to card
     chosen_person.connection += 1;
@@ -151,7 +151,7 @@ function evaluateChoice(choice, chosen_person) {
     //decrease connection to other cards
 
     // call activity(person)
-    var w = window[choice[1]](chosen_person);
+    var w = window[choice[0]](chosen_person);
 
 
     $("#output-text").append("<p>" + w + "</p>");

@@ -176,7 +176,7 @@ function renderGame() {
 
     // display choices
     updateStatus();
-    output_prompt.html("<p>You're wondering what to do tonight.</p>");
+    output_prompt.html("<p>Choose an encounter.</p>");
     displayChoices(player_deck);
 }
 

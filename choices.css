@@ -3,8 +3,16 @@
 
 }
 
+.btn-large{
+    display:block;
+
+}
+
 
 .hidden{
     opacity:0.0;
 }
 
+#start_screen{
+    margin-top:2em;
+}

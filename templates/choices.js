@@ -70,19 +70,19 @@ function drawCard(array, amt) {
             drawn_cards.push(card);
         }
     }
-    console.log(drawn_cards);
     return drawn_cards;
 }
 
 function getChoices(amt) {
     var person_choices = [];
+    var current_stage = getCurrentStage();
     // choose your people
     for (i = 0; i < person_deck.length; i++) {
         var person = person_deck[i];
         if (person.connection >= 1) {
 
         }
-        if (person.activities[current_stage.id] && (person.stage === current_stage || person.connection >= current_stage)) {
+        if (person.activities[current_stage.id] && (person.stage === current_stage.id || person.connection >= current_stage.id)) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }
@@ -93,7 +93,6 @@ function getChoices(amt) {
     for (var i = 0; i < chosen_persons.length; i++) {
         var chosen_person = chosen_persons[i];
         for (var j = 0; j < chosen_person.activities[current_stage.id].length; j++) {
-
             var activity = chosen_person.activities[current_stage.id][j];
             encounter_choices.push([activity,chosen_person]);
         }
@@ -163,10 +162,17 @@ function evaluateChoice(choice, chosen_person) {
 
 }
 
+function getCurrentStage() {
+    return stages[Math.floor(player.turn/turns_per_stage)];
+}
+
 // game loop
+var turns_per_stage = 4;
+var amt_choices = 3;
 
 function renderGame() {
-    var amt_choices = 3;
+    var current_stage = getCurrentStage();
+
     if (!player_deck) {
         var player_deck = getChoices(amt_choices);
     }
@@ -176,7 +182,7 @@ function renderGame() {
 
     // display choices
     updateStatus();
-    output_prompt.html("<p>You're wondering what to do tonight.</p>");
+    output_prompt.html("<p>Choose an encounter.</p>");
     displayChoices(player_deck);
 }
 

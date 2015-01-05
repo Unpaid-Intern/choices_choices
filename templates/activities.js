@@ -1,7 +1,18 @@
 
 function monster_dance(person) {
+    var output = person.firstName + " invites you under the bed to dance the monster dance.";
+    console.log(player.happiness);
+    if (player.happiness <= 10) {
+        console.log("asdfasd");
+        player.happiness += 10;
+        output += " The "+ person.firstName +" decides that you're sad and need a friend. Your happiness increases by 10 points.";
+        console.log(output);
+    } else {
+        player.health -= 10;
+        output += " The "+ person.firstName +" decides that you're too happy and bites you. You lose 10 health.";
+        console.log(output);
+    }
     player.health += 1;
-    var output = person.firstName + " and dance the monster dance. Your health = " + player.health;
     return output;
 };
 

@@ -17,12 +17,18 @@
 
 
     function updateStatus() {
+        //temporarily store the image element in a variable
+        var img = $("#status .status_img").clone();
+        //clear out status box
         $("#status").html("");
+        //put the image back in the status box
+        $("#status").append(img);
         $("#status").append("<p>Player Name: " + player.name + "</p>");
         $("#status").append("<p>State: " + player.state + "</p>");
         $("#status").append("<p>Health: " + player.health + "</p>");
         $("#status").append("<p>Happiness: " + player.happiness + "</p>");
         $("#status").append("<p>Turn: " + player.turn + "</p>");
+
     }
 
     function shuffle(array) {
@@ -112,6 +118,7 @@
                     //+ "choice " + choice_num + ": "
                 + "<h2 class='page-header'>" + activity + " with " + person + ".</h1>"
                 + "<p class='choice-description'>" + "choice description here" + "</p>"
+                + '<img style="height:100px;width:45px;"class="status_img" src="templates/img/beverage.png">'
                 + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
                 + "<!-- end span3 >"
             );

@@ -4,11 +4,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var daytime_array = ["Day", "Night"];
-
-var daytime = daytime_array[0];
-
-
 // stages represent the stages of life that a player potentially goes through.
 function Stage(id, name, description) {
     this.id = id;

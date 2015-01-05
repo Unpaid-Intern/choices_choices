@@ -70,7 +70,6 @@ function drawCard(array, amt) {
             drawn_cards.push(card);
         }
     }
-    console.log(drawn_cards);
     return drawn_cards;
 }
 
@@ -87,8 +86,6 @@ function getChoices(amt) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }
-        } else {
-            console.log("fail");
         }
     }
     var chosen_persons = drawCard(person_choices, amt);
@@ -175,7 +172,6 @@ var amt_choices = 3;
 
 function renderGame() {
     var current_stage = getCurrentStage();
-    console.log(getCurrentStage());
 
     if (!player_deck) {
         var player_deck = getChoices(amt_choices);

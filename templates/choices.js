@@ -76,16 +76,19 @@ function drawCard(array, amt) {
 
 function getChoices(amt) {
     var person_choices = [];
+    var current_stage = getCurrentStage();
     // choose your people
     for (i = 0; i < person_deck.length; i++) {
         var person = person_deck[i];
         if (person.connection >= 1) {
 
         }
-        if (person.activities[getCurrentStage().id] && (person.stage === getCurrentStage() || person.connection >= getCurrentStage())) {
+        if (person.activities[current_stage.id] && (person.stage === current_stage.id || person.connection >= current_stage.id)) {
             for (var j = 0; j <= person.connection; j++) {
                 person_choices.push(person);
             }
+        } else {
+            console.log("fail");
         }
     }
     var chosen_persons = drawCard(person_choices, amt);
@@ -93,7 +96,6 @@ function getChoices(amt) {
     for (var i = 0; i < chosen_persons.length; i++) {
         var chosen_person = chosen_persons[i];
         for (var j = 0; j < chosen_person.activities[current_stage.id].length; j++) {
-
             var activity = chosen_person.activities[current_stage.id][j];
             encounter_choices.push([activity,chosen_person]);
         }

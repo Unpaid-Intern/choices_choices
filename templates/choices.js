@@ -12,6 +12,8 @@ var player = {
 };
 
 function updateStatus() {
+
+
     $("#status").html("");
     $("#status").append("<p>Player Name: " + player.name + "</p>");
     $("#status").append("<p>State: " + player.state + "</p>");

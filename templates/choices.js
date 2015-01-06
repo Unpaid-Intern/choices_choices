@@ -12,7 +12,13 @@ var player = {
 };
 
 function updateStatus() {
+
+    //store the image in a variable to prevent removal on refresh
+    var img = $(".status_img").clone();
+    //clear the status box to prepare to render new status info
     $("#status").html("");
+    //re-insert image
+    $("#status").append(img);
     $("#status").append("<p>Player Name: " + player.name + "</p>");
     $("#status").append("<p>State: " + player.state + "</p>");
     $("#status").append("<p>Health: " + player.health + "</p>");
@@ -115,6 +121,7 @@ function displayChoices(array) {
             + "<h5 class='page-header'>" + activity + " with " + person + ".</h5>"
             + "<p class='choice-description'>" + "choice description here" + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
+            + '<img class="activity_img" src="templates/img/beverage.png">'
             + "<!-- end span3 >"
         );
     }

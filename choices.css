@@ -3,11 +3,15 @@
 
 }
 
+#start_screen{
+    margin-top:2em;
+}
+
 .btn-large{
     display:block;
 
 }
-
+/*images*/
 .activity_img
 {
 height:150px;
@@ -25,6 +29,3 @@ width:100px;
     opacity:0.0;
 }
 
-#start_screen{
-    margin-top:2em;
-}

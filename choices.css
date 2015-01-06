@@ -1,0 +1,22 @@
+.choice-button {
+  display:block;
+
+}
+
+.btn-large{
+    display:block;
+
+}
+
+.status_img
+{
+float:right;
+}
+
+.hidden{
+    opacity:0.0;
+}
+
+#start_screen{
+    margin-top:2em;
+}

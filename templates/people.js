@@ -74,12 +74,12 @@ person_deck.push(new Person('Sally Fredricks', '', 'neighbor', {0:['babysitting'
 
 // stage 1
 person_deck.push(new Person('Aanie', 'Bobbins', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
-person_deck.push(new Person('Banie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1));
-person_deck.push(new Person('Canie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1));
+person_deck.push(new Person('Banie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
+person_deck.push(new Person('Canie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
 
 
 // stage 2
-person_deck.push(new Person('Danie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('Danie', 'Bobbins', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
 person_deck.push(new Person('Eanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
 person_deck.push(new Person('Fanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
 

@@ -69,3 +69,9 @@ function sex(person) {
     var output = person.name + " and you have sex. Your health = " + player.health;
     return output;
 };
+
+function dating(person) {
+    player.health += 1;
+    var output = person.name + " and you have sex. Your health = " + player.health;
+    return output;
+};

@@ -3,20 +3,29 @@
 
 }
 
+#start_screen{
+    margin-top:2em;
+}
+
 .btn-large{
     display:block;
 
+}
+/*images*/
+.activity_img
+{
+height:150px;
+width:100px;
 }
 
 .status_img
 {
 float:right;
+height:100px;
+width:100px;
 }
 
 .hidden{
     opacity:0.0;
 }
 
-#start_screen{
-    margin-top:2em;
-}

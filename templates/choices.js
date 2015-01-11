@@ -17,7 +17,13 @@ var input_container = $("#input-container");
 
 // updates the player's status
 function updateStatus() {
+
+    //store the image in a variable to prevent removal on refresh
+    var img = $(".status_img").clone();
+    //clear the status box to prepare to render new status info
     $("#status").html("");
+    //re-insert image
+    $("#status").append(img);
     $("#status").append("<p>Player Name: " + player.name + "</p>");
     $("#status").append("<p>State: " + player.state + "</p>");
     $("#status").append("<p>Health: " + player.health + "</p>");
@@ -48,6 +54,7 @@ function displayChoices(array) {
             + "<h5 class='page-header'>" + activity + " with " + person.name + ".</h5>"
             + "<p class='choice-description'> Connection:" + person.connection + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
+            + '<img class="activity_img" src="templates/img/beverage.png">'
             + "<!-- end span3 >"
         );
     }
@@ -58,7 +65,9 @@ function displayChoices(array) {
         var choice_num = $(this).attr('choice-num');
         var choice = choices[choice_num];       // get array id of choice
         // note: choices are an array: ['activity_id', Person]
+
         evaluateChoice(choice, choice[1]);      // evaluates encounter
+
     });
 }
 
@@ -163,19 +172,19 @@ function evaluateGameState() {
         player.state = "won";
         output_text.append("you win!");
         return "victory";
-    // death condition
+        // death condition
     } else if (player.health <= 0) {
         player.state = "dead";
         output_text.append("you died!");
         return "dead";
-    // see if there's any more left to the game
+        // see if there's any more left to the game
     } else if (!getCurrentStage()) {
         player.state = "dead";
         output_text.append("You died of old age!");
         return "dead";
-    // otherwise run game loop again
+        // otherwise run game loop again
     } else if (player.state === "alive") {
-        if(player.state === 'alive') {
+        if (player.state === 'alive') {
             renderGame();
             updateStatus();
         } else {
@@ -185,8 +194,10 @@ function evaluateGameState() {
     }
 }
 
+
 // takes an
 function evaluateChoice(choice, chosen_person) {
+
     clearOutput();
     output_text.append("You chose " + choice[0] + " with " + chosen_person.name + ".");
     //increase connection to card

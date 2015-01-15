@@ -45,13 +45,14 @@ function displayChoices(array) {
 
     for (i = 0; i < choices.length; i++) {
         var person = choices[i][1];
-        var activity = choices[i][0];
+        var activity_id = choices[i][0];
+        var activity = search(activity_deck,'id',activity_id);
         var choice_num = i + 1;
 
         input_container.append(
             "<div class='span3' >"
                 //+ "choice " + choice_num + ": "
-            + "<h5 class='page-header'>" + activity + " with " + person.name + ".</h5>"
+            + "<h5 class='page-header'>" + activity.name + " with " + person.name + ".</h5>"
             + "<p class='choice-description'> Connection:" + person.connection + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
             + '<img class="activity_img" src="templates/img/beverage.png">'
@@ -73,9 +74,9 @@ function displayChoices(array) {
 
 // GAME HELPER FUNCTIONS
 
-function search(nameKey, myArray){
+function search(myArray, property, nameKey){
     for (var i=0; i < myArray.length; i++) {
-        if (myArray[i].name === nameKey) {
+        if (myArray[i][property] === nameKey) {
             return myArray[i];
         }
     }

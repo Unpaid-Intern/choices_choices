@@ -64,10 +64,6 @@ function drinking(person) {
     player.happiness += 1;
     player.health -= 1;
 
-    activity_choices = [
-
-    ];
-
     var output = person.name + " and you go drinking. Your happiness = " + player.happiness + ". Your health = " + player.health;
     count: 0;
     return output;

@@ -5,8 +5,12 @@ var player = {
     health: 20,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
     inventory: [],
-    attributes: []
+    attributes: [],
+    obituary: []
 };
+for (i=0; i <= stages.length; i++) {
+    player.obituary.push([i]);
+}
 
 // DISPLAY SETTINGS
 var output_text = $("#output-text");
@@ -73,6 +77,17 @@ function displayChoices(array) {
 }
 
 // GAME HELPER FUNCTIONS
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getSignedNumber(theNumber) {
+    if(theNumber > 0){
+        return "+" + theNumber;
+    }else{
+        return theNumber.toString();
+    }
+}
 
 function search(myArray, property, nameKey){
     for (var i=0; i < myArray.length; i++) {

@@ -126,10 +126,10 @@ function drawCard(array, amt) {
 
 
 // GAME SETTINGS
-
-var TURNS_PER_STAGE = 4;    // currently a fixed amount
-var AMT_CHOICES = 3;        // currently a fixed amount, may depend on happiness later
-var turn = 0;                // turn count for player starts at 0
+var CONNECTION_INCREMENT = 2;   // currently a fixed amount
+var TURNS_PER_STAGE = 4;        // currently a fixed amount
+var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
+var turn = 0;                   // turn count for player starts at 0
 
 // GAME FUNCTIONS
 
@@ -196,19 +196,25 @@ function evaluateGameState() {
 }
 
 
-// takes an
 function evaluateChoice(choice, chosen_person) {
 
     clearOutput();
-    output_text.append("You chose " + choice[0] + " with " + chosen_person.name + ".");
-    //increase connection to card
-    chosen_person.connection += 2;
-    output_text.append("<p>your connection with " + chosen_person.name
-    + " is now " + chosen_person.connection + "</p>");
+    // @todo duplicated from display choices, consider passing actual activity not just id? -nathan
+    var activity_id = choice[0];
+    var activity = search(activity_deck,'id',activity_id);
+
     // decrease connection to other cards
     // call activity with person as argument: activity(person)
     var activity_output = window[choice[0]](chosen_person);
     output_text.append("<p>" + activity_output + "</p>");
+
+    //increase connection to cards
+    chosen_person.connection += CONNECTION_INCREMENT;
+    activity.connection += CONNECTION_INCREMENT;
+    output_text.append('<p>' + chosen_person.name + ' Connection: ' + chosen_person.connection + '<br />' +
+    activity.name + ' Connection: ' + activity.connection + '</p>');
+
+
     evaluateGameState();
 }
 

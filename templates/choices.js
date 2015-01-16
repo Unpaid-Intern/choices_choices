@@ -81,6 +81,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
 function getSignedNumber(theNumber) {
     if(theNumber > 0){
         return "+" + theNumber;
@@ -89,6 +90,7 @@ function getSignedNumber(theNumber) {
     }
 }
 
+// searches for an object matching a given property in an array
 function search(myArray, property, nameKey){
     for (var i=0; i < myArray.length; i++) {
         if (myArray[i][property] === nameKey) {

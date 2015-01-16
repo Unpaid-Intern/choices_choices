@@ -89,23 +89,33 @@ function baby_talk(person) {
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
-activity_deck.push(new Activity('baby_feeding', 'Baby Feeding', 'First Description Placeholder', 'Description Placeholder', 0));
+activity_deck.push(new Activity('baby_feeding', 'Baby Feeding', 'First Description Placeholder', 'Description Placeholder', 10000));
 function baby_feeding(person) {
     var output;
     var current_stage_id = getCurrentStage().id;
-    switch (num = getRandomInt(0,1)) {
+    var num = getRandomInt(0,1);
+    if(player.inventory.indexOf('bad_parents' != -1)) {
+        var bad_parents = true;
+        num +=1;
+    }
+
+    switch (num) {
         // Good parents
         case 0:
             output = '<p>You drink of the finest breast milk.</p>';
             player.health += 10;
             output += '<p>Health: ' + getSignedNumber(3) + '<br>' + 'Happiness: ' + getSignedNumber(3) + '</p>';
-            return output;
+            break;
         // Bad parents
-        case 1:
+        default :
             output = '<p>Your parents starve you.</p>';
             player.health -= 10;
-            output += '<p>Health: ' + getSignedNumber(-3) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
+            output += '<p>Health: ' + getSignedNumber(-10) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
             player.obituary[current_stage_id].push('You were fed rocks as a child..');
+            if(bad_parents === -1) {
+                player.inventory.push('bad_parents');
+            }
+            console.log(bad_parents);
             break;
     }
     return output;

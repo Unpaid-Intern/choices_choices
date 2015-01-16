@@ -225,9 +225,14 @@ function renderGame() {
     $("#input-container").html("");
     // display choices
     updateStatus();
-    output_prompt.html("<p>Choose an encounter.</p>");
     displayChoices(player_deck);
 }
 
 // initiates the game app
+output_prompt.html('<p>You have just been born into the world. Choose from the options life gives you below.</p>' +
+    '<p>You should be aware that the choices you make will affect the outcome of your life and, potentially, the' +
+    'choices and connections you will make later.</p>' +
+    '<p>Your goal is to have the highest happiness possible before you die.</p>'+
+    '<p>Good luck!</p>');
+
 renderGame();

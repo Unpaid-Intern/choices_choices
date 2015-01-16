@@ -7,6 +7,31 @@
     to see if we like the basic structure of activities as objects.
 */
 
+/* ACTIVITIES TO BE CREATED
+    CHOICES CAUSE MORE CHOICES LATER IN LIFE
+    PEOPLE
+    PATTERNS / HABITS
+    BULLY VS BULLIED VS BOTH
+    FIRST LOVE
+    BEING A WALLFLOWER
+    SUICIDAL FRIEND
+    UNREQUITED LOVE
+    PASSIONS / OBSESSIONS
+    COPING: DISTRACTIONS/DELIGHT, SPIRITUALITY, SOCIAL SUPPORT, PHYSICAL EXCERCISE, RELAXATION
+    TRAVEL
+    MENTOR
+    RISK FACTORS: PREMATURE BIRTH, DOING DRUGS, SMOKING TOBACCO, ABUSE, INSECURE ATTACHMENT, LOW SES, ROUGH NEIGHBORHOOD
+        LOW FRIENDS/SOCIALIZATION
+    PARENTS GET DIVORCED IS NOT A RISK FACTOR
+    BEING FEMALE: MORE RISK FOR DEPRESSION, ANXIETY MALE: MORE PROBLEMS W/AGGRESSION
+    DRIVER'S LICENSE, LOSING VIRGINITY, FIRST KISS, DRUG EXPERIENCES, COLLEGE/CAREER, SCHOOL DANCES, OPPOSITE SEX IN GENERAL IS WEIRD
+    STUDYING FOR TEST, NOT BEING SOCIALIZED IS TOUGH
+    HAVING A PARENT WITH A MENTAL ILLNESS
+
+
+ */
+
+
 function Activity(id, name, first_description, description, connection) {
     this.id = id;
     this.name = name;
@@ -22,7 +47,7 @@ var activity_deck = []; // activity_deck holds all Activity objects
     Monster befriends sad kids and bites happy ones. This makes the monster accessible in later levels.
 */
 
-activity_deck.push(new Activity('monster_dance', 'Monster Dance', 'Monster Dance', 'Dance with a monster', 0));
+activity_deck.push(new Activity('monster_dance', 'Monster Dance', 'Dance the monster dance with the monster under the bed.', 'Dance with a monster', 0));
 function monster_dance(person) {
     var output = person.name + " invites you under the bed to dance the monster dance.";
     console.log(player.happiness);
@@ -36,7 +61,6 @@ function monster_dance(person) {
     player.health += 1;
     return output;
 }
-
 /*
     Using the monster to kill can act as garbage collection for unused people. It should have unpredictable consequences.
 */

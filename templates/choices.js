@@ -1,41 +1,85 @@
-// the player stores basic variables about the player's character.
+/**
+ * the player stores basic variables about the player's character.
+ * @type {{name: string, state: string, health: number, happiness: number, inventory: Array, attributes: Array, obituary: Array}}
+ */
 var player = {
     name: "Nathan",
     state: "alive",
-    health: 20,         // player dies when it reaches 0
+    health: 15,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
     inventory: [],
     attributes: [],
     obituary: []
 };
-for (i=0; i <= stages.length; i++) {
+
+player.updateHealth = function(number) {
+    this.health += number;
+};
+
+player.updateHappiness = function(number) {
+    this.happiness += number;
+};
+
+player.removeInventory = function(item) {
+    this.inventory.push(item);
+};
+
+player.addInventory = function(item) {
+    this.inventory.splice(item);
+};
+
+player.addAttribute = function(attr) {
+    this.inventory.push(attr);
+};
+
+player.removeAttribute = function(attr) {
+    this.inventory.splice(attr);
+};
+
+// sets up array for obituary.
+for (var i=0; i <= stages.length; i++) {
     player.obituary.push([i]);
 }
 
-// DISPLAY SETTINGS
+/**************************************************************************
+ *
+ * DISPLAY SETTINGS
+ *
+ *************************************************************************/
+
 var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 var input_container = $("#input-container");
 
-// DISPLAY FUNCTIONS
+/**************************************************************************
+ *
+ * DISPLAY FUNCTIONS
+ *
+ **************************************************************************/
 
-// updates the player's status
+/**************************************************
+ * updateStatus: updates the player's status
+ **************************************************/
+
 function updateStatus() {
 
     //store the image in a variable to prevent removal on refresh
     var img = $(".status_img").clone();
     //clear the status box to prepare to render new status info
-    $("#status").html("");
+    var status = $("#status");
+    status.html("");
     //re-insert image
-    $("#status").append(img);
-    $("#status").append("<p>Player Name: " + player.name + "</p>");
-    $("#status").append("<p>State: " + player.state + "</p>");
-    $("#status").append("<p>Health: " + player.health + "</p>");
-    $("#status").append("<p>Happiness: " + player.happiness + "</p>");
-    $("#status").append("<p>Turn: " + turn + "</p>");
+    status.append(img);
+    status.append("<p>Player Name: " + player.name + "</p>");
+    status.append("<p>State: " + player.state + "</p>");
+    status.append("<p>Health: " + player.health + "</p>");
+    status.append("<p>Happiness: " + player.happiness + "</p>");
+    status.append("<p>Turn: " + turn + "</p>");
 }
 
-// clears the output screen
+/****************************************************
+ * clearOutput: clears the output screen
+ ***************************************************/
 function clearOutput() {
     //reset output_text
     output_text.html(" ");
@@ -43,23 +87,32 @@ function clearOutput() {
     input_container.html(" ");
 }
 
-// should do what it says. this is very rough these days
-function displayChoices(array) {
+/****************************************************
+ * displayChoices: takes a multidimensional array of objects: [[Person,Activity]]
+ * it displays the encounter cards for the player to choose.
+ * @param {[]} array
+ ***************************************************/
+function displayEncounterChoices(array) {
     var choices = array;
 
     for (i = 0; i < choices.length; i++) {
         var person = choices[i][1];
-        var activity_id = choices[i][0];
-        var activity = search(activity_deck,'id',activity_id);
-        var choice_num = i + 1;
+        var activity = choices[i][0];
+        var header_text = '';
+
+        if(person.name === 'GAME') {
+            header_text = activity.name;
+        } else {
+            header_text = activity.name + " with " + person.name;
+        }
 
         input_container.append(
-            "<div class='span3' >"
-                //+ "choice " + choice_num + ": "
-            + "<h5 class='page-header'>" + activity.name + " with " + person.name + ".</h5>"
+            "<div class='span3 hero-unit' >"
+            + "<h1>" + activity.name + "</h1>"
+            + "<p class='choice-description'>" + activity.first_description + "</p>"
+            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
+            + '<img class="activity_img" src="'+IMAGE_DIR+'beverage.png">'
             + "<p class='choice-description'> Connection:" + person.connection + "</p>"
-            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>OK</button>"
-            + '<img class="activity_img" src="templates/img/beverage.png">'
             + "<!-- end span3 >"
         );
     }
@@ -70,18 +123,52 @@ function displayChoices(array) {
         var choice_num = $(this).attr('choice-num');
         var choice = choices[choice_num];       // get array id of choice
         // note: choices are an array: ['activity_id', Person]
-
-        evaluateChoice(choice, choice[1]);      // evaluates encounter
-
+        console.log('chosen activity.id: ' + choice[0].id);
+        console.log('chosen person.name: ' + choice[1].name);
+        evaluateEncounterChoice(choice[0], choice[1]);      // evaluates encounter
     });
 }
 
+
+/**
+ * TODO: duplicates display encounter choices. this is not entirely clear how to do.
+ * @param {object} minigame - an activity object that's a minigame
+ */
+
+function displayMinigameChoices(minigame) {
+    var choices = minigame.choices;
+    var choices_html ='<ul class="minigame-choices">';
+    for (var i=1; i <= choices.length; i++) {
+        choices_html += '<li class="minigame-choice">' +
+        '<a href="#" id="minigame-choice-'+ i + '" choice-data="'+ i +'>'+choices[i]+'</a></li>';
+    }
+    choices_html += '</ul>';
+
+    $('.minigameChoice').click(function(){
+        minigame.run()
+    });
+
+    output_text += choices_html;
+}
+
+
+
 // GAME HELPER FUNCTIONS
+/****************************************************
+ * getRandomInt: returns a random integer including the two ranges.
+ * @param min
+ * @param max
+ * @returns {*}
+ ***************************************************/
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
+/****************************************************
+ * getSignedNumber: string of signed number
+ * @param theNumber
+ * @returns {string}
+ ***************************************************/
 function getSignedNumber(theNumber) {
     if(theNumber > 0){
         return "+" + theNumber;
@@ -90,7 +177,13 @@ function getSignedNumber(theNumber) {
     }
 }
 
-// searches for an object matching a given property in an array
+/****************************************************
+ * search: searches for an object matching a given property in an array
+ * @param myArray
+ * @param property
+ * @param nameKey
+ * @returns {*}
+ ***************************************************/
 function search(myArray, property, nameKey){
     for (var i=0; i < myArray.length; i++) {
         if (myArray[i][property] === nameKey) {
@@ -99,12 +192,20 @@ function search(myArray, property, nameKey){
     }
 }
 
-// returns the current stage (currently set to calculate on fixed turns/stage)
+/****************************************************
+ * getCurrentStage: returns the current stage (currently set to calculate on fixed turns/stage)
+ * @returns {*}
+ ***************************************************/
 function getCurrentStage() {
     return stages[Math.floor(turn/TURNS_PER_STAGE)];
 }
 
-// returns a randomly shuffled array
+/****************************************************
+ * shuffle: returns a randomly shuffled array
+ * @param {[]} array
+ * @returns {*}
+ ***************************************************/
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -121,7 +222,13 @@ function shuffle(array) {
     return array;
 }
 
-// shuffles an array with duplicates and returns an array unique ones with length specified
+/****************************************************
+ * drawCard: shuffles an array with duplicates and returns an array unique ones with length specified
+ * @param array
+ * @param amt
+ * @returns {Array}
+ ***************************************************/
+
 function drawCard(array, amt) {
     var drawn_cards = [];
     array = shuffle(array);
@@ -141,29 +248,41 @@ function drawCard(array, amt) {
     return drawn_cards;
 }
 
-
 // GAME SETTINGS
+var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 2;   // currently a fixed amount
 var TURNS_PER_STAGE = 4;        // currently a fixed amount
 var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
 var turn = 0;                   // turn count for player starts at 0
-
+var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string
 // GAME FUNCTIONS
 
-// getChoices given x choices returns x allowable encounters
-//  @todo: currently people can be duplicated with different actions, both actions and people should be unique in each deck.
+/****************************************************
+ * getChoices given x choices returns x allowable encounters
+ * @param {number} amt - takes the number of persons to get. then gets an action for each of them.
+ * @returns {[]} returns an array of encounters based on drawCard
+ * TODO: currently people can be duplicated with different actions, both actions and people should be unique in each deck.
+ ***************************************************/
 function getChoices(amt) {
     // 1. creates array of person choices based on
     // - they have instructions for the current stage AND
     // - they're assigned to this stage OR they have a preexisting connection
     var person_choices = [];
-    var current_stage = getCurrentStage();
-    // 2. weights all persons according to preexisting connection
-    for (i = 0; i < person_deck.length; i++) {
-        var person = person_deck[i];
-        if (person.activities[current_stage.id] && (person.stage === current_stage.id || person.connection >= 1)) {
-            for (var j = 0; j <= person.connection; j++) {
-                person_choices.push(person);
+    var stage_activities = stages[CURRENT_STAGE.id].activities;
+    if(stage_activities.length > 0) {
+        person = search(person_deck, 'name', 'GAME');
+        activity = search(activity_deck, 'id', stage_activities.shift());
+        // if there are stage activities first, play them one at a time
+        console.log('game choices displayed: ' + [[activity, person]]);
+        return [[activity, person]];
+    } else {
+        // 2. weights all persons according to preexisting connection
+        for (i = 0; i < person_deck.length; i++) {
+            var person = person_deck[i];
+            if (person.activities[CURRENT_STAGE.id] && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
+                for (var k = 0; k <= person.connection; k++) {
+                    person_choices.push(person);
+                }
             }
         }
     }
@@ -173,34 +292,37 @@ function getChoices(amt) {
     // 4. creates a choice array of the selected persons and the actions that can be performed with them (ex: ['hiking', Person]
     for (var i = 0; i < chosen_persons.length; i++) {
         var chosen_person = chosen_persons[i];
-        for (var j = 0; j < chosen_person.activities[current_stage.id].length; j++) {
+        for (var j = 0; j < chosen_person.activities[CURRENT_STAGE.id].length; j++) {
             // 5. chooses a person action/combo from this array (encounters)
-            var activity = chosen_person.activities[current_stage.id][j];
+            var activity_id = chosen_person.activities[CURRENT_STAGE.id][j];
+            var activity = search(activity_deck,'id',activity_id);
             encounter_choices.push([activity,chosen_person]);
         }
     }
-    // 6. returns an array of encounters
     return drawCard(encounter_choices, amt);
 }
 
-// evaluates if the game is over or not
-function evaluateGameState() {
+/*****************************************************
+ * evaluateGameState checks to see if the game is over or not
+ * @returns: not sure what it should return. doesn't need to return
+ * anything at the moment.
+ *
+ * Currently just checks to see if player is below in health or
+ * at the default victory condition.
+ * TODO: Game loop should refer to victory conditions / goal.
+ * *****************************************************/
+
+ function evaluateGameState() {
     // win condition
     if (player.happiness >= 100) {
         player.state = "won";
         output_text.append("you win!");
-        return "victory";
-        // death condition
     } else if (player.health <= 0) {
         player.state = "dead";
         output_text.append("you died!");
-        return "dead";
-        // see if there's any more left to the game
     } else if (!getCurrentStage()) {
         player.state = "dead";
         output_text.append("You died of old age!");
-        return "dead";
-        // otherwise run game loop again
     } else if (player.state === "alive") {
         if (player.state === 'alive') {
             renderGame();
@@ -212,40 +334,50 @@ function evaluateGameState() {
     }
 }
 
-
-function evaluateChoice(choice, chosen_person) {
-
+/***************************************************
+ * takes a person and activity and displays the output, then evaluates the game state
+ * this is run once per turn from displayEncounterChoices
+ *
+ * @param {object} activity
+ * @param {object} person
+ ***************************************************/
+function evaluateEncounterChoice(activity, person) {
     clearOutput();
-    // @todo duplicated from display choices, consider passing actual activity not just id? -nathan
-    var activity_id = choice[0];
-    var activity = search(activity_deck,'id',activity_id);
-
     // decrease connection to other cards
     // call activity with person as argument: activity(person)
-    var activity_output = window[choice[0]](chosen_person);
+    var activity_output = window[activity.id](person);
     output_text.append("<p>" + activity_output + "</p>");
 
     //increase connection to cards
-    chosen_person.connection += CONNECTION_INCREMENT;
+    person.connection += CONNECTION_INCREMENT;
     activity.connection += CONNECTION_INCREMENT;
-    output_text.append('<p>' + chosen_person.name + ' Connection: ' + chosen_person.connection + '<br />' +
-    activity.name + ' Connection: ' + activity.connection + '</p>');
+    console.log(person.name + ' Connection: ' + person.connection);
+    console.log(activity.name + ' Connection: ' + activity.connection);
 
 
     evaluateGameState();
 }
 
-// renderGame is the game loop
+/************************************************
+ * renderGame is the game loop
+ ***********************************************/
+
 function renderGame() {
+    if(CURRENT_STAGE !== getCurrentStage()) {
+        CURRENT_STAGE = getCurrentStage();
+        stageIntro();
+    }
     var player_deck = getChoices(AMT_CHOICES);
     turn += 1;
     $("#input-container").html("");
     // display choices
     updateStatus();
-    displayChoices(player_deck);
+    displayEncounterChoices(player_deck);
 }
 
-// initiates the game app
+/************************************************
+ * initiates the game app
+ ***********************************************/
 output_prompt.html('<p>You have just been born into the world. Choose from the options life gives you below.</p>' +
     '<p>You should be aware that the choices you make will affect the outcome of your life and, potentially, the' +
     'choices and connections you will make later.</p>' +

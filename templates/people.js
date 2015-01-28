@@ -1,14 +1,32 @@
-// database - this includes all the models of the game
+/*************************************************************************************
+ * This contains most of the database structure of the game. Most of the minigame logic is stored
+ * in activities.js.
+ * ***********************************************************************************/
+
+
+
+/*******************************************************************
+ * UTILITY FUNCTIONS
+ ************************************************************************************ */
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// stages represent the stages of life that a player potentially goes through.
-function Stage(id, name, description) {
+/**************************************************************************************
+ * STAGES
+ * stages represent the stages of life that a player potentially goes through.
+ * @param id
+ * @param name
+ * @param description
+ * @constructor
+ * **************************************************************************** */
+
+ function Stage(id, name, description) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.activities = [];
 }
 var stages = [];
 
@@ -18,6 +36,13 @@ stages.push(new Stage(2, 'Teen years', 'You have so much potential!'));
 stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.'));
 stages.push(new Stage(4, 'Adulthood', 'You are an adult now.'));
 stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.'));
+
+/*************************************************************************************
+ * GOALS
+ * This feature is not implemented at all. Ideally folks should be able to choose.
+ * Currently the goal is hardwired into the game loop (bad).
+ * TODO: goals should be chosen at the start of the game and define end conditions.
+ * **************************************************************************** */
 
 function Goal(id, name, description, stat, stat_measure) {
     this.id = id;
@@ -30,7 +55,15 @@ function Goal(id, name, description, stat, stat_measure) {
 var goals = [];
 goals.push(new Goal(0, 'Go to France', 'See the world', 'money', 1000));
 
-// each person has a socioeconomic class called status
+/*****************************************************************************
+ * STATUS
+ * each person has a socioeconomic class called status
+ * @param {number} id
+ * @param {string} name
+ * @param {string} description
+ * @constructor
+************************************************************************************ */
+
 function Status(id, name, description) {
     this.id = id;
     this.name = name;
@@ -42,19 +75,54 @@ statuses.push(new Status(0, 'Rich', 'Above 200k/yr'));
 statuses.push(new Status(1, 'Middle Class', '30k-200k/yr'));
 statuses.push(new Status(2, 'Poor', 'Less than 30k/yr'));
 
-function Attribute(name, type, description, count) {
+/*****************************************************************************
+ * ATTRIBUTES
+ * Player attributes could be deseases or other status adornments. They could call a function of
+ * the same name.
+ * @param {string} id
+ * @param {string} name
+ * @param {string} type
+ * @param  {string} description
+ * @param  {number} connection
+ * @constructor
+ * TODO: Attributes need to be linked to the player's stats
+ ************************************************************************************ */
+
+function Attribute(id, name, type, description, connection) {
+    this.id = id;
     this.name = name;
     this.type = type;
     this.description = description;
+    this.connection = connection;
 }
 attributes = [];
 
-attributes.push(new Attribute("Rickets","disease","Rickets makes it hard to walk."));
+attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0));
 
-// activities are defined by the people around us.
-function Person(name, full_name, met, activities, connection, happiness, state, identity, stage) {
+/****************************************************************
+ * PERSONS
+ * Persons define activities that we can engage in.
+ * GAME is a special person which acts as a kind of npc to have personless interactions.
+ *
+ * @param {string} name
+ * @param {string}  full_name
+ * @param {string}  gender
+ * @param {string}  met
+ * @param {Object} activities - all the activity functions by stage
+ * @param {number}  connection
+ * @param {number} happiness
+ * @param {string} state
+ * @param {string} identity
+ * @param {number} stage
+ * @constructor
+ *
+ *
+ *****************************************************************/
+
+function Person(name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
     this.name = name;               // generally used
     this.full_name = full_name;     // for special occasions (driver's license, etc.)
+    this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
     this.met = met;                 // how this character came into the player's life
     this.activities = activities;   // used to
     this.connection = connection;   //
@@ -63,41 +131,82 @@ function Person(name, full_name, met, activities, connection, happiness, state, 
     this.identity = identity;       //
     this.stage = stage;             // stage at which character can be drawn
 }
+
+Person.prototype.subjective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'he';
+        case 'f':
+            return 'she';
+        case 'pl':
+            return 'it';
+    }
+};
+Person.prototype.objective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'him';
+        case 'f':
+            return 'her';
+        case 'pl':
+            return 'it';
+    }
+};
+Person.prototype.possessive = function() {
+    switch(this.gender) {
+        case 'm':
+            return 'his';
+        case 'f':
+            return 'hers';
+        case 'pl':
+            return 'its';
+    }
+};
+Person.prototype.plural = function() {
+    switch(this.gender) {
+        case 'm' || 'f':
+            return 's';
+        case 'pl':
+            return '';
+    }
+};
+
 var person_deck = [];
 
+person_deck.push(new Person('GAME', 'GAME', 'GAME', 'GAME', {
+    0:['first_tooth'],
+    1:['first_tooth', 'school_hobbies']},
+    10, 10, 'parents', 'enemy',  0));
+
+
 // stage 0
-person_deck.push(new Person('Monster Under the Bed', '', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0));
-person_deck.push(new Person('Mom and Dad', '', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0));
-person_deck.push(new Person('Uncle Steve', '', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
-person_deck.push(new Person('Sally Fredricks', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
+person_deck.push(new Person('Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0));
+person_deck.push(new Person('Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0));
+person_deck.push(new Person('Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
+person_deck.push(new Person('Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
 
 // stage 1
-person_deck.push(new Person('Aanie', 'Bobbins', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
-person_deck.push(new Person('Banie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
-person_deck.push(new Person('Canie', 'Bobbins', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
+person_deck.push(new Person('Aanie', 'Bobbins', 'f', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
+person_deck.push(new Person('Banie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
+person_deck.push(new Person('Canie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
 
 
 // stage 2
-person_deck.push(new Person('Danie', 'Bobbins', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Eanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Fanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('Danie', 'Bobbins', 'f', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('Eanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('Fanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
 
 // stage 3
-person_deck.push(new Person('Ganie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Hanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Ianie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+person_deck.push(new Person('Ganie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+person_deck.push(new Person('Hanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+person_deck.push(new Person('Ianie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
 
 // stage 4
-person_deck.push(new Person('Janie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Kanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Lanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+person_deck.push(new Person('Janie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+person_deck.push(new Person('Kanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+person_deck.push(new Person('Lanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
 
 // stage 5
-person_deck.push(new Person('Manie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Nanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Oanie', 'Bobbins', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-
-var category_deck = [];
-function Category(name, description) {
-
-}
+person_deck.push(new Person('Manie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+person_deck.push(new Person('Nanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+person_deck.push(new Person('Oanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));

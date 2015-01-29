@@ -107,11 +107,10 @@ function displayEncounterChoices(choices) {
         }
         input_container.append(
             "<div class='encounter-choice span3 hero-unit' >"
-            + "<div class='connection-amt'>"+person.connection+"</div>"
-            + "<h1>" + activity.name + "</h1>"
-            + "<p class='choice-description'>" + activity.first_description + "</p>"
+            + '<img class="activity_img pull-right" src="'+IMAGE_DIR+'beverage.png">'
+            + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
+            + "<p class='choice-description'>" + activity.first_description +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
-            + '<img class="activity_img" src="'+IMAGE_DIR+'beverage.png">'
             + "<!-- end span3 >"
         );
     }

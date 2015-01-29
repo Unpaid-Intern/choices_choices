@@ -83,3 +83,7 @@ footer{
 .connection-amt {
     float:left;
 }
+
+.activity_img {
+    margin: 0 0 10px 10px;
+}

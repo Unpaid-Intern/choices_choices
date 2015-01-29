@@ -79,3 +79,7 @@ footer{
 .current-stage {
     margin-left: 40px;
 }
+
+.connection-amt {
+    float:left;
+}

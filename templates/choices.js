@@ -51,6 +51,7 @@ var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 var input_container = $("#input-container");
 var $current_stage = $('.current-stage');
+var $
 
 /**************************************************************************
  *
@@ -104,14 +105,13 @@ function displayEncounterChoices(choices) {
         } else {
             header_text = activity.name + " with " + person.name;
         }
-
         input_container.append(
             "<div class='encounter-choice span3 hero-unit' >"
+            + "<div class='connection-amt'>"+person.connection+"</div>"
             + "<h1>" + activity.name + "</h1>"
             + "<p class='choice-description'>" + activity.first_description + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
             + '<img class="activity_img" src="'+IMAGE_DIR+'beverage.png">'
-            + "<p class='choice-description'> Connection:" + person.connection + "</p>"
             + "<!-- end span3 >"
         );
     }

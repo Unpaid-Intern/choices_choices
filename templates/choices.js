@@ -37,7 +37,7 @@ player.removeAttribute = function(attr) {
 };
 
 // sets up array for obituary.
-for (var i=0; i <= stages.length; i++) {
+for (var i=0; i < stages.length; i++) {
     player.obituary.push([i]);
 }
 
@@ -90,11 +90,9 @@ function clearOutput() {
 /****************************************************
  * displayChoices: takes a multidimensional array of objects: [[Person,Activity]]
  * it displays the encounter cards for the player to choose.
- * @param {[]} array
+ * @param {[]} choices - takes a list of people
  ***************************************************/
-function displayEncounterChoices(array) {
-    var choices = array;
-
+function displayEncounterChoices(choices) {
     for (i = 0; i < choices.length; i++) {
         var person = choices[i][1];
         var activity = choices[i][0];
@@ -138,7 +136,7 @@ function displayEncounterChoices(array) {
 function displayMinigameChoices(minigame) {
     var choices = minigame.choices;
     var choices_html ='<ul class="minigame-choices">';
-    for (var i=1; i <= choices.length; i++) {
+    for (var i=1; i < choices.length; i++) {
         choices_html += '<li class="minigame-choice">' +
         '<a href="#" id="minigame-choice-'+ i + '" choice-data="'+ i +'>'+choices[i]+'</a></li>';
     }

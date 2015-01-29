@@ -12,5 +12,4 @@ obituariesNameSpace.controller('ObituariesController', function ObituariesContro
 
     }
 
-});_
-
+});

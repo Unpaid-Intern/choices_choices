@@ -179,14 +179,9 @@ function babysitting(person) {
  */
 activity_deck.push(new Activity('smoking', 'Smoking', 'First Description Placeholder', 'Description Placeholder', 0));
 function smoking(person) {
-
     if (player.attributes['smoking']) {
-
     }
-
     player.health -= 1;
-
-
     return person.name + " offers you a cigarrette. Your health = " + player.health;
 }
 
@@ -271,7 +266,6 @@ function set_social_class() {
             console.log("error with social class");
             break;
     }
-    console.log("hi");
     n = player.social_class;
     switch (n[0]) {
         case 'poor':

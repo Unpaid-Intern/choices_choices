@@ -88,7 +88,7 @@ activity_deck.push(new Activity('baby_talk', 'Baby Talk', 'I wonder what those a
 function baby_talk(person) {
     var output;
     var current_stage_id = getCurrentStage().id;
-    switch (num = getRandomInt(0,1)) {
+    switch (getRandomInt(0,1)) {
         // Good parents
         case 0:
             output = '<p>' + person.name + ' pay' + person.plural() + ' lots of ' +

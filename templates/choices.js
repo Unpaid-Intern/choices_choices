@@ -50,6 +50,7 @@ for (var i=0; i < stages.length; i++) {
 var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 var input_container = $("#input-container");
+var $current_stage = $('.current-stage');
 
 /**************************************************************************
  *
@@ -105,7 +106,7 @@ function displayEncounterChoices(choices) {
         }
 
         input_container.append(
-            "<div class='span3 hero-unit' >"
+            "<div class='encounter-choice span3 hero-unit' >"
             + "<h1>" + activity.name + "</h1>"
             + "<p class='choice-description'>" + activity.first_description + "</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"

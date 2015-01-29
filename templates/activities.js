@@ -54,10 +54,10 @@ function monster_dance(person) {
         player.happiness += 10;
         output += " The "+ person.name +" decides that you're sad and need a friend. Your happiness increases by 10 points.";
     } else {
-        player.health -= 10;
+        player.updateHealth(-10);
         output += " The "+ person.name +" decides that you're too happy and bites you. You lose 10 health.";
     }
-    player.health += 1;
+    player.updateHealth(1);
     return output;
 }
 /*
@@ -66,13 +66,13 @@ function monster_dance(person) {
 
 activity_deck.push(new Activity('kill', 'Play a little game', 'Your monster friend has an evil look in his eyes', 'Your monster friend has an evil look in his eyes', 0));
 function kill(person) {
-    player.health += 1;
+    player.updateHealth(1);
     return "PLACEHOLDER TEXT FOR MONSTER KILL";
 }
 
 activity_deck.push(new Activity('first_tooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0));
 function first_tooth(person) {
-    player.health += 1;
+    player.updateHealth(1);
     return "PLACEHOLDER TEXT FOR MONSTER KILL";
 }
 
@@ -95,7 +95,7 @@ function baby_talk(person) {
             'attention to you. They love you and adore you. You create a strong ' +
             'emotional connection and develop language at an advanced rate. ' +
                 'With happiness comes improved health.</p>';
-            player.health += 3;
+            player.updateHealth(3);
             player.happiness += 3;
             output += '<p>Health: ' + getSignedNumber(3) + '<br>' + 'Happiness: ' + getSignedNumber(3) + '</p>';
             player.obituary[current_stage_id].push('You were born to parents who loved and paid attention to you.');
@@ -104,7 +104,7 @@ function baby_talk(person) {
         case 1:
             output = '<p>' + person.name + ' pay' + person.plural() + ' little attention to you. Turns out that ' +
             'weak parental relationships affect your health and happiness. Your speech also suffers.';
-            player.health -= 3;
+            player.updateHealth(-3);
             player.happiness -= 3;
             output += '<p>Health: ' + getSignedNumber(-3) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
             player.obituary[current_stage_id].push('You were born to parents who ignored you.');
@@ -132,13 +132,13 @@ function baby_feeding(person) {
         // Good parents
         case 0:
             output = '<p>You drink of the finest breast milk.</p>';
-            player.health += 10;
+            player.updateHealth(10);
             output += '<p>Health: ' + getSignedNumber(3) + '<br>' + 'Happiness: ' + getSignedNumber(3) + '</p>';
             break;
         // Bad parents
         default :
             output = '<p>Your parents starve you.</p>';
-            player.health -= 10;
+            player.updateHealth(-10);
             output += '<p>Health: ' + getSignedNumber(-10) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
             player.obituary[current_stage_id].push('You were fed rocks as a child..');
             if(bad_parents === -1) {
@@ -158,7 +158,7 @@ function baby_feeding(person) {
 activity_deck.push(new Activity('babysitting', 'Babysitting', 'First Description Placeholder', 'Description Placeholder', 0));
 function babysitting(person) {
     var output = '';
-    player.health += 1;
+    player.updateHealth(1);
     output += 'Your parents have busy lives and ask ' + person.name + ' to babysit you.';
     if(person.happiness <=10) {
         output += ' It turns out that there is a reason why ' + person.name +
@@ -181,14 +181,14 @@ activity_deck.push(new Activity('smoking', 'Smoking', 'First Description Placeho
 function smoking(person) {
     if (player.attributes['smoking']) {
     }
-    player.health -= 1;
+    player.updateHealth(-1);
     return person.name + " offers you a cigarrette. Your health = " + player.health;
 }
 
 activity_deck.push(new Activity('drinking', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0));
 function drinking(person) {
     player.happiness += 1;
-    player.health -= 1;
+    player.updateHealth(-1);
 
     return person.name + " and you go drinking. Your happiness = " + player.happiness + ". Your health = " + player.health;
 }
@@ -201,13 +201,13 @@ function partying(person) {
 
 activity_deck.push(new Activity('sex', 'Sex', 'First Description Placeholder', 'Description Placeholder', 0));
 function sex(person) {
-    player.health += 1;
+    player.updateHealth(1);
     return person.name + " and you have sex. Your health = " + player.health;
 }
 
 activity_deck.push(new Activity('dating', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0));
 function dating(person) {
-    player.health += 1;
+    player.updateHealth(1);
     return person.name + " and you have sex. Your health = " + player.health;
 }
 
@@ -224,12 +224,13 @@ function birth() {
     switch (n) {
         case 0:
             output += 'Your birth goes without problems. You are a healthy, happy baby.';
-            player.health += 10;
+            player.updateHealth(10);
+
             player.happiness+=1;
             break;
         case 1:
             output += 'You are born prematurely and your health suffers.';
-            player.health -=5;
+            player.updateHealth(-5);
             break;
         case 2:
             output += 'You are born with an ugly face.';
@@ -282,7 +283,7 @@ function set_social_class() {
                     output += " Your mom is forced to get you local day care while she " +
                     "works two jobs. You rarely see her. Parental connection is important " +
                     "as a child and your health suffers.";
-                    player.health -= 5;
+                    player.updateHealth(-5);
                     break;
             }
             break;
@@ -323,41 +324,5 @@ function set_social_class() {
 
 function stageIntro() {
     var CURRENT_STAGE = getCurrentStage();
-    var output ="";
-    switch(CURRENT_STAGE.id) {
-        case 0:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 1:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 2:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 3:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 4:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 5:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        case 6:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-        default:
-            output = ('<h4>' + CURRENT_STAGE.name + '</h4>');
-            output += '<p>' + CURRENT_STAGE.description +'</p>';
-            break;
-    }
-    output_text.prepend(output);
-    return output;
+    $current_stage.html(CURRENT_STAGE.name);
 }

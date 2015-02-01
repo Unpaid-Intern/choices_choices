@@ -6,8 +6,6 @@ function shakeStatusImg()
 {
     if(_ShakeTrigger == true) {
         $(".status-img").effect("bounce", {times: 3}, "slow");
-
-
     }
     else{
 

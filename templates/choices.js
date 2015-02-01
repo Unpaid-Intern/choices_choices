@@ -16,7 +16,8 @@ var player = {
 
 player.updateHealth = function(number) {
 
-
+//if the number by which update health is being adjusted is negative, then set _ShakeTrigger to true, so
+//that the correct sounds, and animations will be played.
     if( number < 0) {
         _ShakeTrigger = true;
 
@@ -100,7 +101,9 @@ function updateStatus() {
     //status.html("");
     //re-insert image
     //status.append(img);
+    //this function evaluates the current state of _ShakeTrigger and plays the appropriate sound
     soundTrigger();
+    //this function evaluates the current state of _ShakeTrigger and initiates the appropriate animation
     shakeStatusImg();
     $player_state.text(player.state);
     $current_turn.text(turn);

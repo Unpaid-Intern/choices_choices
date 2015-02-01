@@ -80,7 +80,7 @@ function updateStatus() {
 
     soundTrigger();
     //store the image in a variable to prevent removal on refresh
-    var img = $(".status_img").clone();
+    var img = $(".status-img").clone();
     //clear the status box to prepare to render new status info
     var status = $("#status");
     status.html("");
@@ -122,7 +122,7 @@ function displayEncounterChoices(choices) {
             header_text = activity.name + " with " + person.name;
         }
         input_container.append(
-            "<div class='encounter-choice span3 hero-unit' >"
+            "<div class='encounter-choice span5 hero-unit' >"
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
             + "<p class='choice-description'>" + activity.first_description +"</p>"

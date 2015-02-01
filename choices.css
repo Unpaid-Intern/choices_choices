@@ -82,14 +82,18 @@ footer{
     display:block;
     min-height:100px;
     max-height:101px;
+    margin-left: 10px;
+    margin-right: 10px;
 
 }
 
 #output-container{
     min-height:300px;
     max-height:301px;
+
 }
 #status{
     min-height:300px;
     max-height:301px;
+
 }

@@ -41,6 +41,9 @@ function Activity(id, name, first_description, description, connection) {
 
 var activity_deck = []; // activity_deck holds all Activity objects
 
+function getActivity(activity_id) {
+    return search(activity_deck, 'id', activity_id);
+}
 
 /*
     Monster befriends sad kids and bites happy ones. This makes the monster accessible in later levels.

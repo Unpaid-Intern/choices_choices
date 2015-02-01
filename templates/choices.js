@@ -146,7 +146,7 @@ function displayEncounterChoices(choices) {
 
         input_container.append(
             "<div class='encounter-choice span4 hero-unit' >"
-            + '<img class="activity_img pull-right" src="'+IMAGE_DIR+'beverage.png">'
+            + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + header_text + "</h1>"
             + "<p class='choice-description'>" + activity_description +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
@@ -307,8 +307,8 @@ function getChoices(amt) {
     var person_choices = [];
     var stage_activities = stages[CURRENT_STAGE.id].activities;
     if(stage_activities.length > 0) {
-        person = search(person_deck, 'name', 'GAME');
-        activity = search(activity_deck, 'id', stage_activities.shift());
+        person = getPerson('game');
+        activity = getActivity(stage_activities.shift());
         // if there are stage activities first, play them one at a time
         console.log('game choices displayed: ' + [[activity, person]]);
         return [[activity, person]];
@@ -316,7 +316,7 @@ function getChoices(amt) {
         // 2. weights all persons according to preexisting connection
         for (i = 0; i < person_deck.length; i++) {
             var person = person_deck[i];
-            if (person.activities[CURRENT_STAGE.id] && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
+            if (person.activities[CURRENT_STAGE.id].length > 0 && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
                 for (var k = 0; k <= person.connection; k++) {
                     person_choices.push(person);
                 }
@@ -332,7 +332,7 @@ function getChoices(amt) {
         for (var j = 0; j < chosen_person.activities[CURRENT_STAGE.id].length; j++) {
             // 5. chooses a person action/combo from this array (encounters)
             var activity_id = chosen_person.activities[CURRENT_STAGE.id][j];
-            var activity = search(activity_deck,'id',activity_id);
+            var activity = getActivity(activity_id);
             encounter_choices.push([activity,chosen_person]);
         }
     }

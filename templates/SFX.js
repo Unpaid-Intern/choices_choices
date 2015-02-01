@@ -8,7 +8,6 @@ function soundTrigger(){
     else{
         var audio = new Audio('templates/audio/electribe_click.mp3');
     }
-
     audio.play();
 
 

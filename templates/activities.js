@@ -118,7 +118,7 @@ function baby_talk(person) {
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
-activity_deck.push(new Activity('baby_feeding', 'Baby Feeding', 'First Description Placeholder', 'Description Placeholder', 10000));
+activity_deck.push(new Activity('baby_feeding', 'Baby Feeding', 'Nipples!', 'Feeling hungry?', 0));
 function baby_feeding(person) {
     var output;
     var current_stage_id = getCurrentStage().id;
@@ -199,8 +199,18 @@ function partying(person) {
     return person.name + " and you go partying. Your happiness = " + player.happiness;
 }
 
-activity_deck.push(new Activity('sex', 'Sex', 'First Description Placeholder', 'Description Placeholder', 0));
+activity_deck.push(new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0));
 function sex(person) {
+
+    if(player.attributes['single']) {
+        if(player.happiness < 5) {
+            player
+        }
+    } else {
+
+    }
+
+
     player.updateHealth(1);
     return person.name + " and you have sex. Your health = " + player.health;
 }
@@ -211,6 +221,12 @@ function dating(person) {
     return person.name + " and you have sex. Your health = " + player.health;
 }
 
+
+activity_deck.push(new Activity('sports', 'Sports', 'Take up sports', 'Play sports', 0));
+function sports() {
+    player.updateHealth(3);
+    return "You play sports. Your health improves!";
+}
 /** STAGE ACTIONS
  * Stages have special non-person functions associated with
  * them that run when stage is first called.
@@ -220,20 +236,28 @@ activity_deck.push(new Activity('birth','Your Birth', 'You are only born once!',
 stages[0].activities.push('birth');
 function birth() {
     var output ='';
+    var game_card_activities = search(person_deck, 'id', 'game').activities;
     var n = getRandomInt(0,3);
     switch (n) {
         case 0:
             output += 'Your birth goes without problems. You are a healthy, happy baby.';
             player.updateHealth(10);
-
             player.happiness+=1;
+            game_card_activities[1].push('sports');
+            game_card_activities[2].push('sports');
+            game_card_activities[3].push('sports');
+            game_card_activities[4].push('sports');
             break;
         case 1:
             output += 'You are born prematurely and your health suffers.';
             player.updateHealth(-5);
+            game_card_activities[1].push('sports');
+            game_card_activities[2].push('sports');
             break;
         case 2:
             output += 'You are born with an ugly face.';
+            player.attributes.push('ugly');
+
             break;
         case 3:
             output += 'Your teenage mother decides to break the cycle of poverty and gets ' +
@@ -253,6 +277,8 @@ function set_social_class() {
         case 0:
             player.social_class = ['poor', 'Poor'];
             output += "You are born into a poor family.";
+            // TODO: push people to person_deck
+            // TODO: push GAME activities to GAME person
             break;
         case 1:
             player.social_class = ['middle_class', 'Middle Class'];
@@ -263,7 +289,7 @@ function set_social_class() {
             output += "You are born into a rich family.";
             break;
         default :
-            player.social_class = ['rich', 'Rich'];
+            player.social_class = ['error', 'Error'];
             console.log("error with social class");
             break;
     }

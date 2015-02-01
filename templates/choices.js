@@ -99,17 +99,25 @@ function displayEncounterChoices(choices) {
         var person = choices[i][1];
         var activity = choices[i][0];
         var header_text = '';
+        var activity_description = '';
 
         if(person.name === 'GAME') {
             header_text = activity.name;
         } else {
-            header_text = activity.name + " with " + person.name;
+            header_text = activity.name + " (" + person.name + ")";
         }
+
+        if(activity.connection <=1){
+            activity_description = activity.first_description;
+        } else {
+            activity_description = activity.description
+        }
+
         input_container.append(
             "<div class='encounter-choice span3 hero-unit' >"
             + '<img class="activity_img pull-right" src="'+IMAGE_DIR+'beverage.png">'
-            + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
-            + "<p class='choice-description'>" + activity.first_description +"</p>"
+            + "<h1>" + header_text + "</h1>"
+            + "<p class='choice-description'>" + activity_description +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
             + "<!-- end span3 >"
         );
@@ -249,7 +257,7 @@ function drawCard(array, amt) {
 // GAME SETTINGS
 var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 2;   // currently a fixed amount
-var TURNS_PER_STAGE = 4;        // currently a fixed amount
+var TURNS_PER_STAGE = 10;        // currently a fixed amount
 var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
 var turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string

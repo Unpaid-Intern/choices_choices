@@ -119,7 +119,8 @@ attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it ha
  *
  *****************************************************************/
 
-function Person(name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+function Person(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+    this.id = id;                 // string used for searching
     this.name = name;               // generally used
     this.full_name = full_name;     // for special occasions (driver's license, etc.)
     this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
@@ -173,40 +174,43 @@ Person.prototype.plural = function() {
 
 var person_deck = [];
 
-person_deck.push(new Person('GAME', 'GAME', 'GAME', 'GAME', {
+person_deck.push(new Person('game', 'GAME', 'GAME', 'GAME', 'GAME', {
     0:['first_tooth'],
     1:['first_tooth']},
     10, 10, 'parents', 'enemy',  0));
 
 
-// stage 0
-person_deck.push(new Person('Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0));
-person_deck.push(new Person('Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0));
-person_deck.push(new Person('Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
-person_deck.push(new Person('Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
+// stage 0 - infant
+person_deck.push(new Person('monster','Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0));
+person_deck.push(new Person('parents','Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0));
+person_deck.push(new Person('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
+person_deck.push(new Person('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
 
-// stage 1
-person_deck.push(new Person('Aanie', 'Bobbins', 'f', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
-person_deck.push(new Person('Banie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
-person_deck.push(new Person('Canie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
+// stage 1 - kid
+person_deck.push(new Person('a','Aanie', 'Bobbins', 'f', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
+person_deck.push(new Person('b','Banie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
+person_deck.push(new Person('c','Canie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
 
 
-// stage 2
-person_deck.push(new Person('Danie', 'Bobbins', 'f', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Eanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Fanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+// stage 2 - teenage
+person_deck.push(new Person('d','Danie', 'Bobbins', 'f', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('e','Eanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+person_deck.push(new Person('f','Fanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
 
-// stage 3
-person_deck.push(new Person('Ganie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Hanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Ianie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+// stage 3 - young adult
+person_deck.push(new Person('coworker','Patty', 'Hearst', 'f', 'the office', {3:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+person_deck.push(new Person('h','Hanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
+person_deck.push(new Person('i','Ianie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
 
-// stage 4
-person_deck.push(new Person('Janie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Kanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Lanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+// stage 4 - adult
+person_deck.push(new Person('j','Janie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+person_deck.push(new Person('k','Kanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
+person_deck.push(new Person('l','Lanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
 
-// stage 5
-person_deck.push(new Person('Manie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Nanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Oanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+// stage 5 - retirement
+person_deck.push(new Person('m','Manie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+person_deck.push(new Person('n','Nanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+person_deck.push(new Person('o','Oanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+
+person_deck.push(new Person('hobo','Hobo Pete', 'xxx', 'm', 'the street', {2:['buy_drugs'], 3:['buy_drugs'], 4:['buy_drugs']}, 10, 10, 'friend',  'friend', 5));
+person_deck.push(new Person('church_peer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 10, 10, 'friend',  'friend', 5));

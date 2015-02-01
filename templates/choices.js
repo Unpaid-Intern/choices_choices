@@ -1,3 +1,5 @@
+var _ShakeTrigger = false;
+
 /**
  * the player stores basic variables about the player's character.
  * @type {{name: string, state: string, health: number, happiness: number, inventory: Array, attributes: Array, obituary: Array}}
@@ -13,7 +15,14 @@ var player = {
 };
 
 player.updateHealth = function(number) {
+
+    var healthbefore = this.health;
     this.health += number;
+    if( healthbefore > this.health)
+    {
+        _ShakeTrigger = true;
+    }
+
 };
 
 player.updateHappiness = function(number) {
@@ -77,6 +86,8 @@ function updateStatus() {
     status.append("<p>Health: " + player.health + "</p>");
     status.append("<p>Happiness: " + player.happiness + "</p>");
     status.append("<p>Turn: " + turn + "</p>");
+    shakeStatusImg();
+    soundTrigger();
 }
 
 /****************************************************

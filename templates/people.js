@@ -176,7 +176,12 @@ var person_deck = [];
 
 person_deck.push(new Person('game', 'GAME', 'GAME', 'GAME', 'GAME', {
     0:['first_tooth'],
-    1:['first_tooth']},
+    1:[],
+    2:[],
+    3:[],
+    4:[],
+    5:[]
+    },
     10, 10, 'parents', 'enemy',  0));
 
 

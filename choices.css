@@ -25,15 +25,9 @@ footer{
 }
 
 
-.choice-button {
-    display:block;
-
-}
-
-#start_screen{
 
 
-}
+
 
 .btn-large{
     display:block;
@@ -86,4 +80,32 @@ footer{
 
 .activity_img {
     margin: 0 0 10px 10px;
+}
+
+.encounter-choice{
+
+    min-height:280px;
+    max-height:281px ;
+   min-width:28%;
+
+}
+.choice-description{
+    min-height:100px;
+    max-height:101px;
+
+}
+
+.choice-button {
+    display:block;
+    min-height:100px;
+    max-height:101px;
+}
+
+#output-container{
+    min-height:300px;
+    max-height:301px;
+}
+#status{
+    min-height:300px;
+    max-height:301px;
 }

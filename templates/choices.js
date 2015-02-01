@@ -1,4 +1,4 @@
-var _ShakeTrigger = false;
+var _ShakeTrigger;
 
 /**
  * the player stores basic variables about the player's character.
@@ -17,16 +17,17 @@ var player = {
 player.updateHealth = function(number) {
 
 
-    this.health += number;
-    if( number < 0)
-    {
+    if( number < 0) {
         _ShakeTrigger = true;
+
     }
     else
     {
         _ShakeTrigger = false;
     }
 
+
+    this.health += number;
 };
 
 player.updateHappiness = function(number) {
@@ -78,7 +79,7 @@ var $
 
 function updateStatus() {
 
-    soundTrigger();
+
     //store the image in a variable to prevent removal on refresh
     var img = $(".status-img").clone();
     //clear the status box to prepare to render new status info
@@ -86,6 +87,7 @@ function updateStatus() {
     status.html("");
     //re-insert image
     status.append(img);
+    soundTrigger();
     shakeStatusImg();
     status.append("<p>Player Name: " + player.name + "</p>");
     status.append("<p>State: " + player.state + "</p>");
@@ -122,7 +124,7 @@ function displayEncounterChoices(choices) {
             header_text = activity.name + " with " + person.name;
         }
         input_container.append(
-            "<div class='encounter-choice span5 hero-unit' >"
+            "<div class='encounter-choice span4 hero-unit' >"
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
             + "<p class='choice-description'>" + activity.first_description +"</p>"

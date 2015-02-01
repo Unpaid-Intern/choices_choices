@@ -19,14 +19,6 @@ footer{
     min-height:5em;
 
 }
-.navbar-fixed-top{
-
-
-}
-
-
-
-
 
 
 .btn-large{
@@ -34,32 +26,23 @@ footer{
 
 }
 
-
 /*images*/
 
-.tombstone_sky_header_img{
+.tombstone-sky-header-img{
     width:90%;
     margin:auto;
     display:block;
-
-
-}
-.tombstone_sky_header_caption
-{
-
-
 }
 
-
-
-.activity_img
+.activity-img
 {
     display:block;
     margin:auto;
     width: 25%;
+    margin: 0 0 10px 10px;
 }
 
-.status_img
+.status-img
 {
     float:right;
     display:block;
@@ -78,15 +61,15 @@ footer{
     float:left;
 }
 
-.activity_img {
-    margin: 0 0 10px 10px;
-}
 
 .encounter-choice{
 
     min-height:280px;
     max-height:281px ;
-   min-width:28%;
+    min-width:22%;
+    margin:auto;
+    margin-left: 1em;
+    margin-right: 1em;
 
 }
 .choice-description{
@@ -99,6 +82,7 @@ footer{
     display:block;
     min-height:100px;
     max-height:101px;
+
 }
 
 #output-container{

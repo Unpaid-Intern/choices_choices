@@ -16,11 +16,15 @@ var player = {
 
 player.updateHealth = function(number) {
 
-    var healthbefore = this.health;
+
     this.health += number;
-    if( healthbefore > this.health)
+    if( number < 0)
     {
         _ShakeTrigger = true;
+    }
+    else
+    {
+        _ShakeTrigger = false;
     }
 
 };
@@ -74,6 +78,7 @@ var $
 
 function updateStatus() {
 
+    soundTrigger();
     //store the image in a variable to prevent removal on refresh
     var img = $(".status_img").clone();
     //clear the status box to prepare to render new status info
@@ -81,13 +86,13 @@ function updateStatus() {
     status.html("");
     //re-insert image
     status.append(img);
+    shakeStatusImg();
     status.append("<p>Player Name: " + player.name + "</p>");
     status.append("<p>State: " + player.state + "</p>");
     status.append("<p>Health: " + player.health + "</p>");
     status.append("<p>Happiness: " + player.happiness + "</p>");
     status.append("<p>Turn: " + turn + "</p>");
-    shakeStatusImg();
-    soundTrigger();
+
 }
 
 /****************************************************
@@ -118,7 +123,7 @@ function displayEncounterChoices(choices) {
         }
         input_container.append(
             "<div class='encounter-choice span3 hero-unit' >"
-            + '<img class="activity_img pull-right" src="'+IMAGE_DIR+'beverage.png">'
+            + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
             + "<p class='choice-description'>" + activity.first_description +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"

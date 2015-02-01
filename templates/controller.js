@@ -2,7 +2,7 @@
  * Created by currentuser on 1/3/15.
  */
 
-var obituariesNameSpace = angular.module('choicesApp',[]);
+/*var obituariesNameSpace = angular.module('choicesApp',[]);
 
 obituariesNameSpace.controller('ObituariesController', function ObituariesController($scope){
     $scope.obituaries ={
@@ -12,4 +12,4 @@ obituariesNameSpace.controller('ObituariesController', function ObituariesContro
 
     }
 
-});
+});*/

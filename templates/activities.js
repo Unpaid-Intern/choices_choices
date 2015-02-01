@@ -52,6 +52,7 @@ function monster_dance(person) {
     console.log(player.happiness);
     if (player.happiness <= 10) {
         player.happiness += 10;
+        player.updateHealth(0);
         output += " The "+ person.name +" decides that you're sad and need a friend. Your happiness increases by 10 points.";
     } else {
         player.updateHealth(-10);
@@ -115,6 +116,7 @@ function baby_talk(person) {
 
 /*
  Nutrition is very important for babies.
+ Balanced organic foods are best but they're expensive.
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
@@ -196,6 +198,7 @@ function drinking(person) {
 activity_deck.push(new Activity('partying', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0));
 function partying(person) {
     player.happiness += 1;
+    player.updateHealth(0);
     return person.name + " and you go partying. Your happiness = " + player.happiness;
 }
 

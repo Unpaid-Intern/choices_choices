@@ -1,3 +1,5 @@
+var _ShakeTrigger;
+
 /**
  * the player stores basic variables about the player's character.
  * @type {{name: string, state: string, health: number, happiness: number, inventory: Array, attributes: Array, obituary: Array}}
@@ -13,11 +15,27 @@ var player = {
 };
 
 player.updateHealth = function(number) {
+
+//if the number by which update health is being adjusted is negative, then set _ShakeTrigger to true, so
+//that the correct sounds, and animations will be played.
+    if( number < 0) {
+        _ShakeTrigger = true;
+
+    }
+    else
+    {
+        _ShakeTrigger = false;
+    }
+
+
     this.health += number;
+    $player_health.text(player.health);
+
 };
 
 player.updateHappiness = function(number) {
     this.happiness += number;
+    $player_happiness.text(player.happiness);
 };
 
 player.removeInventory = function(item) {
@@ -51,7 +69,11 @@ var output_text = $("#output-text");
 var output_prompt = $("#output-prompt");
 var input_container = $("#input-container");
 var $current_stage = $('.current-stage');
-var $
+var $current_turn = $('.current-turn');
+var $player_name = $('.player-name');
+var $player_state = $('.player-state');
+var $player_health = $('.player-health');
+var $player_happiness = $('.player-happiness');
 
 /**************************************************************************
  *
@@ -64,19 +86,28 @@ var $
  **************************************************/
 
 function updateStatus() {
+    if(turn === 1) {
+        $player_name.text(player.name);
+        $player_state.text(player.state);
+        $player_health.text(player.health);
+        $player_happiness.text(player.happiness);
+        console.log('turn 0');
+    }
 
     //store the image in a variable to prevent removal on refresh
-    var img = $(".status_img").clone();
+    //var img = $(".status-img").clone();
     //clear the status box to prepare to render new status info
-    var status = $("#status");
-    status.html("");
+    //var status = $("#status");
+    //status.html("");
     //re-insert image
-    status.append(img);
-    status.append("<p>Player Name: " + player.name + "</p>");
-    status.append("<p>State: " + player.state + "</p>");
-    status.append("<p>Health: " + player.health + "</p>");
-    status.append("<p>Happiness: " + player.happiness + "</p>");
-    status.append("<p>Turn: " + turn + "</p>");
+    //status.append(img);
+    //this function evaluates the current state of _ShakeTrigger and plays the appropriate sound
+    soundTrigger();
+    //this function evaluates the current state of _ShakeTrigger and initiates the appropriate animation
+    shakeStatusImg();
+    $player_state.text(player.state);
+    $current_turn.text(turn);
+
 }
 
 /****************************************************
@@ -114,7 +145,7 @@ function displayEncounterChoices(choices) {
         }
 
         input_container.append(
-            "<div class='encounter-choice span3 hero-unit' >"
+            "<div class='encounter-choice span4 hero-unit' >"
             + '<img class="activity_img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + header_text + "</h1>"
             + "<p class='choice-description'>" + activity_description +"</p>"

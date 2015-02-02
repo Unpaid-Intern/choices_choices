@@ -3,16 +3,16 @@
 function soundTrigger()
     {
         if(_ShakeTrigger == true) {
-            var audio = new Audio('templates/audio/Health_Down.mp3');
+            var audio = new Audio('templates/audio/SFX/Health_Down.mp3');
         }
         else{
-            var audio = new Audio('templates/audio/Select_Choice.mp3');
+            var audio = new Audio('templates/audio/SFX/Select_Choice.mp3');
         }
     audio.play();
     }
 
 function gameOverSound()
 {
-    var audio = new Audio('templates/audio/Game_Over.mp3');
+    var audio = new Audio('templates/audio/SFX/Game_Over.mp3');
     audio.play();
 }

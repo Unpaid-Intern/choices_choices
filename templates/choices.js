@@ -348,9 +348,11 @@ function getChoices(amt) {
         output_text.append("you win!");
     } else if (player.health <= 0) {
         player.state = "dead";
+        gameOverSound();
         output_text.append("you died!");
     } else if (!getCurrentStage()) {
         player.state = "dead";
+        gameOverSound();
         output_text.append("You died of old age!");
     } else if (player.state === "alive") {
         if (player.state === 'alive') {

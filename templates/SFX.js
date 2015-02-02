@@ -11,3 +11,8 @@ function soundTrigger()
     audio.play();
     }
 
+function gameOverSound()
+{
+    var audio = new Audio('templates/audio/Game_Over.mp3');
+    audio.play();
+}

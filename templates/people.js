@@ -119,7 +119,8 @@ attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it ha
  *
  *****************************************************************/
 
-function Person(name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+function Person(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+    this.id = id;                 // string used for searching
     this.name = name;               // generally used
     this.full_name = full_name;     // for special occasions (driver's license, etc.)
     this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
@@ -138,7 +139,7 @@ Person.prototype.subjective = function() {
             return 'he';
         case 'f':
             return 'she';
-        case 'pl':
+        case 'pl':;
             return 'it';
     }
 };
@@ -171,42 +172,94 @@ Person.prototype.plural = function() {
     }
 };
 
+Person.prototype.addActivity = function(stage, activity_id) {
+    this.activities[stage].push(activity_id);
+};
+
 var person_deck = [];
 
-person_deck.push(new Person('GAME', 'GAME', 'GAME', 'GAME', {
-    0:['first_tooth'],
-    1:['first_tooth']},
-    10, 10, 'parents', 'enemy',  0));
+/**
+ *
+ * @param {string} id
+ * @param {string} name
+ * @param {string} full_name
+ * @param {string} gender
+ * @param {string} met
+ * @param {object} activities
+ * @param {number} connection
+ * @param {number} happiness
+ * @param {string} state
+ * @param {string} identity
+ * @param {number} stage
+ * @returns {Person}
+ */
+
+function createPerson(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+    var new_person = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage)
+    for (var i=0; i < stages.length; i++) {
+        if (activities[i]) {
+            new_person.activities[i]= activities[i];
+        } else {
+            new_person.activities[i] = [];
+        }
+    }
+    person_deck.push(new_person);
+    return new_person;
+}
+
+function getPerson(person_id) {
+    return search(person_deck, 'id', person_id);
+}
+
+function removePerson(person) {
+    person_deck.filter(function (el) {return el.id !== person.id;});
+}
 
 
-// stage 0
-person_deck.push(new Person('Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0));
-person_deck.push(new Person('Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0));
-person_deck.push(new Person('Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
-person_deck.push(new Person('Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0));
 
-// stage 1
-person_deck.push(new Person('Aanie', 'Bobbins', 'f', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 ));
-person_deck.push(new Person('Banie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1));
-person_deck.push(new Person('Canie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1));
+function Activity(id, name, first_description, description, connection) {
+    this.id = id;
+    this.name = name;
+    this.first_description = first_description;
+    this.description = description;
+    this.connection = connection;
+}
+
+var activity_deck = []; // activity_deck holds all Activity objects
+
+function createActivity(id, name, first_description, description, connection, stage_number) {
+    var new_activity = activity_deck.push(id, name, first_description, description, connection);
+    activity_deck.push(new_activity);
+    if(isNaN(stage_number) === false) {
+        stages[stage_number].activities.push(new_activity.id);
+    }
+    return(new_activity);
+}
+
+function getActivity(activity_id) {
+    return search(activity_deck, 'id', activity_id);
+}
+
+/**
+ * returns the name of the function that called it.
+ * @returns {Function}
+ */
+function getFunctionName() {
+    return arguments.callee.caller;
+}
 
 
-// stage 2
-person_deck.push(new Person('Danie', 'Bobbins', 'f', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Eanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
-person_deck.push(new Person('Fanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2));
+/**
+ * cycles through an Person's stages, removing the activity entirely from that person
+ * @param activity_id
+ * @param person
+ */
 
-// stage 3
-person_deck.push(new Person('Ganie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Hanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-person_deck.push(new Person('Ianie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3));
-
-// stage 4
-person_deck.push(new Person('Janie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Kanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-person_deck.push(new Person('Lanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4));
-
-// stage 5
-person_deck.push(new Person('Manie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Nanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
-person_deck.push(new Person('Oanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5));
+function removeActivityFromPerson(activity_id, person) {
+    for(var i=0; i < stages.length; i++) {
+        var index = person.activities[i].indexOf(activity_id);
+        if (index >= -1) {
+            person.activities[i].splice(index);
+        }
+    }
+}

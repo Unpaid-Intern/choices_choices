@@ -10,8 +10,17 @@ var player = {
     health: 15,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
     inventory: [],
+    attachment: 0,
+    diseases: [],
     attributes: [],
-    obituary: []
+    addictions: [],
+    obituary: {1:[],2:[],3:[],4:[],5:[],0:[]},
+    cause_of_death: 'Unknown'
+};
+
+player.updateObituary = function(update_text) {
+    this.obituary[getCurrentStage().id].push(update_text);
+    console.log(player.obituary[getCurrentStage().id]);
 };
 
 player.updateHealth = function(number) {
@@ -30,12 +39,14 @@ player.updateHealth = function(number) {
 
     this.health += number;
     $player_health.text(player.health);
+    $output_results.append('<p>Health: ' + getSignedNumber(number) + '</p>');
 
 };
 
 player.updateHappiness = function(number) {
     this.happiness += number;
     $player_happiness.text(player.happiness);
+    $output_results.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
 };
 
 player.removeInventory = function(item) {
@@ -54,19 +65,15 @@ player.removeAttribute = function(attr) {
     this.inventory.splice(attr);
 };
 
-// sets up array for obituary.
-for (var i=0; i < stages.length; i++) {
-    player.obituary.push([i]);
-}
-
 /**************************************************************************
  *
  * DISPLAY SETTINGS
  *
  *************************************************************************/
 
-var output_text = $("#output-text");
-var output_prompt = $("#output-prompt");
+var output_text = $(".output-text");
+var $output_results = $(".output-results");
+var output_prompt = $(".output-prompt");
 var input_container = $("#input-container");
 var $current_stage = $('.current-stage');
 var $current_turn = $('.current-turn');
@@ -74,6 +81,7 @@ var $player_name = $('.player-name');
 var $player_state = $('.player-state');
 var $player_health = $('.player-health');
 var $player_happiness = $('.player-happiness');
+var $encounter_choice = $('.encounter-choice');
 
 /**************************************************************************
  *
@@ -91,7 +99,6 @@ function updateStatus() {
         $player_state.text(player.state);
         $player_health.text(player.health);
         $player_happiness.text(player.happiness);
-        console.log('turn 0');
     }
 
     //store the image in a variable to prevent removal on refresh
@@ -115,9 +122,10 @@ function updateStatus() {
  ***************************************************/
 function clearOutput() {
     //reset output_text
-    output_text.html(" ");
-    output_prompt.html(" ");
-    input_container.html(" ");
+    output_text.html('');
+    output_prompt.html('<p>' + getCurrentStage().description + '</p>');
+    input_container.html('');
+    $output_results.html('');
 }
 
 /****************************************************
@@ -130,31 +138,37 @@ function displayEncounterChoices(choices) {
         var person = choices[i][1];
         var activity = choices[i][0];
         var header_text = '';
+        var activity_description = '';
 
         if(person.name === 'GAME') {
             header_text = activity.name;
         } else {
-            header_text = activity.name + " with " + person.name;
+            header_text = activity.name + ' (' + person.name + ')';
         }
+        if(activity.connection <=1){
+            activity_description = activity.first_description;
+        } else {
+            activity_description = activity.description
+        }
+
         input_container.append(
-            "<div class='encounter-choice span4 hero-unit' >"
+            '<div class="span3"> <div class="encounter-choice hero-unit" choice-num="'+ i + '">'
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
-            + "<h1>" + activity.name + " (" + person.connection + ") </h1>"
-            + "<p class='choice-description'>" + activity.first_description +"</p>"
-            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
-            + "<!-- end span3 >"
+            + "<h1>" + header_text + "</h1>"
+            + "<p class='choice-description'>" + activity_description +"</p>"
+            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ 'CHOOSE' + "</button>"
+            + "</div><!-- end span3 >"
         );
     }
 
-    $(".choice-button").click(function () {
+    $(".encounter-choice").click(function () {
         clearOutput();
         //var choice = drawCard(choices, 1)[0]; // choose random card (to play game automatically)
         var choice_num = $(this).attr('choice-num');
         var choice = choices[choice_num];       // get array id of choice
         // note: choices are an array: ['activity_id', Person]
-        console.log('chosen activity.id: ' + choice[0].id);
-        console.log('chosen person.name: ' + choice[1].name);
         evaluateEncounterChoice(choice[0], choice[1]);      // evaluates encounter
+        console.log('chose: ' + choice[0].id + '/' + choice[1].id);
     });
 }
 
@@ -280,8 +294,8 @@ function drawCard(array, amt) {
 // GAME SETTINGS
 var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 2;   // currently a fixed amount
-var TURNS_PER_STAGE = 4;        // currently a fixed amount
-var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
+var TURNS_PER_STAGE = 10;        // currently a fixed amount
+var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
 var turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string
 // GAME FUNCTIONS
@@ -299,16 +313,15 @@ function getChoices(amt) {
     var person_choices = [];
     var stage_activities = stages[CURRENT_STAGE.id].activities;
     if(stage_activities.length > 0) {
-        person = search(person_deck, 'name', 'GAME');
-        activity = search(activity_deck, 'id', stage_activities.shift());
+        person = getPerson('game');
+        activity = getActivity(stage_activities.shift());
         // if there are stage activities first, play them one at a time
-        console.log('game choices displayed: ' + [[activity, person]]);
         return [[activity, person]];
     } else {
         // 2. weights all persons according to preexisting connection
         for (i = 0; i < person_deck.length; i++) {
             var person = person_deck[i];
-            if (person.activities[CURRENT_STAGE.id] && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
+            if (person.activities[CURRENT_STAGE.id].length > 0 && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
                 for (var k = 0; k <= person.connection; k++) {
                     person_choices.push(person);
                 }
@@ -324,7 +337,7 @@ function getChoices(amt) {
         for (var j = 0; j < chosen_person.activities[CURRENT_STAGE.id].length; j++) {
             // 5. chooses a person action/combo from this array (encounters)
             var activity_id = chosen_person.activities[CURRENT_STAGE.id][j];
-            var activity = search(activity_deck,'id',activity_id);
+            var activity = getActivity(activity_id);
             encounter_choices.push([activity,chosen_person]);
         }
     }
@@ -359,7 +372,7 @@ function getChoices(amt) {
             renderGame();
             updateStatus();
         } else {
-            console.log("Unrecognized game state.");
+            log("Unrecognized game state.");
             updateStatus();
         }
     }
@@ -382,9 +395,6 @@ function evaluateEncounterChoice(activity, person) {
     //increase connection to cards
     person.connection += CONNECTION_INCREMENT;
     activity.connection += CONNECTION_INCREMENT;
-    console.log(person.name + ' Connection: ' + person.connection);
-    console.log(activity.name + ' Connection: ' + activity.connection);
-
 
     evaluateGameState();
 }

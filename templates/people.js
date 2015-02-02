@@ -139,7 +139,7 @@ Person.prototype.subjective = function() {
             return 'he';
         case 'f':
             return 'she';
-        case 'pl':
+        case 'pl':;
             return 'it';
     }
 };
@@ -172,6 +172,10 @@ Person.prototype.plural = function() {
     }
 };
 
+Person.prototype.addActivity = function(stage, activity_id) {
+    this.activities[stage].push(activity_id);
+};
+
 var person_deck = [];
 
 function createPerson(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
@@ -190,6 +194,7 @@ function createPerson(id, name, full_name, gender, met, activities, connection, 
 function getPerson(person_id) {
     return search(person_deck, 'id', person_id);
 }
+
 createPerson('game', 'GAME', 'GAME', 'GAME', 'GAME', {
     0:['first_tooth'],
     1:[],

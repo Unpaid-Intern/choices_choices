@@ -54,8 +54,7 @@ function monster_dance(person) {
     var output = person.name + " invites you under the bed to dance the monster dance.";
     console.log(player.happiness);
     if (player.happiness <= 10) {
-        player.happiness += 10;
-        player.updateHealth(0);
+        player.updateHappiness(10);
         output += " The "+ person.name +" decides that you're sad and need a friend. Your happiness increases by 10 points.";
     } else {
         player.updateHealth(-10);
@@ -100,8 +99,7 @@ function baby_talk(person) {
             'emotional connection and develop language at an advanced rate. ' +
                 'With happiness comes improved health.</p>';
             player.updateHealth(3);
-            player.happiness += 3;
-            output += '<p>Health: ' + getSignedNumber(3) + '<br>' + 'Happiness: ' + getSignedNumber(3) + '</p>';
+            player.updateHappiness(3);
             player.obituary[current_stage_id].push('You were born to parents who loved and paid attention to you.');
             return output;
         // Bad parents
@@ -109,8 +107,7 @@ function baby_talk(person) {
             output = '<p>' + person.name + ' pay' + person.plural() + ' little attention to you. Turns out that ' +
             'weak parental relationships affect your health and happiness. Your speech also suffers.';
             player.updateHealth(-3);
-            player.happiness -= 3;
-            output += '<p>Health: ' + getSignedNumber(-3) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
+            player.updateHappiness(-3);
             player.obituary[current_stage_id].push('You were born to parents who ignored you.');
             break;
     }
@@ -144,7 +141,7 @@ function baby_feeding(person) {
         default :
             output = '<p>Your parents starve you.</p>';
             player.updateHealth(-10);
-            output += '<p>Health: ' + getSignedNumber(-10) + '<br>' + 'Happiness: ' + getSignedNumber(-3) + '</p>';
+            player.updateHappiness(-3);
             player.obituary[current_stage_id].push('You were fed rocks as a child..');
             if(bad_parents === -1) {
                 player.inventory.push('bad_parents');
@@ -169,8 +166,8 @@ function babysitting(person) {
         output += ' It turns out that there is a reason why ' + person.name +
         ' does not have children. It is a lousy experience for both of you.';
     } else {
-        output += person.objective() + ' brings lots of cool toys and you guys play.';
-        player.happiness += 2;
+        output += person.name + ' brings lots of cool toys and you guys play.';
+        player.updateHappiness(2);
         person.happiness += 2;
         person.connection +=5;
     }
@@ -192,17 +189,17 @@ function smoking(person) {
 
 activity_deck.push(new Activity('drinking', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0));
 function drinking(person) {
-    player.happiness += 1;
+    player.updateHappiness(1);
     player.updateHealth(-1);
 
-    return person.name + " and you go drinking. Your happiness = " + player.happiness + ". Your health = " + player.health;
+    return person.name + " and you go drinking." + ". Your health = " + player.health;
 }
 
 activity_deck.push(new Activity('partying', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0));
 function partying(person) {
     player.happiness += 1;
     player.updateHealth(0);
-    return person.name + " and you go partying. Your happiness = " + player.happiness;
+    return person.name + " and you go partying.";
 }
 
 activity_deck.push(new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0));
@@ -216,15 +213,14 @@ function sex(person) {
 
     }
 
-
     player.updateHealth(1);
-    return person.name + " and you have sex. Your health = " + player.health;
+    return person.name + " and you have sex. Your health improves";
 }
 
 activity_deck.push(new Activity('dating', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0));
 function dating(person) {
     player.updateHealth(1);
-    return person.name + " and you have sex. Your health = " + player.health;
+    return person.name + " and you date. Your health improves."
 }
 
 
@@ -242,23 +238,23 @@ activity_deck.push(new Activity('birth','Your Birth', 'You are only born once!',
 stages[0].activities.push('birth');
 function birth() {
     var output ='';
-    var game_card_activities = search(person_deck, 'id', 'game').activities;
+    game_card = getPerson('game');
     var n = getRandomInt(0,3);
     switch (n) {
         case 0:
             output += 'Your birth goes without problems. You are a healthy, happy baby.';
             player.updateHealth(10);
             player.happiness+=1;
-            game_card_activities[1].push('sports');
-            game_card_activities[2].push('sports');
-            game_card_activities[3].push('sports');
-            game_card_activities[4].push('sports');
+            game_card.addActivity(1, 'sports');
+            game_card.addActivity(2, 'sports');
+            game_card.addActivity(3, 'sports');
+            game_card.addActivity(4, 'sports');
             break;
         case 1:
             output += 'You are born prematurely and your health suffers.';
             player.updateHealth(-5);
-            game_card_activities[1].push('sports');
-            game_card_activities[2].push('sports');
+            game_card.addActivity(1, 'sports');
+            game_card.addActivity(2, 'sports');
             break;
         case 2:
             output += 'You are born with an ugly face.';

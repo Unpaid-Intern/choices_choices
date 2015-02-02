@@ -30,12 +30,14 @@ player.updateHealth = function(number) {
 
     this.health += number;
     $player_health.text(player.health);
+    $output_results.append('<p>Health: ' + getSignedNumber(number) + '</p>');
 
 };
 
 player.updateHappiness = function(number) {
     this.happiness += number;
     $player_happiness.text(player.happiness);
+    $output_results.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
 };
 
 player.removeInventory = function(item) {
@@ -65,8 +67,9 @@ for (var i=0; i < stages.length; i++) {
  *
  *************************************************************************/
 
-var output_text = $("#output-text");
-var output_prompt = $("#output-prompt");
+var output_text = $(".output-text");
+var $output_results = $(".output-results");
+var output_prompt = $(".output-prompt");
 var input_container = $("#input-container");
 var $current_stage = $('.current-stage');
 var $current_turn = $('.current-turn');
@@ -118,6 +121,7 @@ function clearOutput() {
     output_text.html(" ");
     output_prompt.html(" ");
     input_container.html(" ");
+    $output_results.html(" ");
 }
 
 /****************************************************
@@ -145,12 +149,12 @@ function displayEncounterChoices(choices) {
         }
 
         input_container.append(
-            "<div class='encounter-choice span4 hero-unit' >"
+            '<div class="span3"> <div class="encounter-choice hero-unit" >'
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + header_text + "</h1>"
             + "<p class='choice-description'>" + activity_description +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
-            + "<!-- end span3 >"
+            + "</div><!-- end span3 >"
         );
     }
 
@@ -289,7 +293,7 @@ function drawCard(array, amt) {
 var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 2;   // currently a fixed amount
 var TURNS_PER_STAGE = 10;        // currently a fixed amount
-var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
+var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
 var turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string
 // GAME FUNCTIONS

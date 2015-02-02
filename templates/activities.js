@@ -32,54 +32,6 @@
 ************************************************************************************ */
 
 
-
-function Activity(id, name, first_description, description, connection) {
-    this.id = id;
-    this.name = name;
-    this.first_description = first_description;
-    this.description = description;
-    this.connection = connection;
-}
-
-var activity_deck = []; // activity_deck holds all Activity objects
-
-function createActivity(id, name, first_description, description, connection, stage_number) {
-    var new_activity = activity_deck.push(id, name, first_description, description, connection);
-    activity_deck.push(new_activity);
-    if(isNaN(stage_number) === false) {
-        stages[stage_number].activities.push(new_activity.id);
-    }
-    return(new_activity);
-}
-
-function getActivity(activity_id) {
-    return search(activity_deck, 'id', activity_id);
-}
-
-/**
- * returns the name of the function that called it.
- * @returns {Function}
- */
-function getFunctionName() {
-    return arguments.callee.caller;
-}
-
-
-/**
- * cycles through an Person's stages, removing the activity entirely from that person
- * @param activity_id
- * @param person
- */
-
-function removeActivityFromPerson(activity_id, person) {
-    for(var i=0; i < stages.length; i++) {
-        var index = person.activities[i].indexOf(activity_id);
-        if (index >= -1) {
-            person.activities[i].splice(index);
-        }
-    }
-}
-
 /*
 activity_deck.push(new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' ));
 stages[0].activities.push('example_activity');
@@ -298,6 +250,9 @@ function sports() {
  * them that run when stage is first called.
  */
 
+createPerson('game', 'GAME', 'GAME', 'GAME', 'GAME', {
+    0:['first_tooth']}, 10, 10, 'parents', 'enemy',  0);
+
 activity_deck.push(new Activity('birth','Your Birth', 'You are only born once!', 'Be born!', '0' ));
 stages[0].activities.push('birth');
 function birth() {
@@ -348,7 +303,8 @@ function set_social_class() {
         case 0:
             player.social_class = ['poor', 'Poor'];
             output += "You are born into a poor family.";
-            // TODO: push people to person_deck
+            createPerson('hobo','Hobo Pete', 'xxx', 'm', 'the street', {1:['buy_drugs'], 2:['buy_drugs'], 3:['buy_drugs'], 4:['buy_drugs']}, 0, 10, 'friend',  'friend', 5);
+            createPerson('church_peer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 5);
             // TODO: push GAME activities to GAME person
             player.updateObituary('Born into poverty.');
             break;
@@ -527,3 +483,35 @@ function stageIntro() {
     var CURRENT_STAGE = getCurrentStage();
     $current_stage.html(CURRENT_STAGE.name);
 }
+
+
+
+
+// stage 0 - infant
+
+// stage 1 - kid
+createPerson('a','Aanie', 'Bobbins', 'f', 'the bar', {1:['smoke', 'party'], 2:['drink', 'party']}, 0, 10, 'friend',  'friend', 2 );
+createPerson('b','Banie', 'Bobbins', 'f', 'the bar', {1:['drink', 'party'], 2:['drink', 'date']}, 0, 10, 'friend',  'friend', 2);
+createPerson('c','Canie', 'Bobbins', 'f', 'the bar', {1:['drink', 'party'], 2:['date', 'party']}, 0, 10, 'friend',  'friend', 2);
+
+
+// stage 2 - teenage
+createPerson('d','Danie', 'Bobbins', 'f', 'the bar', {2:['date', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
+createPerson('e','Eanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
+createPerson('f','Fanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
+
+// stage 3 - young adult
+createPerson('coworker','Patty', 'Hearst', 'f', 'the office', {3:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
+createPerson('h','Hanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
+createPerson('i','Ianie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
+
+// stage 4 - adult
+createPerson('j','Janie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
+createPerson('k','Kanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
+createPerson('l','Lanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
+
+// stage 5 - retirement
+createPerson('m','Manie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
+createPerson('n','Nanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
+createPerson('o','Oanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
+

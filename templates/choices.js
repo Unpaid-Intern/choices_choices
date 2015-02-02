@@ -10,8 +10,17 @@ var player = {
     health: 15,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
     inventory: [],
+    attachment: 0,
+    diseases: [],
     attributes: [],
-    obituary: []
+    addictions: [],
+    obituary: {1:[],2:[],3:[],4:[],5:[],0:[]},
+    cause_of_death: 'Unknown'
+};
+
+player.updateObituary = function(update_text) {
+    this.obituary[getCurrentStage().id].push(update_text);
+    console.log(player.obituary[getCurrentStage().id]);
 };
 
 player.updateHealth = function(number) {
@@ -56,11 +65,6 @@ player.removeAttribute = function(attr) {
     this.inventory.splice(attr);
 };
 
-// sets up array for obituary.
-for (var i=0; i < stages.length; i++) {
-    player.obituary.push([i]);
-}
-
 /**************************************************************************
  *
  * DISPLAY SETTINGS
@@ -95,7 +99,6 @@ function updateStatus() {
         $player_state.text(player.state);
         $player_health.text(player.health);
         $player_happiness.text(player.happiness);
-        console.log('turn 0');
     }
 
     //store the image in a variable to prevent removal on refresh
@@ -164,9 +167,8 @@ function displayEncounterChoices(choices) {
         var choice_num = $(this).attr('choice-num');
         var choice = choices[choice_num];       // get array id of choice
         // note: choices are an array: ['activity_id', Person]
-        console.log('chosen activity.id: ' + choice[0].id);
-        console.log('chosen person.name: ' + choice[1].name);
         evaluateEncounterChoice(choice[0], choice[1]);      // evaluates encounter
+        console.log('chose: ' + choice[0].id + '/' + choice[1].id);
     });
 }
 
@@ -314,7 +316,6 @@ function getChoices(amt) {
         person = getPerson('game');
         activity = getActivity(stage_activities.shift());
         // if there are stage activities first, play them one at a time
-        console.log('game choices displayed: ' + [[activity, person]]);
         return [[activity, person]];
     } else {
         // 2. weights all persons according to preexisting connection
@@ -371,7 +372,7 @@ function getChoices(amt) {
             renderGame();
             updateStatus();
         } else {
-            console.log("Unrecognized game state.");
+            log("Unrecognized game state.");
             updateStatus();
         }
     }
@@ -394,9 +395,6 @@ function evaluateEncounterChoice(activity, person) {
     //increase connection to cards
     person.connection += CONNECTION_INCREMENT;
     activity.connection += CONNECTION_INCREMENT;
-    console.log(person.name + ' Connection: ' + person.connection);
-    console.log(activity.name + ' Connection: ' + activity.connection);
-
 
     evaluateGameState();
 }

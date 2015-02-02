@@ -152,7 +152,10 @@ activity_deck.push(new Activity('baby_talk', 'Baby Talk', 'I wonder what those a
 function baby_talk(person) {
     var output;
     var current_stage_id = getCurrentStage().id;
-    switch (getRandomInt(0,1)) {
+    if (player.attributes.attachment == false) {
+        player.attributes.attachment = getRandomInt(0,1);
+    }
+    switch (player.attributes.attachment) {
         // Good parents
         case 0:
             output = '<p>' + person.name + ' pay' + person.plural() + ' lots of ' +
@@ -161,7 +164,7 @@ function baby_talk(person) {
                 'With happiness comes improved health.</p>';
             player.updateHealth(3);
             player.updateHappiness(3);
-            player.obituary[current_stage_id].push('You were born to parents who loved and paid attention to you.');
+            player.obituary[current_stage_id].push('Received lots of love and attention.');
             return output;
         // Bad parents
         case 1:
@@ -169,7 +172,7 @@ function baby_talk(person) {
             'weak parental relationships affect your health and happiness. Your speech also suffers.';
             player.updateHealth(-3);
             player.updateHappiness(-3);
-            player.obituary[current_stage_id].push('You were born to parents who ignored you.');
+            player.updateObituary('Ignored as a child.');
             break;
     }
     return output;
@@ -311,22 +314,27 @@ function birth() {
             game_card.addActivity(2, 'sports');
             game_card.addActivity(3, 'sports');
             game_card.addActivity(4, 'sports');
+            player.updateObituary('Born a healthy baby.');
             break;
         case 1:
             output += 'You are born prematurely and your health suffers.';
             player.updateHealth(-5);
             game_card.addActivity(1, 'sports');
             game_card.addActivity(2, 'sports');
+            player.updateObituary('Born prematurely.');
             break;
         case 2:
             output += 'You are born with an ugly face.';
             player.attributes.push('ugly');
-
+            player.updateObituary('Born with a hideous face.');
             break;
         case 3:
             output += 'Your teenage mother decides to break the cycle of poverty and gets ' +
             'an abortion. She goes on to a career as a powerful attorney and then later ' +
             'a senator. This, however, means that you were never born.';
+            player.health = 0;
+            player.state = 'dead';
+            player.updateObituary('Was never born.');
     }
     return output;
 }
@@ -342,14 +350,17 @@ function set_social_class() {
             output += "You are born into a poor family.";
             // TODO: push people to person_deck
             // TODO: push GAME activities to GAME person
+            player.updateObituary('Born into poverty.');
             break;
         case 1:
             player.social_class = ['middle_class', 'Middle Class'];
             output += "You are born into a middle class family.";
+            player.updateObituary('Middle class neighborhood.');
             break;
         case 2:
             player.social_class = ['rich', 'Rich'];
             output += "You are born into a rich family.";
+            player.updateObituary('Wanted for nothing.');
             break;
         default :
             player.social_class = ['error', 'Error'];
@@ -366,13 +377,15 @@ function set_social_class() {
                     'While you are there you develop rickets.';
                     var attribute = search(attributes, 'id', 'rickets');
                     attribute.connection += 2;
-                    player.attributes.push(attribute);
+                    player.diseases.push('rickets');
+                    player.updateObituary('Caught rickets due to poor nutrition.');
                     break;
                 case 1:
                     output += " Your mom is forced to get you local day care while she " +
                     "works two jobs. You rarely see her. Parental connection is important " +
                     "as a child and your health suffers.";
                     player.updateHealth(-5);
+                    player.updateObituary('Spent a childhood at daycare.');
                     break;
             }
             break;
@@ -381,7 +394,6 @@ function set_social_class() {
                 case 0:
                     output += " You will be encouraged to study hard and go to college.";
                     player.health = 10;
-                    evaluateGameState();
                     break;
             }
             break;
@@ -402,40 +414,37 @@ activity_deck.push(new Activity('set_parents','Your Parents', 'You can choose yo
 stages[0].activities.push('set_parents');
 function set_parents() {
     var output ='';
-    var n = getRandomInt(0,10);
+    var n = getRandomInt(0,9);
     switch (true) {
         case (n <= 3):           // single mom
             output += 'You are born to a single mom.';
             createPerson('parents','Mom', 'Your mom!', 'f', 'she made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0);
             createPerson('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
             createPerson('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
-
+            createPerson('Freddy','Fred Armitage', '', 'm', 'playdate companion', {0:['play']}, 10, 10, 'parents','parents',0);
+            player.updateObituary('Born to a loving mother.');
             break;
-        case (n >= 4 && n <= 5): // unhappily married
+        case (n === 4 || n === 5): // unhappily married
             output += 'You are born to two loving parents. However they love themselves more than they love you.' +
             'They constantly bicker, fight and use you as a tool or an object to be won.';
             createPerson('parents','Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0);
             createPerson('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
             createPerson('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
-
+            player.updateObituary('Born as a mistake.');
             break;
         case (n >= 6 && n <= 8): // happily married
-            output += 'You are born to two loving parents. However they love themselves more than they love you.' +
-            'They constantly bicker, fight and use you as a tool or an object to be won.';
+            output += 'You are born to two loving parents.';
             createPerson('parents','Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0);
+            createPerson('Freddy','Fred Armitage', '', 'm', 'playdate companion', {0:['play']}, 10, 10, 'parents','parents',0);
+            player.updateObituary('Born into a loving home.');
             break;
         case (n = 9):           // orphan
             output += 'You are an orphan. You do not know your parents';
             game_card.addActivity(3,'long_lost_parent');
             createPerson('parents','The nuns', 'The nuns!', 'pl', 'They take care of you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0);
             createPerson('monster','Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance']}, 10, 10, 'enemy',  'enemy', 0);
-
+            player.updateObituary('Born an orphan.');
             break;
-        case (n = 10):          // abortion
-            output += 'Your teenage mother decides to break the cycle of poverty and gets ' +
-            'an abortion. She goes on to a career as a powerful attorney and then later ' +
-            'a senator. This, however, means that you were never born.';
-            player.state = 'dead';
     }
     return output;
 }
@@ -453,18 +462,22 @@ function first_grade() {
             createPerson('jock', 'Percy', 'Percival Willackers', 'm', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
             createPerson('nerd', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
             output += 'Th other kids hate you.';
+            player.updateObituary('Unpopular in school.');
             break;
         case 1:
             createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
+            player.updateObituary('Made friends in school.');
             break;
         case 2:
             createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
+            player.updateObituary('Made friends in school.');
             break;
         case 3:
             createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
+            player.updateObituary('Made friends in school.');
             break;
     }
     return output;

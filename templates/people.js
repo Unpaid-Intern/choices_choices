@@ -178,62 +178,73 @@ Person.prototype.addActivity = function(stage, activity_id) {
 
 var person_deck = [];
 
+/**
+ *
+ * @param {string} id
+ * @param {string} name
+ * @param {string} full_name
+ * @param {string} gender
+ * @param {string} met
+ * @param {object} activities
+ * @param {number} connection
+ * @param {number} happiness
+ * @param {string} state
+ * @param {string} identity
+ * @param {number} stage
+ * @returns {Person}
+ */
+
 function createPerson(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
-    var newPerson = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage)
+    var new_person = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage)
     for (var i=0; i < stages.length; i++) {
         if (activities[i]) {
-            newPerson.activities[i]= activities[i];
+            new_person.activities[i]= activities[i];
         } else {
-            newPerson.activities[i] = [];
+            new_person.activities[i] = [];
         }
     }
-    person_deck.push(newPerson);
-    return newPerson;
+    person_deck.push(new_person);
+    return new_person;
 }
 
 function getPerson(person_id) {
     return search(person_deck, 'id', person_id);
 }
 
+function removePerson(person) {
+    person_deck.filter(function (el) {return el.id !== person.id;});
+}
+
 createPerson('game', 'GAME', 'GAME', 'GAME', 'GAME', {
-    0:['first_tooth'],
-    1:[],
-    2:[],
-    3:[],
-    4:[],
-    5:[]}, 10, 10, 'parents', 'enemy',  0);
+    0:['first_tooth']}, 10, 10, 'parents', 'enemy',  0);
 
 // stage 0 - infant
-createPerson('monster','Monster Under the Bed', '', 'm', 'long after midnight', {0:['monster_dance'], 1:['kill'], 2:['kill'], 3:['kill'], 4:['kill'], 5:['kill']}, 10, 10, 'enemy',  'enemy', 0);
-createPerson('parents','Mom and Dad', '', 'pl', 'they made you', {0:['baby_talk', 'baby_feeding']}, 10, 10, 'parents','parents',0);
-createPerson('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
-createPerson('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 10, 10, 'parents', 'enemy',  0);
 
 // stage 1 - kid
-createPerson('a','Aanie', 'Bobbins', 'f', 'the bar', {1:['smoking', 'partying'], 2:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 1 );
-createPerson('b','Banie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['drinking', 'dating']}, 10, 10, 'friend',  'friend', 1);
-createPerson('c','Canie', 'Bobbins', 'f', 'the bar', {1:['drinking', 'partying'], 2:['dating', 'partying']}, 10, 10, 'friend',  'friend', 1);
+createPerson('a','Aanie', 'Bobbins', 'f', 'the bar', {1:['smoke', 'party'], 2:['drink', 'party']}, 0, 10, 'friend',  'friend', 2 );
+createPerson('b','Banie', 'Bobbins', 'f', 'the bar', {1:['drink', 'party'], 2:['drink', 'date']}, 0, 10, 'friend',  'friend', 2);
+createPerson('c','Canie', 'Bobbins', 'f', 'the bar', {1:['drink', 'party'], 2:['date', 'party']}, 0, 10, 'friend',  'friend', 2);
 
 
 // stage 2 - teenage
-createPerson('d','Danie', 'Bobbins', 'f', 'the bar', {2:['dating', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2);
-createPerson('e','Eanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2);
-createPerson('f','Fanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 2);
+createPerson('d','Danie', 'Bobbins', 'f', 'the bar', {2:['date', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
+createPerson('e','Eanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
+createPerson('f','Fanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 2);
 
 // stage 3 - young adult
-createPerson('coworker','Patty', 'Hearst', 'f', 'the office', {3:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3);
-createPerson('h','Hanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3);
-createPerson('i','Ianie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 3:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 3);
+createPerson('coworker','Patty', 'Hearst', 'f', 'the office', {3:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
+createPerson('h','Hanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
+createPerson('i','Ianie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 3:['drink', 'party']}, 0, 10, 'friend',  'friend', 3);
 
 // stage 4 - adult
-createPerson('j','Janie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4);
-createPerson('k','Kanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4);
-createPerson('l','Lanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 4:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 4);
+createPerson('j','Janie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
+createPerson('k','Kanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
+createPerson('l','Lanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 4:['drink', 'party']}, 0, 10, 'friend',  'friend', 4);
 
 // stage 5 - retirement
-createPerson('m','Manie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5);
-createPerson('n','Nanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5);
-createPerson('o','Oanie', 'Bobbins', 'f', 'the bar', {2:['drinking', 'partying'], 5:['drinking', 'partying']}, 10, 10, 'friend',  'friend', 5);
+createPerson('m','Manie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
+createPerson('n','Nanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
+createPerson('o','Oanie', 'Bobbins', 'f', 'the bar', {2:['drink', 'party'], 5:['drink', 'party']}, 0, 10, 'friend',  'friend', 5);
 
-createPerson('hobo','Hobo Pete', 'xxx', 'm', 'the street', {2:['buy_drugs'], 3:['buy_drugs'], 4:['buy_drugs']}, 10, 10, 'friend',  'friend', 5);
-createPerson('church_peer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 10, 10, 'friend',  'friend', 5);
+createPerson('hobo','Hobo Pete', 'xxx', 'm', 'the street', {2:['buy_drugs'], 3:['buy_drugs'], 4:['buy_drugs']}, 0, 10, 'friend',  'friend', 5);
+createPerson('church_peer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 5);

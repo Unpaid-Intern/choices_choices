@@ -77,6 +77,7 @@ var $player_name = $('.player-name');
 var $player_state = $('.player-state');
 var $player_health = $('.player-health');
 var $player_happiness = $('.player-happiness');
+var $encounter_choice = $('.encounter-choice');
 
 /**************************************************************************
  *
@@ -118,10 +119,10 @@ function updateStatus() {
  ***************************************************/
 function clearOutput() {
     //reset output_text
-    output_text.html(" ");
-    output_prompt.html(" ");
-    input_container.html(" ");
-    $output_results.html(" ");
+    output_text.html('');
+    output_prompt.html('<p>' + getCurrentStage().description + '</p>');
+    input_container.html('');
+    $output_results.html('');
 }
 
 /****************************************************
@@ -139,9 +140,8 @@ function displayEncounterChoices(choices) {
         if(person.name === 'GAME') {
             header_text = activity.name;
         } else {
-            header_text = activity.name + " (" + person.name + ")";
+            header_text = activity.name + ' (' + person.name + ')';
         }
-
         if(activity.connection <=1){
             activity_description = activity.first_description;
         } else {
@@ -149,16 +149,16 @@ function displayEncounterChoices(choices) {
         }
 
         input_container.append(
-            '<div class="span3"> <div class="encounter-choice hero-unit" >'
+            '<div class="span3"> <div class="encounter-choice hero-unit" choice-num="'+ i + '">'
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
             + "<h1>" + header_text + "</h1>"
             + "<p class='choice-description'>" + activity_description +"</p>"
-            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ activity.description+"</button>"
+            + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ 'CHOOSE' + "</button>"
             + "</div><!-- end span3 >"
         );
     }
 
-    $(".choice-button").click(function () {
+    $(".encounter-choice").click(function () {
         clearOutput();
         //var choice = drawCard(choices, 1)[0]; // choose random card (to play game automatically)
         var choice_num = $(this).attr('choice-num');

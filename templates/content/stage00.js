@@ -1,7 +1,13 @@
 /**
+ * , ABUSE, INSECURE ATTACHMENT, LOW SES, ROUGH NEIGHBORHOOD
+ * PREMATURE BIRTH
+ */
+
+/**
  * STAGE ACTIVITY: BIRTH
  * @activities: sports
  * @game_activities first_tooth
+ *
  */
 
 activity_deck.push(new Activity('birth','Your Birth', 'You are only born once!', 'Be born!', '0' ));

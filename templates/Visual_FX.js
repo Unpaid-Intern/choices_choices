@@ -13,3 +13,22 @@ function shakeStatusImg()
 
     }
 }
+
+
+function animateDamageText()
+{
+    var $playerhealth = $("#player-health");
+
+    if(_ShakeTrigger == true) {
+    $playerhealth.clone()
+
+    }
+    else
+    {
+
+
+    }
+
+
+
+}

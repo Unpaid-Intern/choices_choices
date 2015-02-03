@@ -2,11 +2,12 @@ var _ShakeTrigger;
 
 /**
  * the player stores basic variables about the player's character.
- * @type {{name: string, state: string, health: number, happiness: number, inventory: Array, attributes: Array, obituary: Array}}
+ * @type {{name: String("Nathan"), state: String("alive"), gender: String("m"), health: number, happiness: number, inventory: Array, attachment: number, diseases: Array, attributes: Array, addictions: Array, obituary: {1: Array, 2: Array, 3: Array, 4: Array, 5: Array, 0: Array}, cause_of_death: String("Unknown")}}
  */
 var player = {
     name: "Nathan",
     state: "alive",
+    gender: 'm',
     health: 15,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
     inventory: [],

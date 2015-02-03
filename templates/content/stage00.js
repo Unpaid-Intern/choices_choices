@@ -17,6 +17,15 @@ function birth() {
     var n = getRandomInt(0,3);
     GAME_CARD.addActivity(0, 'first_tooth');
 
+    var g = getRandomInt(0,1);
+    if (g === 1) {
+        player.gender = 'm';
+        output += 'You\'re born a boy! ';
+    } else {
+        player.gender = 'f';
+        output += 'You\'re born a girl! ';
+    }
+
     switch (n) {
         case 0:
             output += 'Your birth goes without problems. You are a healthy, happy baby.';
@@ -41,7 +50,7 @@ function birth() {
             player.updateObituary('Born with a hideous face.');
             break;
         case 3:
-            output += 'Your teenage mother decides to break the cycle of poverty and gets ' +
+            output = 'Your teenage mother decides to break the cycle of poverty and gets ' +
             'an abortion. She goes on to a career as a powerful attorney and then later ' +
             'a senator. This, however, means that you were never born.';
             player.health = 0;
@@ -179,9 +188,13 @@ function church() {
 activity_deck.push(new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0));
 function sex(person) {
 
+
+
+
+    getRandomInt(1,3);
     if(player.attributes['single']) {
         if(player.happiness < 5) {
-            player
+            player.happiness
         }
     } else {
 
@@ -248,10 +261,10 @@ activity_deck.push(new Activity('baby_talk', 'Baby Talk', 'I wonder what those a
 function baby_talk(person) {
     var output;
     var current_stage_id = getCurrentStage().id;
-    if (player.attributes.attachment == false) {
+    if (player.attributes.attachment === false) {
         player.attributes.attachment = getRandomInt(0,1);
     }
-    switch (player.attributes.attachment) {
+    switch (player.attachment) {
         // Good parents
         case 0:
             output = '<p>' + person.name + ' pay' + person.plural() + ' lots of ' +

@@ -19,6 +19,48 @@ var player = {
     cause_of_death: 'Unknown'
 };
 
+player.prototype.subjective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'he';
+        case 'f':
+            return 'she';
+        case 'pl':
+            return 'it';
+    }
+};
+
+player.prototype.objective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'him';
+        case 'f':
+            return 'her';
+        case 'pl':
+            return 'it';
+    }
+};
+
+player.prototype.possessive = function() {
+    switch(this.gender) {
+        case 'm':
+            return 'his';
+        case 'f':
+            return 'hers';
+        case 'pl':
+            return 'its';
+    }
+};
+
+player.prototype.plural = function() {
+    switch(this.gender) {
+        case 'm' || 'f':
+            return 's';
+        case 'pl':
+            return '';
+    }
+};
+
 player.updateObituary = function(update_text) {
     this.obituary[getCurrentStage().id].push(update_text);
     console.log(player.obituary[getCurrentStage().id]);

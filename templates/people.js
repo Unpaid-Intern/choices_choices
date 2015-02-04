@@ -139,7 +139,7 @@ Person.prototype.subjective = function() {
             return 'he';
         case 'f':
             return 'she';
-        case 'pl':;
+        case 'pl':
             return 'it';
     }
 };
@@ -195,7 +195,7 @@ var person_deck = [];
  */
 
 function createPerson(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
-    var new_person = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage)
+    var new_person = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage);
     for (var i=0; i < stages.length; i++) {
         if (activities[i]) {
             new_person.activities[i]= activities[i];

@@ -60,13 +60,11 @@ function birth() {
     return output;
 }
 
-
 activity_deck.push(new Activity('sports', 'Sports', 'Take up sports', 'Play sports', 0));
 function sports() {
     player.updateHealth(3);
     return "You play sports. Your health improves!";
 }
-
 
 activity_deck.push(new Activity('first_tooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0));
 function first_tooth(person) {
@@ -138,29 +136,45 @@ function set_social_class() {
     return output;
 }
 
-
-
-activity_deck.push(new Activity('buy_drugs','Example First Description', 'Example activity description', 'Button Name', '0' ));
+activity_deck.push(new Activity('buy_drugs','Try to buy drugs', 'Buy drugs', 'Button Name', '0' ));
 function buy_drugs() {
     var output ='';
-    var n = getRandomInt(0,3);
-    switch (n) {
-        case 0:
-            output += '';
-            break;
-        case 1:
-            output += '';
-            break;
-        case 2:
-            output += '';
-            break;
-        case 3:
-            output += '';
-            break;
+    var n = getRandomInt(0,1);
+    var stage_id = getCurrentStage().id;
+    switch (true) {
+        case (stage_id === 1):         // WAY too young!
+            switch (n) {
+                case 0:
+                    output += '';
+                    break;
+                case 1:
+                    output += '';
+                    break;
+            }
+        break;
+        case (stage_id === 2):         // too young?
+            switch (n) {
+                case 0:
+                    output += '';
+                    break;
+                case 1:
+                    output += '';
+                    break;
+            }
+        break;
+        default:                      // no problem
+            switch (n) {
+                case 0:
+                    output += '';
+                    break;
+                case 1:
+                    output += '';
+                    break;
+            }
+        break;
     }
     return output;
 }
-
 
 activity_deck.push(new Activity('church','Example First Description', 'Example activity description', 'Button Name', '0' ));
 function church() {
@@ -183,25 +197,31 @@ function church() {
     return output;
 }
 
-
-
 activity_deck.push(new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0));
 function sex(person) {
-
-
-
-
-    getRandomInt(1,3);
-    if(player.attributes['single']) {
-        if(player.happiness < 5) {
-            player.happiness
+    var object = getActivity('sex');
+    if (player.gender === 'm') {                                                // is male
+        switch (player.attributes) {
+            case('dating'):
+                break;
+            case('married'):
+                break;
+            default:
+                if(player.happiness < 5) {
+                    player.updateHappiness(1);
+                } else {                                                       // is
+                    player.updateHappiness(2);
+                }
+                break;
         }
-    } else {
-
+                player.updateHappiness(10 - object.connection);
+        player.updateHealth(1);
+        return person.name + " and you have sex. Your health improves.";
+    } else {                                                                   // is female
+        player.updateHappiness(1);
+        player.updateHealth(1);
+        return person.name + " and you have sex. Your health improves.";
     }
-
-    player.updateHealth(1);
-    return person.name + " and you have sex. Your health improves";
 }
 
 /**

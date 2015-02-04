@@ -13,7 +13,7 @@ var player = {
     inventory: [],
     attachment: 0,
     diseases: [],
-    attributes: [],
+    attributes: ['single'],
     addictions: [],
     obituary: {1:[],2:[],3:[],4:[],5:[],0:[]},
     cause_of_death: 'Unknown'

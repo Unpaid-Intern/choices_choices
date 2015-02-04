@@ -19,7 +19,7 @@ var player = {
     cause_of_death: 'Unknown'
 };
 
-player.prototype.subjective = function() {
+player.subjective = function() {
     switch (this.gender) {
         case 'm':
             return 'he';
@@ -30,7 +30,7 @@ player.prototype.subjective = function() {
     }
 };
 
-player.prototype.objective = function() {
+player.objective = function() {
     switch (this.gender) {
         case 'm':
             return 'him';
@@ -41,7 +41,7 @@ player.prototype.objective = function() {
     }
 };
 
-player.prototype.possessive = function() {
+player.possessive = function() {
     switch(this.gender) {
         case 'm':
             return 'his';
@@ -52,7 +52,7 @@ player.prototype.possessive = function() {
     }
 };
 
-player.prototype.plural = function() {
+player.plural = function() {
     switch(this.gender) {
         case 'm' || 'f':
             return 's';

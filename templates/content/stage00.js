@@ -200,16 +200,16 @@ function church() {
 activity_deck.push(new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0));
 function sex(person) {
     var object = getActivity('sex');
-    if (player.gender === 'm') {                                                // is male
+    if (player.gender === 'm') {           // is male
         switch (player.attributes) {
-            case('dating'):
+            case('dating'):                         // dating
                 break;
-            case('married'):
+            case('married'):                        // married
                 break;
-            default:
+            default:                                // single
                 if(player.happiness < 5) {
                     player.updateHappiness(1);
-                } else {                                                       // is
+                } else {
                     player.updateHappiness(2);
                 }
                 break;
@@ -217,7 +217,7 @@ function sex(person) {
                 player.updateHappiness(10 - object.connection);
         player.updateHealth(1);
         return person.name + " and you have sex. Your health improves.";
-    } else {                                                                   // is female
+    } else {                                 // is female
         player.updateHappiness(1);
         player.updateHealth(1);
         return person.name + " and you have sex. Your health improves.";

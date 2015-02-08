@@ -318,15 +318,18 @@ function Activity(id, name, firstDescription, description, connection, stageNumb
     this.connection = connection;
     this.stageNumber = stageNumber;
 
-    //try {
-    //    this.run = window[this.id];
-    //} catch (err) {
-    //    console.log(err.message + " -- No function named " + id);
-    //}
+    // adds function this.id as .run method
+    if (window[this.id]) {
+        this.run = window[this.id];
+    } else {
+        // returns error to console if matching function not found
+        console.log("ERROR -- No function named " + id);
+    }
+
     //console.log('id: '+ id + ' -- stageNumber: ' + stageNumber);
 
     if(stageNumber !== false) {
-        console.log(id + ' pushing to Stage ' + stageNumber);
+        //console.log(id + ' pushing to Stage ' + stageNumber);
         _Stages[stageNumber].activities.push(id);
     }
     activityDeck.push(this);

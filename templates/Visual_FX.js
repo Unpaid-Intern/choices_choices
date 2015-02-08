@@ -15,55 +15,58 @@ function shakeStatusImg()
 }
 
 
-//function animateDamageText() {
+function animateDamageText() {
 
-$(document).on("click",".choice-button", function(){
-var $playerhealth = $(".player-health");
-    if (_HealthChange != "undefined" && turn != 1  || _HealthChange != undefined  && turn != 1 ) {
+//remove later and replace with global variable $playerHealth in choices.js
+    var $playerhealth = $(".player-health");
 
-        if (_HealthChange < 0 && _HealthChange != undefined && _HealthChange != 0 && _HealthChange != "undefined") {
+    //if (typeof _HealthChange != "undefined" && turn != 1) {
+
+        if (_HealthChange < 0) {
             $playerhealth.toggle("fade");
             $playerhealth.toggle("fade");
-            $playerhealth.append('<p id="healthchange" class="health-change" style="color:orangered">' + _HealthChange + '</p>');
+            $healthChange.text(_HealthChange);
+
             console.log("DAMAGE: health change: " + _HealthChange);
-            $("#healthchange").effect("bounce", {times: 3}, "fast");
-            $("#healthchange").animate({
+            $healthChange.effect("bounce", {times: 3}, "fast");
+            $healthChange.animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "red"
-            }, 1000);
+            }, 1000, emptyThis());
+
+
 
 
 
         }
 
-        if (_HealthChange > 0 && _HealthChange != undefined && _HealthChange != 0 && _HealthChange != "undefined"){
+        if (_HealthChange > 0 ) {
             $playerhealth.toggle("fade");
             $playerhealth.toggle("fade");
-            $playerhealth.append('<p id="healthchange" class = "health-change">+' + _HealthChange + '</p>');
+            $healthChange.text("+" + _HealthChange);
             console.log("DAMAGE: health change: " + _HealthChange);
-            $("#healthchange").effect("bounce", {times: 3}, "fast");
-            $("#healthchange").animate({
+            $healthChange.effect("bounce", {times: 3}, "fast");
+            $healthChange.animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "blue"
-            }, 1000);
+            }, 1000, emptyThis());
 
-
-
-        }
     }
-   // if($(".health-change") != "undefined")
-   // {
-   //     $(".health-change").destroy();
-   // }
-    });
-
-   // }
 
 
-//}
+    }
 
 
 
+function emptyThis()
+
+{
+   // $healthChange.empty();
+    $healthChange.css("opacity", "1");
+    $healthChange.css("fontSize", ".5em");
+    $healthChange.css("color", "white");
+
+}
 

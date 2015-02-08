@@ -40,7 +40,7 @@ player.updateHealth = function(number) {
 
     _HealthChange = number;
     console.log("health:" + number);
-
+    animateDamageText();
     this.health += number;
     $player_health.text(player.health);
     $output_results.append('<p>Health: ' + getSignedNumber(number) + '</p>');
@@ -86,6 +86,10 @@ var $player_state = $('.player-state');
 var $player_health = $('.player-health');
 var $player_happiness = $('.player-happiness');
 var $encounter_choice = $('.encounter-choice');
+
+
+var $healthChange = $(".health-change");
+var $happinessChange = $(".happiness-change");
 
 /**************************************************************************
  *

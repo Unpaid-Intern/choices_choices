@@ -255,24 +255,66 @@ function church() {
     return output;
 }
 
-new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0, false);
+new Activity('sex', 'Sex', 'Lose your virginity.', 'Sex can be healthy and happy or isolating and depressing', 0, false);
 function sex(person) {
-    var object = getActivity('sex');
-    if (player.gender === 'm') {           // is male
-        switch (player.attributes) {
-            case('dating'):                         // dating
-                break;
-            case('married'):                        // married
-                break;
-            default:                                // single
-                if(player.happiness < 5) {
-                    player.updateHappiness(1);
-                } else {
-                    player.updateHappiness(2);
+    var thisObject = getActivity('sex');
+    var output = '';
+    var healthMod = 0;
+    var happinessMod = 0;
+
+    // number of times having sex
+    switch (true) {
+        case (thisObject.connection === 0):
+            output += ' You lose your virginity. ';
+            break;
+        case (thisObject.connection >= 2):
+            output += ' You have sex. ';
+            break;
+    }
+
+    var n = getRandomInt(0,4);
+    switch (person.state) {
+        case('dating'):                         // dating
+            break;
+        case('married'):                        // married
+            if (person.state = 'spouse') {
+                switch (n) {
+                    case(0):
+                        output = 'You planned on having sex but you are both too tired and just get an early night instead.'
+                        healthMod = 1;
+                        break;
+                    default:
+                        output += 'The two of you finally get around to being intimate.';
+                        happinessMod +=2;
+                        healthMod +=2;
+                        break;
                 }
                 break;
-        }
-                player.updateHappiness(10 - object.connection);
+            }
+            break;
+        default:   // single people rely more on how they're feeling
+            switch (true) {
+                case (player.happiness < 10 || person.connection <=2):
+                    player.updateHappiness(-1);
+                    person.connection -= (CONNECTION_INCREMENT+1);
+                    return('Sex turns into a conversation about how you need to find a new direction in life.' +
+                    ' Neither of you has a good time.');
+                    break;
+                case (n === 0): // you get pregnant
+                    if (player.gender === 'm') {
+                        output += 'You get her pregnant.';
+                        new Person('child','Your child', 'Your new child', 'm', {}, 10, 10, 'child', 'Your child', getCurrentStage().id+1)
+                    } else {
+                        output += 'You get pregnant.'
+                    }
+                default:
+                    player.updateHappiness(3+happinessMod);
+            }
+            break;
+    }
+
+    if (player.gender === 'm') {           // is male
+                player.updateHappiness(10 - thisObject.connection);
         player.updateHealth(1);
         return person.name + " and you have sex. Your health improves.";
     } else {                                 // is female

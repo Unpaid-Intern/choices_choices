@@ -29,14 +29,15 @@ function animateDamageText() {
 
             console.log("DAMAGE: health change: " + _HealthChange);
             $healthChange.effect("bounce", {times: 3}, "fast");
-            $healthChange.animate({
+            $healthChange
+                .animate({
+                    opacity: 1
+                  }, 50)
+                .animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "red"
             }, 1000, emptyThis());
-
-
-
 
 
         }
@@ -47,7 +48,11 @@ function animateDamageText() {
             $healthChange.text("+" + _HealthChange);
             console.log("DAMAGE: health change: " + _HealthChange);
             $healthChange.effect("bounce", {times: 3}, "fast");
-            $healthChange.animate({
+            $healthChange
+                .animate({
+                opacity: 1
+                }, 50)
+                .animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "blue"
@@ -64,7 +69,7 @@ function emptyThis()
 
 {
    // $healthChange.empty();
-    $healthChange.css("opacity", "1");
+
     $healthChange.css("fontSize", ".5em");
     $healthChange.css("color", "white");
 

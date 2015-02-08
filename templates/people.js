@@ -332,13 +332,13 @@ function Activity(id, name, firstDescription, description, connection, stageNumb
         //console.log(id + ' pushing to Stage ' + stageNumber);
         _Stages[stageNumber].activities.push(id);
     }
-    activityDeck.push(this);
+    _Activities.push(this);
 }
 
-var activityDeck = []; // activityDeck holds all Activity objects
+var _Activities = []; // _Activities holds all Activity objects
 
 function getActivity(activityId) {
-    return search(activityDeck, 'id', activityId);
+    return search(_Activities, 'id', activityId);
 }
 
 /**

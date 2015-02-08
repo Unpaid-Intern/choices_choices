@@ -108,8 +108,19 @@ function drugsSugar(person) {
 
 new Activity('sports', 'Sports', 'Take up sports', 'Play sports', 0, false);
 function sports() {
-    player.updateHealth(3);
-    return "You play sports. Your health improves!";
+    var n = getRandomInt(0,9);
+    switch (true) {
+        case (n === 0):
+            player.updateHealth(-5);
+            return 'You get hurt playing sports. You should be more careful!';
+            break;
+        default:
+            var thisActivity = getActivity('sports');
+            player.updateHealth(thisActivity.connection + 3);
+            return "Sports is good for your health";
+
+    }
+
 }
 
 new Activity('firstTooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0, false);
@@ -332,17 +343,17 @@ function babyTalk(person) {
     switch (player.attachment) {
         // Good parents
         case 0:
-            output = '<p>' + person.name + ' pay' + person.plural() + ' lots of ' +
+            output =person.name + ' pay' + person.plural() + ' lots of ' +
             'attention to you. They love you and adore you. You create a strong ' +
             'emotional connection and develop language at an advanced rate. ' +
-            'With happiness comes improved health.</p>';
+            'With happiness comes improved health.';
             player.updateHealth(3);
             player.updateHappiness(3);
             player.obituary[currentStageId].push('Received lots of love and attention.');
             return output;
         // Bad parents
         case 1:
-            output = '<p>' + person.name + ' pay' + person.plural() + ' little attention to you. Turns out that ' +
+            output = person.name + ' pay' + person.plural() + ' little attention to you. Turns out that ' +
             'weak parental relationships affect your health and happiness. Your speech also suffers.';
             player.updateHealth(-3);
             player.updateHappiness(-3);

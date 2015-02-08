@@ -26,7 +26,7 @@ function example_activity() {
  * them that run when stage is first called.
  */
 
-GAME_CARD = new Person('game', 'GAME', 'GAME', 'GAME', 'GAME', {}, 0, 10, 'parents', 'enemy',  0);
+GAME_CARD = new Person('game', 'GAME', 'GAME', 'GAME', {}, 0, 10, 'parents', 'enemy',  0);
 
 /**********************************************************************
  * STAGE INTRO

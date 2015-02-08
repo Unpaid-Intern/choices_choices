@@ -86,7 +86,12 @@ function displayEncounterChoices(choices) {
         if(person.name === 'GAME') {
             headerText = activity.name;
         } else {
-            headerText = activity.name + ' (' + person.name + ')';
+            if(person.connection === 0) {
+                var personName = person.firstDisplayName;
+            } else {
+                personName = person.name;
+            }
+            headerText = activity.name + ' (' + personName + ')';
         }
         if(activity.connection <=1){
             activityDescription = activity.firstDescription;
@@ -236,11 +241,11 @@ function drawCard(array, amt) {
 
 // GAME SETTINGS
 var CURRENT_STAGE = 0;          // currently a fixed amount
-var CONNECTION_INCREMENT = 2;   // currently a fixed amount
+var CONNECTION_INCREMENT = 1;   // currently a fixed amount
 var TURNS_PER_STAGE = 10;        // currently a fixed amount
 var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
 var _Turn = 0;                   // turn count for player starts at 0
-var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string
+var IMAGE_DIR = 'templates/img/'; //use this instead of a string
 // GAME FUNCTIONS
 
 /****************************************************
@@ -332,7 +337,7 @@ function evaluateEncounterChoice(activity, person) {
     clearOutput();
     // decrease connection to other cards
     // call activity with person as argument: activity(person)
-    var activityOutput = window[activity.id](person);
+    var activityOutput = activity.run((person));
     $outputText.append("<p>" + activityOutput + "</p>");
 
     //increase connection to cards

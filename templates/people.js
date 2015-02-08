@@ -220,31 +220,31 @@ new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
  *
  * @param {string} id
  * @param {string} name
- * @param {string}  fullName
+ * @param {string} firstDisplayName
  * @param {string}  gender
  * @param {string}  met
- * @param {Object} activities - all the activity functions by stage
+ * @param {Object} activities
  * @param {number}  connection
  * @param {number} happiness
  * @param {string} state
- * @param {string} identity
+ * @param {string} stateDescription
  * @param {number} stage
  * @constructor
  *
  *
  *****************************************************************/
 _Persons = [];
-function Person(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
+function Person(id, name, firstDisplayName, gender, met, activities, connection, happiness, state, stateDescription, stage) {
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
-    this.fullName = fullName;     // for special occasions (driver's license, etc.)
+    this.firstDisplayName = firstDisplayName;     // for special occasions (driver's license, etc.)
     this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
-    this.met = met;                 // how this character came into the player's life
-    this.activities = activities;   // used to
-    this.connection = connection;   //
-    this.happiness = happiness;     //
+    this.met = met;                 // '-' --- to be removed
+    this.activities = activities;   // all the activity functions by stage
+    this.connection = connection;   // increments as player interacts more
+    this.happiness = happiness;     // happiness is currently how you win the game
     this.state = state;             //
-    this.identity = identity;       //
+    this.stateDescription = stateDescription;       //
     this.stage = stage;             // stage at which character can be drawn
 
     _Persons.push(this);

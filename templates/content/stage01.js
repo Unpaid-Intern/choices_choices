@@ -2,7 +2,7 @@
 /*****************************************************************************
  * ACTIVITIES
  * The Activity class currently is paired with a function that shares the same id.
- * an Activity object is accessed by search(activityDeck, 'id', <activityIdString>)
+ * an Activity object is accessed by search(_Activities, 'id', <activityIdString>)
  * Person objects have an activities field which contain these activityIdStrings
  *
  * Objects are created right before their function. The function will later be made a method but for now we're testing

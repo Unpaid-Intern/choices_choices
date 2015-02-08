@@ -32,7 +32,7 @@ var $happinessChange = $(".happiness-change");
  **************************************************/
 
 function updateStatus() {
-    if(turn === 1) {
+    if(_Turn === 1) {
         $playerName.text(player.name);
         $playerState.text(player.state);
         $playerHealth.text(player.health);
@@ -57,7 +57,7 @@ function updateStatus() {
 
     }
     $playerState.text(player.state);
-    $currentTurn.text(turn);
+    $currentTurn.text(_Turn);
 }
 
 /****************************************************
@@ -239,7 +239,7 @@ var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 2;   // currently a fixed amount
 var TURNS_PER_STAGE = 10;        // currently a fixed amount
 var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
-var turn = 0;                   // turn count for player starts at 0
+var _Turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = '/choices_choices/templates/img/'; //use this instead of a string
 // GAME FUNCTIONS
 
@@ -352,7 +352,7 @@ function renderGame() {
         stageIntro();
     }
     var playerDeck = getChoices(AMT_CHOICES);
-    turn += 1;
+    _Turn += 1;
     $("#input-container").html("");
     // display choices
     updateStatus();

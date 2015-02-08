@@ -1,5 +1,5 @@
 /*
-activityDeck.push(new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' ));
+new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' );
 stages[0].activities.push('example_activity');
 function example_activity() {
     var output ='';
@@ -27,7 +27,7 @@ function example_activity() {
  * them that run when stage is first called.
  */
 
-GAME_CARD = createPerson('game', 'GAME', 'GAME', 'GAME', 'GAME', {}, 0, 10, 'parents', 'enemy',  0);
+GAME_CARD = new Person('game', 'GAME', 'GAME', 'GAME', 'GAME', {}, 0, 10, 'parents', 'enemy',  0);
 
 /**********************************************************************
  * STAGE INTRO

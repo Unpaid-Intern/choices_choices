@@ -2,8 +2,8 @@
 /*****************************************************************************
  * ACTIVITIES
  * The Activity class currently is paired with a function that shares the same id.
- * an Activity object is accessed by search(activity_deck, 'id', <activity_id_string>)
- * Person objects have an activities field which contain these activity_id_strings
+ * an Activity object is accessed by search(activityDeck, 'id', <activityIdString>)
+ * Person objects have an activities field which contain these activityIdStrings
  *
  * Objects are created right before their function. The function will later be made a method but for now we're testing
  * to see if we like the basic structure of activities as objects.
@@ -24,19 +24,19 @@
  ************************************************************************************ */
 
 /**
- * STAGE ACTIVITY: first_grade
+ * STAGE ACTIVITY: firstGrade
  * @activities: bully, smoke, play
  *
  */
 
-activity_deck.push(new Activity('first_grade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0));
-stages[1].activities.push('first_grade');
-function first_grade() {
+activityDeck.push(new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0));
+stages[1].activities.push('firstGrade');
+function firstGrade() {
     var output ='';
     var n = getRandomInt(0,0);
     switch (n) {
         case 0:
-            createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'bully', 'hot_girl', 1);
+            createPerson('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'bully', 'hot_girl', 1);
             createPerson('bully', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
             createPerson('jock', 'Percy', 'Percival Willackers', 'm', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
             createPerson('nerd', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
@@ -44,17 +44,17 @@ function first_grade() {
             player.updateObituary('Unpopular in school.');
             break;
         case 1:
-            createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
+            createPerson('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;
         case 2:
-            createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
+            createPerson('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;
         case 3:
-            createPerson('school_crush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
+            createPerson('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;
@@ -67,7 +67,7 @@ function first_grade() {
  returns. The earlier the habit is formed, the harder it is to quit. Stress can affect a smoker and long term puts
  the person at risk for lung cancer.
  */
-activity_deck.push(new Activity('smoke', 'Smoking', 'First Description Placeholder', 'Description Placeholder', 0));
+activityDeck.push(new Activity('smoke', 'Smoking', 'First Description Placeholder', 'Description Placeholder', 0));
 function smoke(person) {
     if (player.attributes['smoking']) {
     }
@@ -75,13 +75,13 @@ function smoke(person) {
     return person.name + " offers you a cigarrette. Your health = " + player.health;
 }
 
-activity_deck.push(new Activity('date', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0));
+activityDeck.push(new Activity('date', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0));
 function date(person) {
     player.updateHealth(1);
     return person.name + " and you date. Your health improves."
 }
 
-activity_deck.push(new Activity('bully','Example First Description', 'Example activity description', 'Button Name', '0' ));
+activityDeck.push(new Activity('bully','Example First Description', 'Example activity description', 'Button Name', '0' ));
 function bully() {
     var output ='';
     var n = getRandomInt(0,3);
@@ -118,7 +118,7 @@ function bully() {
  */
 
 
-activity_deck.push(new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0));
+activityDeck.push(new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0));
 function drink(person) {
     player.updateHappiness(1);
     player.updateHealth(-1);
@@ -126,7 +126,7 @@ function drink(person) {
     return person.name + " and you go drinking." + ". Your health = " + player.health;
 }
 
-activity_deck.push(new Activity('party', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0));
+activityDeck.push(new Activity('party', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0));
 function party(person) {
     player.happiness += 1;
     player.updateHealth(0);

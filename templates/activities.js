@@ -1,5 +1,5 @@
 /*
-activity_deck.push(new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' ));
+activityDeck.push(new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' ));
 stages[0].activities.push('example_activity');
 function example_activity() {
     var output ='';
@@ -36,13 +36,13 @@ GAME_CARD = createPerson('game', 'GAME', 'GAME', 'GAME', 'GAME', {}, 0, 10, 'par
  * but there could be at some point.
  *
  * Stageintro is
- * TODO: stage1 - set_hobbies
- * TODO: stage2 - set_social_identity
- * TODO: stage3 - set_profession, set_kids, set_relationships
- * TODO: stage4 - set_kids, set_profession
+ * TODO: stage1 - setHobbies
+ * TODO: stage2 - setSocial_identity
+ * TODO: stage3 - setProfession, set_kids, set_relationships
+ * TODO: stage4 - setKids, set_profession
  */
 
 function stageIntro() {
     var CURRENT_STAGE = getCurrentStage();
-    $current_stage.html(CURRENT_STAGE.name);
+    $currentStage.html(CURRENT_STAGE.name);
 }

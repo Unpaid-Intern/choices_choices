@@ -30,7 +30,7 @@
  */
 
 activityDeck.push(new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0));
-stages[1].activities.push('firstGrade');
+_stages[1].activities.push('firstGrade');
 function firstGrade() {
     var output ='';
     var n = getRandomInt(0,0);

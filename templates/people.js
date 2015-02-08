@@ -23,7 +23,7 @@ function getRandomInt(min, max) {
  * @param prompts
  * @constructor
  * **************************************************************************** */
-
+var _stages = [];
  function Stage(id, name, description, activities, prompts) {
     this.id = id;
     this.name = name;
@@ -31,14 +31,13 @@ function getRandomInt(min, max) {
     this.activities = activities;
     this.prompts = prompts;
 }
-var stages = [];
 
-stages.push(new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []));
-stages.push(new Stage(1, 'Childhood', 'You could be president.',[], []));
-stages.push(new Stage(2, 'Teen years', 'You have so much potential!',[], []));
-stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []));
-stages.push(new Stage(4, 'Adulthood', 'You are an adult now.',[], []));
-stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.',[], []));
+_stages.push(new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []));
+_stages.push(new Stage(1, 'Childhood', 'You could be president.',[], []));
+_stages.push(new Stage(2, 'Teen years', 'You have so much potential!',[], []));
+_stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []));
+_stages.push(new Stage(4, 'Adulthood', 'You are an adult now.',[], []));
+_stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.',[], []));
 
 /*************************************************************************************
  * GOALS
@@ -200,7 +199,7 @@ var personDeck = [];
 
 function createPerson(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
     var newPerson = new Person(id, name, fullName, gender, met, {}, connection, happiness, state, identity, stage);
-    for (var i=0; i < stages.length; i++) {
+    for (var i=0; i < _stages.length; i++) {
         if (activities[i]) {
             newPerson.activities[i]= activities[i];
         } else {
@@ -235,7 +234,7 @@ function createActivity(id, name, firstDescription, description, connection, sta
     var newActivity = activityDeck.push(id, name, firstDescription, description, connection);
     activityDeck.push(newActivity);
     if(isNaN(stageNumber) === false) {
-        stages[stageNumber].activities.push(newActivity.id);
+        _stages[stageNumber].activities.push(newActivity.id);
     }
     return(newActivity);
 }
@@ -260,7 +259,7 @@ function getFunctionName() {
  */
 
 function removeActivityFromPerson(activityId, person) {
-    for(var i=0; i < stages.length; i++) {
+    for(var i=0; i < _stages.length; i++) {
         var index = person.activities[i].indexOf(activityId);
         if (index >= -1) {
             person.activities[i].splice(index);

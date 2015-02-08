@@ -17,7 +17,8 @@ var player = {
     attributes: ['single'],
     addictions: [],
     obituary: {1:[],2:[],3:[],4:[],5:[],0:[]},
-    causeOfDeath: 'Unknown'
+    causeOfDeath: 'Unknown',
+    personDeck:[]
 };
 
 player.subjective = function() {
@@ -295,7 +296,7 @@ function search(myArray, property, nameKey){
  * @returns {*}
  ***************************************************/
 function getCurrentStage() {
-    return stages[Math.floor(turn/TURNS_PER_STAGE)];
+    return _stages[Math.floor(turn/TURNS_PER_STAGE)];
 }
 
 /****************************************************
@@ -366,7 +367,7 @@ function getChoices(amt) {
     // - they have instructions for the current stage AND
     // - they're assigned to this stage OR they have a preexisting connection
     var personChoices = [];
-    var stageActivities = stages[CURRENT_STAGE.id].activities;
+    var stageActivities = _stages[CURRENT_STAGE.id].activities;
     if(stageActivities.length > 0) {
         person = getPerson('game');
         activity = getActivity(stageActivities.shift());

@@ -11,7 +11,7 @@
  */
 
 activityDeck.push(new Activity('birth','Your Birth', 'You are only born once!', 'Be born!', '0' ));
-stages[0].activities.push('birth');
+_stages[0].activities.push('birth');
 function birth() {
     GAME_CARD.addActivity(0, 'drugsSugar');
     GAME_CARD.addActivity(1, 'drugsSugar');
@@ -67,53 +67,42 @@ function birth() {
 
 activityDeck.push(new Activity('drugsSugar','Try Sugar', 'Eat some sugar', 'Sugar is very addictive.', '0' ));
 function drugsSugar(person) {
+    var thisActivityObject = getActivity('drugsSugar');
     var output ='';
     var stageId = getCurrentStage().id;
+    var n = getRandomInt(0,5);
+    thisActivityObject.connection += n;
     switch (true) {
-        case (stageId === 0):         // early onset
-            var n = getRandomInt(0,0);
-            switch (true) {
-                case (n === 5):
-                    output += 'You eat many sugary treats. You LOVE it. You must keep eating!!!';
-                    player.updateHealth(-2);
-                    buyDrugs(person);
-                    break;
-                case (n === 4 ):
-                    output += 'You have a strong and negative reaction to sugar.';
-                    player.updateHealth(-1);
-                    player.updateHappiness(1);
-                    break;
-                case (n===3 || n===2):
-                    output += 'You eat many healthy treats. While you love them, they are not exactly healthy for ' +
-                    'you and your health suffers.';
-                    player.updateHealth(-1);
-                    player.updateHappiness(1);
-                    break;
-                default:
-                    player.updateHealth(1);
-                    output += 'You are exposed to sugar in moderation and you like it.';
+        case (n >= 20): // you are totally adduicted. you get obesity if you don't already have it.
+            if (player.diseases['sugar'] === -1) {
+                player.diseases.push('obesity');
             }
-            break;
-        case (stageId === 1):         // early onset
-            switch (n) {
-                case 0:
-                    output += '';
-                    break;
-                case 1:
-                    output += '';
-                    break;
+                if (player.addictions['sugar'] === -1) {
+                player.addictions.push('sugar');
+            } else {
+                'Yo'
             }
+            output += 'You are completely addicted to sugar! Also you have ';
+            player.updateHealth(-2);
+            drugsSugar(person);
+            thisActivityObject.connection += 2;
             break;
-        default:                      // no problem
-            switch (n) {
-                case 0:
-                    output += '';
-                    break;
-                case 1:
-                    output += '';
-                    break;
-            }
+        case (n >= 15 ):
+            output += 'You have a strong and negative reaction to sugar.';
+            player.updateHealth(-1);
+            player.updateHappiness(1);
+            thisActivityObject.connection += 2;
             break;
+        case (n===3 || n===2):
+            output += 'You eat many healthy treats. While you love them, they are not exactly healthy for ' +
+            'you and your health suffers.';
+            player.updateHealth(-1);
+            player.updateHappiness(1);
+            thisActivityObject.connection += 2;
+            break;
+        default:
+            player.updateHealth(1);
+            output += 'You are exposed to sugar in moderation and you like it.';
     }
     return output;
 }
@@ -137,7 +126,7 @@ function firstTooth(person) {
  */
 
 activityDeck.push(new Activity('setSocialClass','Discover Social Class', 'Find out what social class you are', 'Discover', '0' ));
-stages[0].activities.push('setSocialClass');
+_stages[0].activities.push('setSocialClass');
 function setSocialClass() {
     var output = "";
     var n = getRandomInt(0,2);
@@ -145,8 +134,8 @@ function setSocialClass() {
         case 0:
             player.socialClass = ['poor', 'Poor'];
             output += "You are born into a poor family.";
-            createPerson('hobo','Hobo Pete', 'xxx', 'm', 'the street', {1:['buyDrugs'], 2:['buyDrugs'], 3:['buyDrugs'], 4:['buyDrugs']}, 0, 10, 'friend',  'friend', 5);
-            createPerson('churchPeer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 5);
+            createPerson('hobo','Hobo Pete', 'xxx', 'm', 'the street', {1:['buyDrugs'], 2:['buyDrugs'], 3:['buyDrugs'], 4:['buyDrugs']}, 0, 10, 'friend',  'friend', 1);
+            createPerson('churchPeer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 1);
             // TODO: push GAME activities to GAME person
             player.updateObituary('Born into poverty.');
             switch (getRandomInt(0,1)) {
@@ -283,13 +272,13 @@ function sex(person) {
 }
 
 /**
- * STAGE ACTIVITY: SET _ARENTS
+ * STAGE ACTIVITY: setParents
  * @activities: babyTalk, babyFeeding, babysitting, play, monsterDance
  * @game_activities firstTooth
  */
 
 activityDeck.push(new Activity('setParents','Your Parents', 'You can choose your friends but you don\'t get to choose your family.', 'Be born!', '0' ));
-stages[0].activities.push('setParents');
+_stages[0].activities.push('setParents');
 function setParents() {
     var output ='';
     var n = getRandomInt(0,9);

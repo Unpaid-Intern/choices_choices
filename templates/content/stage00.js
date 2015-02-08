@@ -10,8 +10,7 @@
  *
  */
 
-new Activity('birth','Your Birth', 'You are only born once!', 'Be born!', '0' );
-_Stages[0].activities.push('birth');
+new Activity('birth','Your Birth', 'You are only born once!', 'Be born!', 0, 0);
 function birth() {
     GAME_CARD.addActivity(0, 'drugsSugar');
     GAME_CARD.addActivity(1, 'drugsSugar');
@@ -65,7 +64,7 @@ function birth() {
     return output;
 }
 
-new Activity('drugsSugar','Try Sugar', 'Eat some sugar', 'Sugar is very addictive.', '0' );
+new Activity('drugsSugar','Try Sugar', 'Eat some sugar', 'Sugar is very addictive.', 0 , false);
 function drugsSugar(person) {
     var thisActivityObject = getActivity('drugsSugar');
     var output ='';
@@ -80,7 +79,7 @@ function drugsSugar(person) {
                 if (player.addictions['sugar'] === -1) {
                 player.addictions.push('sugar');
             } else {
-                'Yo'
+
             }
             output += 'You are completely addicted to sugar! Also you have ';
             player.updateHealth(-2);
@@ -107,13 +106,13 @@ function drugsSugar(person) {
     return output;
 }
 
-new Activity('sports', 'Sports', 'Take up sports', 'Play sports', 0);
+new Activity('sports', 'Sports', 'Take up sports', 'Play sports', 0, false);
 function sports() {
     player.updateHealth(3);
     return "You play sports. Your health improves!";
 }
 
-new Activity('firstTooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0);
+new Activity('firstTooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0, false);
 function firstTooth(person) {
     player.updateHealth(1);
     removeActivityFromPerson(getFunctionName(), person);
@@ -125,8 +124,7 @@ function firstTooth(person) {
  * @activities: buyDrugs, church, sex
  */
 
-new Activity('setSocialClass','Discover Social Class', 'Find out what social class you are', 'Discover', '0' );
-_Stages[0].activities.push('setSocialClass');
+new Activity('setSocialClass','Discover Social Class', 'Find out what social class you are', 'Discover', 0, 0);
 function setSocialClass() {
     var output = "";
     var n = getRandomInt(0,2);
@@ -143,7 +141,7 @@ function setSocialClass() {
                     output = ' Your are abandoned at an orphanage. You are raised ' +
                     'without any knowledge of your past.' +
                     'While you are there you develop rickets.';
-                    var attribute = search(attributes, 'id', 'rickets');
+                    var attribute = search(_Attributes, 'id', 'rickets');
                     attribute.connection += 2;
                     player.diseases.push('rickets');
                     player.updateObituary('Caught rickets due to poor nutrition.');
@@ -183,7 +181,7 @@ function setSocialClass() {
     return output;
 }
 
-new Activity('buyDrugs','Try to buy drugs', 'Buy drugs', 'Button Name', '0' );
+new Activity('buyDrugs','Try to buy drugs', 'Buy drugs', 'Button Name', 0, false);
 function buyDrugs() {
     var output ='';
     var n = getRandomInt(0,1);
@@ -223,7 +221,7 @@ function buyDrugs() {
     return output;
 }
 
-new Activity('church','Example First Description', 'Example activity description', 'Button Name', '0' );
+new Activity('church','Example First Description', 'Example activity description', 'Button Name', 0, false);
 function church() {
     var output ='';
     var n = getRandomInt(0,3);
@@ -244,7 +242,7 @@ function church() {
     return output;
 }
 
-new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0);
+new Activity('sex', 'Sex', 'Sex can be healthy and happy or isolating and depressing', 'Description Placeholder', 0, false);
 function sex(person) {
     var object = getActivity('sex');
     if (player.gender === 'm') {           // is male
@@ -277,8 +275,8 @@ function sex(person) {
  * @game_activities firstTooth
  */
 
-new Activity('setParents','Your Parents', 'You can choose your friends but you don\'t get to choose your family.', 'Be born!', '0' );
-_Stages[0].activities.push('setParents');
+new Activity('setParents','Your Parents', 'You can choose your friends but you don\'t get to choose your family.', 'Be born!', 0, 0);
+//_Stages[0].activities.push('setParents');
 function setParents() {
     var output ='';
     var n = getRandomInt(0,9);
@@ -324,7 +322,7 @@ function setParents() {
  */
 
 new Activity('babyTalk', 'Baby Talk', 'I wonder what those adults are saying!',
-    'Focus on your new found language skills', 0);
+    'Focus on your new found language skills', 0, false);
 function babyTalk(person) {
     var output;
     var currentStageId = getCurrentStage().id;
@@ -360,7 +358,6 @@ function babyTalk(person) {
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
-new Activity('babyFeeding', 'Baby Feeding', 'Nipples!', 'Feeling hungry?', 0);
 function babyFeeding(person) {
     var output;
     var currentStageId = getCurrentStage().id;
@@ -373,13 +370,13 @@ function babyFeeding(person) {
     switch (true) {
         // Good parents
         case (num <=10):
-            output = '<p>You drink of the finest breast milk.</p>';
+            output = 'You drink of the finest breast milk.';
             player.updateHealth(10);
-            output += '<p>Health: ' + getSignedNumber(3) + '<br>' + 'Happiness: ' + getSignedNumber(3) + '</p>';
+            player.updateHappiness(3);
             break;
         // Bad parents
         default :
-            output = '<p>Your parents starve you.</p>';
+            output = 'Your parents starve you.';
             player.updateHealth(-5);
             player.updateHappiness(-3);
             player.obituary[currentStageId].push('You were fed rocks as a child..');
@@ -391,13 +388,14 @@ function babyFeeding(person) {
     }
     return output;
 }
+new Activity('babyFeeding', 'Baby Feeding', 'Nipples!', 'Feeling hungry?', 0, false);
 
 /*
  Nutrition is very important for babies.
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
-new Activity('babysitting', 'Babysitting', 'You are left at home.', 'You are left at home.', 0);
+new Activity('babysitting', 'Babysitting', 'You are left at home.', 'You are left at home.', 0, false);
 function babysitting(person) {
     var output = '';
     player.updateHealth(1);
@@ -414,7 +412,7 @@ function babysitting(person) {
     return output;
 }
 
-new Activity('play', 'Play', 'Play.', 'PLAY', 0);
+new Activity('play', 'Play', 'Play.', 'PLAY', 0, false);
 function play(person) {
     var output ='';
     var n = getRandomInt(0,4) + person.connection;
@@ -443,7 +441,7 @@ function play(person) {
  Monster befriends sad kids and bites happy ones. This makes the monster accessible in later levels.
  */
 
-new Activity('monsterDance', 'Monster Dance', 'Dance the monster dance with the monster under the bed.', 'Dance with a monster', 0);
+new Activity('monsterDance', 'Monster Dance', 'Dance the monster dance with the monster under the bed.', 'Dance with a monster', 0, false);
 function monsterDance(person) {
     var output = person.name + " invites you under the bed to dance the monster dance.";
     console.log(player.happiness);
@@ -460,7 +458,7 @@ function monsterDance(person) {
 /*
  Using the monster to kill can act as garbage collection for unused people. It should have unpredictable consequences.
  */
-new Activity('kill', 'Play a little game', 'Your monster friend has an evil look in his eyes', 'Your monster friend has an evil look in his eyes', 0);
+new Activity('kill', 'Play a little game', 'Your monster friend has an evil look in his eyes', 'Your monster friend has an evil look in his eyes', 0, false);
 function kill(person) {
     shuffle(player.personDeck);
     player.updateHappiness(1);

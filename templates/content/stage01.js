@@ -29,8 +29,8 @@
  *
  */
 
-new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0);
-_Stages[1].activities.push('firstGrade');
+new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0, 1);
+//_Stages[1].activities.push('firstGrade');
 function firstGrade() {
     var output ='';
     var n = getRandomInt(0,0);
@@ -67,7 +67,7 @@ function firstGrade() {
  returns. The earlier the habit is formed, the harder it is to quit. Stress can affect a smoker and long term puts
  the person at risk for lung cancer.
  */
-new Activity('smoke', 'Smoking', 'First Description Placeholder', 'Description Placeholder', 0);
+new Activity('smoke', 'Smoking', 'First Description Placeholder', 'Description Placeholder', 0, false);
 function smoke(person) {
     if (player.attributes['smoking']) {
     }
@@ -75,13 +75,13 @@ function smoke(person) {
     return person.name + " offers you a cigarrette. Your health = " + player.health;
 }
 
-new Activity('date', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0);
+new Activity('date', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0, false);
 function date(person) {
     player.updateHealth(1);
     return person.name + " and you date. Your health improves."
 }
 
-new Activity('bully','Example First Description', 'Example activity description', 'Button Name', '0' );
+new Activity('bully','Example First Description', 'Example activity description', 'Button Name', 0 , false);
 function bully() {
     var output ='';
     var n = getRandomInt(0,3);
@@ -118,7 +118,7 @@ function bully() {
  */
 
 
-new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0);
+new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0, false);
 function drink(person) {
     player.updateHappiness(1);
     player.updateHealth(-1);
@@ -126,7 +126,7 @@ function drink(person) {
     return person.name + " and you go drinking." + ". Your health = " + player.health;
 }
 
-new Activity('party', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0);
+new Activity('party', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0, false);
 function party(person) {
     player.happiness += 1;
     player.updateHealth(0);

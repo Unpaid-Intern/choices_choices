@@ -44,12 +44,12 @@ stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.'));
  * TODO: goals should be chosen at the start of the game and define end conditions.
  * **************************************************************************** */
 
-function Goal(id, name, description, stat, stat_measure) {
+function Goal(id, name, description, stat, statMeasure) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.stat = stat;
-    this.stat_measure = stat_measure;
+    this.statMeasure = statMeasure;
 }
 
 var goals = [];
@@ -104,8 +104,9 @@ attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it ha
  * Persons define activities that we can engage in.
  * GAME is a special person which acts as a kind of npc to have personless interactions.
  *
+ * @param {string} id
  * @param {string} name
- * @param {string}  full_name
+ * @param {string}  fullName
  * @param {string}  gender
  * @param {string}  met
  * @param {Object} activities - all the activity functions by stage
@@ -119,10 +120,10 @@ attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it ha
  *
  *****************************************************************/
 
-function Person(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
+function Person(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
-    this.full_name = full_name;     // for special occasions (driver's license, etc.)
+    this.fullName = fullName;     // for special occasions (driver's license, etc.)
     this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
     this.met = met;                 // how this character came into the player's life
     this.activities = activities;   // used to
@@ -172,17 +173,17 @@ Person.prototype.plural = function() {
     }
 };
 
-Person.prototype.addActivity = function(stage, activity_id) {
-    this.activities[stage].push(activity_id);
+Person.prototype.addActivity = function(stage, activityId) {
+    this.activities[stage].push(activityId);
 };
 
-var person_deck = [];
+var personDeck = [];
 
 /**
  *
  * @param {string} id
  * @param {string} name
- * @param {string} full_name
+ * @param {string} fullName
  * @param {string} gender
  * @param {string} met
  * @param {object} activities
@@ -194,50 +195,50 @@ var person_deck = [];
  * @returns {Person}
  */
 
-function createPerson(id, name, full_name, gender, met, activities, connection, happiness, state, identity, stage) {
-    var new_person = new Person(id, name, full_name, gender, met, {}, connection, happiness, state, identity, stage);
+function createPerson(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
+    var newPerson = new Person(id, name, fullName, gender, met, {}, connection, happiness, state, identity, stage);
     for (var i=0; i < stages.length; i++) {
         if (activities[i]) {
-            new_person.activities[i]= activities[i];
+            newPerson.activities[i]= activities[i];
         } else {
-            new_person.activities[i] = [];
+            newPerson.activities[i] = [];
         }
     }
-    person_deck.push(new_person);
-    return new_person;
+    personDeck.push(newPerson);
+    return newPerson;
 }
 
-function getPerson(person_id) {
-    return search(person_deck, 'id', person_id);
+function getPerson(personId) {
+    return search(personDeck, 'id', personId);
 }
 
 function removePerson(person) {
-    person_deck.filter(function (el) {return el.id !== person.id;});
+    personDeck.filter(function (el) {return el.id !== person.id;});
 }
 
 
 
-function Activity(id, name, first_description, description, connection) {
+function Activity(id, name, firstDescription, description, connection) {
     this.id = id;
     this.name = name;
-    this.first_description = first_description;
+    this.firstDescription = firstDescription;
     this.description = description;
     this.connection = connection;
 }
 
-var activity_deck = []; // activity_deck holds all Activity objects
+var activityDeck = []; // activityDeck holds all Activity objects
 
-function createActivity(id, name, first_description, description, connection, stage_number) {
-    var new_activity = activity_deck.push(id, name, first_description, description, connection);
-    activity_deck.push(new_activity);
-    if(isNaN(stage_number) === false) {
-        stages[stage_number].activities.push(new_activity.id);
+function createActivity(id, name, firstDescription, description, connection, stageNumber) {
+    var newActivity = activityDeck.push(id, name, firstDescription, description, connection);
+    activityDeck.push(newActivity);
+    if(isNaN(stageNumber) === false) {
+        stages[stageNumber].activities.push(newActivity.id);
     }
-    return(new_activity);
+    return(newActivity);
 }
 
-function getActivity(activity_id) {
-    return search(activity_deck, 'id', activity_id);
+function getActivity(activityId) {
+    return search(activityDeck, 'id', activityId);
 }
 
 /**
@@ -251,13 +252,13 @@ function getFunctionName() {
 
 /**
  * cycles through an Person's stages, removing the activity entirely from that person
- * @param activity_id
+ * @param activityId
  * @param person
  */
 
-function removeActivityFromPerson(activity_id, person) {
+function removeActivityFromPerson(activityId, person) {
     for(var i=0; i < stages.length; i++) {
-        var index = person.activities[i].indexOf(activity_id);
+        var index = person.activities[i].indexOf(activityId);
         if (index >= -1) {
             person.activities[i].splice(index);
         }

@@ -2,7 +2,7 @@ var _ShakeTrigger;
 
 /**
  * the player stores basic variables about the player's character.
- * @type {{name: String("Nathan"), state: String("alive"), gender: String("m"), health: number, happiness: number, inventory: Array, attachment: number, diseases: Array, attributes: Array, addictions: Array, obituary: {1: Array, 2: Array, 3: Array, 4: Array, 5: Array, 0: Array}, cause_of_death: String("Unknown")}}
+ * @type {{name: String("Nathan"), state: String("alive"), gender: String("m"), health: number, happiness: number, inventory: Array, attachment: number, diseases: Array, attributes: Array, addictions: Array, obituary: {1: Array, 2: Array, 3: Array, 4: Array, 5: Array, 0: Array}, causeOfDeath: String("Unknown")}}
  */
 var player = {
     name: "Nathan",
@@ -16,7 +16,7 @@ var player = {
     attributes: ['single'],
     addictions: [],
     obituary: {1:[],2:[],3:[],4:[],5:[],0:[]},
-    cause_of_death: 'Unknown'
+    causeOfDeath: 'Unknown'
 };
 
 player.subjective = function() {
@@ -61,8 +61,8 @@ player.plural = function() {
     }
 };
 
-player.updateObituary = function(update_text) {
-    this.obituary[getCurrentStage().id].push(update_text);
+player.updateObituary = function(updateText) {
+    this.obituary[getCurrentStage().id].push(updateText);
     console.log(player.obituary[getCurrentStage().id]);
 };
 
@@ -81,15 +81,15 @@ player.updateHealth = function(number) {
 
 
     this.health += number;
-    $player_health.text(player.health);
-    $output_results.append('<p>Health: ' + getSignedNumber(number) + '</p>');
+    $playerHealth.text(player.health);
+    $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
 
 };
 
 player.updateHappiness = function(number) {
     this.happiness += number;
-    $player_happiness.text(player.happiness);
-    $output_results.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
+    $playerHappiness.text(player.happiness);
+    $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
 };
 
 player.removeInventory = function(item) {
@@ -114,17 +114,17 @@ player.removeAttribute = function(attr) {
  *
  *************************************************************************/
 
-var output_text = $(".output-text");
-var $output_results = $(".output-results");
-var output_prompt = $(".output-prompt");
-var input_container = $("#input-container");
-var $current_stage = $('.current-stage');
-var $current_turn = $('.current-turn');
-var $player_name = $('.player-name');
-var $player_state = $('.player-state');
-var $player_health = $('.player-health');
-var $player_happiness = $('.player-happiness');
-var $encounter_choice = $('.encounter-choice');
+var $outputText = $(".output-text");
+var $outputResults = $(".output-results");
+var $outputPrompt = $(".output-prompt");
+var $inputContainer = $("#input-container");
+var $currentStage = $('.current-stage');
+var $currentTurn = $('.current-turn');
+var $playerName = $('.player-name');
+var $playerState = $('.player-state');
+var $playerHealth = $('.player-health');
+var $playerHappiness = $('.player-happiness');
+var $encounterChoice = $('.encounter-choice');
 
 /**************************************************************************
  *
@@ -138,10 +138,10 @@ var $encounter_choice = $('.encounter-choice');
 
 function updateStatus() {
     if(turn === 1) {
-        $player_name.text(player.name);
-        $player_state.text(player.state);
-        $player_health.text(player.health);
-        $player_happiness.text(player.happiness);
+        $playerName.text(player.name);
+        $playerState.text(player.state);
+        $playerHealth.text(player.health);
+        $playerHappiness.text(player.happiness);
     }
 
     //store the image in a variable to prevent removal on refresh
@@ -155,8 +155,8 @@ function updateStatus() {
     soundTrigger();
     //this function evaluates the current state of _ShakeTrigger and initiates the appropriate animation
     shakeStatusImg();
-    $player_state.text(player.state);
-    $current_turn.text(turn);
+    $playerState.text(player.state);
+    $currentTurn.text(turn);
 
 }
 
@@ -164,11 +164,11 @@ function updateStatus() {
  * clearOutput: clears the output screen
  ***************************************************/
 function clearOutput() {
-    //reset output_text
-    output_text.html('');
-    output_prompt.html('<p>' + getCurrentStage().description + '</p>');
-    input_container.html('');
-    $output_results.html('');
+    //reset $outputText
+    $outputText.html('');
+    $outputPrompt.html('<p>' + getCurrentStage().description + '</p>');
+    $inputContainer.html('');
+    $outputResults.html('');
 }
 
 /****************************************************
@@ -180,25 +180,25 @@ function displayEncounterChoices(choices) {
     for (i = 0; i < choices.length; i++) {
         var person = choices[i][1];
         var activity = choices[i][0];
-        var header_text = '';
-        var activity_description = '';
+        var headerText = '';
+        var activityDescription = '';
 
         if(person.name === 'GAME') {
-            header_text = activity.name;
+            headerText = activity.name;
         } else {
-            header_text = activity.name + ' (' + person.name + ')';
+            headerText = activity.name + ' (' + person.name + ')';
         }
         if(activity.connection <=1){
-            activity_description = activity.first_description;
+            activityDescription = activity.firstDescription;
         } else {
-            activity_description = activity.description
+            activityDescription = activity.description
         }
 
-        input_container.append(
+        $inputContainer.append(
             '<div class="span3"> <div class="encounter-choice hero-unit" choice-num="'+ i + '">'
             + '<img class="activity-img pull-right" src="'+IMAGE_DIR+'beverage.png">'
-            + "<h1>" + header_text + "</h1>"
-            + "<p class='choice-description'>" + activity_description +"</p>"
+            + "<h1>" + headerText + "</h1>"
+            + "<p class='choice-description'>" + activityDescription +"</p>"
             + "<button class='btn btn-primary choice-button btn-large' choice-num='" + i + "'>"+ 'CHOOSE' + "</button>"
             + "</div><!-- end span3 >"
         );
@@ -209,7 +209,7 @@ function displayEncounterChoices(choices) {
         //var choice = drawCard(choices, 1)[0]; // choose random card (to play game automatically)
         var choice_num = $(this).attr('choice-num');
         var choice = choices[choice_num];       // get array id of choice
-        // note: choices are an array: ['activity_id', Person]
+        // note: choices are an array: ['activityId', Person]
         evaluateEncounterChoice(choice[0], choice[1]);      // evaluates encounter
         console.log('chose: ' + choice[0].id + '/' + choice[1].id);
     });
@@ -218,23 +218,23 @@ function displayEncounterChoices(choices) {
 
 /**
  * TODO: duplicates display encounter choices. this is not entirely clear how to do.
- * @param {object} minigame - an activity object that's a minigame
+ * @param {object} miniGame - an activity object that's a miniGame
  */
 
-function displayMinigameChoices(minigame) {
-    var choices = minigame.choices;
-    var choices_html ='<ul class="minigame-choices">';
+function displayminiGameChoices(miniGame) {
+    var choices = miniGame.choices;
+    var choicesHtml ='<ul class="minigame-choices">';
     for (var i=1; i < choices.length; i++) {
-        choices_html += '<li class="minigame-choice">' +
+        choicesHtml += '<li class="minigame-choice">' +
         '<a href="#" id="minigame-choice-'+ i + '" choice-data="'+ i +'>'+choices[i]+'</a></li>';
     }
-    choices_html += '</ul>';
+    choicesHtml += '</ul>';
 
-    $('.minigameChoice').click(function(){
-        minigame.run()
+    $('.minigame-choice').click(function(){
+        miniGame.run()
     });
 
-    output_text += choices_html;
+    $outputText += choicesHtml;
 }
 
 
@@ -316,22 +316,22 @@ function shuffle(array) {
  ***************************************************/
 
 function drawCard(array, amt) {
-    var drawn_cards = [];
+    var drawnCards = [];
     array = shuffle(array);
     for (var i=0;i<array.length;i++) {
-        if (drawn_cards.length < amt) {
+        if (drawnCards.length < amt) {
             var card = array[i];
             // remove duplicate cards
-            for (var j =0; j < drawn_cards.length; j++) {
-                if (JSON.stringify(card) === JSON.stringify(drawn_cards[j])) {
-                    drawn_cards.splice(j,1);
+            for (var j =0; j < drawnCards.length; j++) {
+                if (JSON.stringify(card) === JSON.stringify(drawnCards[j])) {
+                    drawnCards.splice(j,1);
                 }
             }
             // add chosen card
-            drawn_cards.push(card);
+            drawnCards.push(card);
         }
     }
-    return drawn_cards;
+    return drawnCards;
 }
 
 // GAME SETTINGS
@@ -353,38 +353,38 @@ function getChoices(amt) {
     // 1. creates array of person choices based on
     // - they have instructions for the current stage AND
     // - they're assigned to this stage OR they have a preexisting connection
-    var person_choices = [];
-    var stage_activities = stages[CURRENT_STAGE.id].activities;
-    if(stage_activities.length > 0) {
+    var personChoices = [];
+    var stageActivities = stages[CURRENT_STAGE.id].activities;
+    if(stageActivities.length > 0) {
         person = getPerson('game');
-        activity = getActivity(stage_activities.shift());
+        activity = getActivity(stageActivities.shift());
         // if there are stage activities first, play them one at a time
         return [[activity, person]];
     } else {
         // 2. weights all persons according to preexisting connection
-        for (i = 0; i < person_deck.length; i++) {
-            var person = person_deck[i];
+        for (i = 0; i < personDeck.length; i++) {
+            var person = personDeck[i];
             if (person.activities[CURRENT_STAGE.id].length > 0 && (person.stage === CURRENT_STAGE.id || person.connection >= 1)) {
                 for (var k = 0; k <= person.connection; k++) {
-                    person_choices.push(person);
+                    personChoices.push(person);
                 }
             }
         }
     }
     // 3. selects x persons from weighted array
-    var chosen_persons = drawCard(person_choices, amt);
-    var encounter_choices = [];
+    var chosenPersons = drawCard(personChoices, amt);
+    var encounterChoices = [];
     // 4. creates a choice array of the selected persons and the actions that can be performed with them (ex: ['hiking', Person]
-    for (var i = 0; i < chosen_persons.length; i++) {
-        var chosen_person = chosen_persons[i];
-        for (var j = 0; j < chosen_person.activities[CURRENT_STAGE.id].length; j++) {
+    for (var i = 0; i < chosenPersons.length; i++) {
+        var chosenPerson = chosenPersons[i];
+        for (var j = 0; j < chosenPerson.activities[CURRENT_STAGE.id].length; j++) {
             // 5. chooses a person action/combo from this array (encounters)
-            var activity_id = chosen_person.activities[CURRENT_STAGE.id][j];
-            var activity = getActivity(activity_id);
-            encounter_choices.push([activity,chosen_person]);
+            var activityId = chosenPerson.activities[CURRENT_STAGE.id][j];
+            var activity = getActivity(activityId);
+            encounterChoices.push([activity,chosenPerson]);
         }
     }
-    return drawCard(encounter_choices, amt);
+    return drawCard(encounterChoices, amt);
 }
 
 /*****************************************************
@@ -401,21 +401,21 @@ function getChoices(amt) {
     // win condition
     if (player.happiness >= 100) {
         player.state = "won";
-        output_text.append("you win!");
+        $outputText.append("you win!");
     } else if (player.health <= 0) {
         player.state = "dead";
         gameOverSound();
-        output_text.append("you died!");
+        $outputText.append("you died!");
     } else if (!getCurrentStage()) {
         player.state = "dead";
         gameOverSound();
-        output_text.append("You died of old age!");
+        $outputText.append("You died of old age!");
     } else if (player.state === "alive") {
         if (player.state === 'alive') {
             renderGame();
             updateStatus();
         } else {
-            log("Unrecognized game state.");
+            console.log("Unrecognized game state.");
             updateStatus();
         }
     }
@@ -432,8 +432,8 @@ function evaluateEncounterChoice(activity, person) {
     clearOutput();
     // decrease connection to other cards
     // call activity with person as argument: activity(person)
-    var activity_output = window[activity.id](person);
-    output_text.append("<p>" + activity_output + "</p>");
+    var activityOutput = window[activity.id](person);
+    $outputText.append("<p>" + activityOutput + "</p>");
 
     //increase connection to cards
     person.connection += CONNECTION_INCREMENT;
@@ -451,18 +451,18 @@ function renderGame() {
         CURRENT_STAGE = getCurrentStage();
         stageIntro();
     }
-    var player_deck = getChoices(AMT_CHOICES);
+    var playerDeck = getChoices(AMT_CHOICES);
     turn += 1;
     $("#input-container").html("");
     // display choices
     updateStatus();
-    displayEncounterChoices(player_deck);
+    displayEncounterChoices(playerDeck);
 }
 
 /************************************************
  * initiates the game app
  ***********************************************/
-output_prompt.html('<p>You have just been born into the world. Choose from the options life gives you below.</p>' +
+$outputPrompt.html('<p>You have just been born into the world. Choose from the options life gives you below.</p>' +
     '<p>You should be aware that the choices you make will affect the outcome of your life and, potentially, the' +
     'choices and connections you will make later.</p>' +
     '<p>Your goal is to have the highest happiness possible before you die.</p>'+

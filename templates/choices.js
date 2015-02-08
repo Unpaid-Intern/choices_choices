@@ -183,7 +183,7 @@ function search(myArray, property, nameKey){
  * @returns {*}
  ***************************************************/
 function getCurrentStage() {
-    return _Stages[Math.floor(turn/TURNS_PER_STAGE)];
+    return _Stages[Math.floor(_Turn/TURNS_PER_STAGE)];
 }
 
 /****************************************************

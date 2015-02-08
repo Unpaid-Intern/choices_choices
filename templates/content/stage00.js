@@ -261,14 +261,25 @@ function sex(person) {
     var output = '';
     var healthMod = 0;
     var happinessMod = 0;
+    var nextStageId = getCurrentStage().id+1;
 
+    function getPregnant() {
+        if (player.gender === 'm') {
+            output += 'You get her pregnant.';
+            GAME_CARD.addActivity(nextStageId, 'new_kid');
+            _Stages[nextStageId].activities.push('new_kid');
+        } else {
+            output += 'You get pregnant.';
+            GAME_CARD.addActivity(nextStageId, 'give_birth');
+            _Stages[nextStageId].activities.push('new_kid');
+        }
+    }
     // number of times having sex
-    switch (true) {
-        case (thisObject.connection === 0):
+    switch (true) {                              // TEST FOR VIRGINITY
+        case (thisObject.connection === 0):      // virgin
             output += ' You lose your virginity. ';
             break;
-        case (thisObject.connection >= 2):
-            output += ' You have sex. ';
+        case (thisObject.connection >= 2):       // sex
             break;
     }
 
@@ -276,14 +287,18 @@ function sex(person) {
     switch (person.state) {
         case('dating'):                         // dating
             break;
-        case('married'):                        // married
+        case('married'):                        // MARRIED LIFE
             if (person.state = 'spouse') {
                 switch (n) {
-                    case(0):
+                    case(0):                    // fall asleep
                         output = 'You planned on having sex but you are both too tired and just get an early night instead.'
                         healthMod = 1;
                         break;
-                    default:
+                    case (1):                   // pregnant
+                        output += '';
+                        getPregnant();
+                        break;
+                    default:                    // married sex
                         output += 'The two of you finally get around to being intimate.';
                         happinessMod +=2;
                         healthMod +=2;
@@ -292,38 +307,46 @@ function sex(person) {
                 break;
             }
             break;
-        default:   // single people rely more on how they're feeling
+        default:                                // SINGLE LIFE
             switch (true) {
+                                                // depressed sex
                 case (player.happiness < 10 || person.connection <=2):
                     player.updateHappiness(-1);
                     person.connection -= (CONNECTION_INCREMENT+1);
                     return('Sex turns into a conversation about how you need to find a new direction in life.' +
                     ' Neither of you has a good time.');
                     break;
-                case (n === 0): // you get pregnant
-                    if (player.gender === 'm') {
-                        output += 'You get her pregnant.';
-                        new Person('child','Your child', 'Your new child', 'm', {}, 10, 10, 'child', 'Your child', getCurrentStage().id+1)
-                    } else {
-                        output += 'You get pregnant.'
-                    }
-                default:
+                case (n === 0):                 // pregnant
+                    getPregnant();
+                    break;
+                default:                        // regular sex
                     player.updateHappiness(3+happinessMod);
             }
             break;
     }
 
-    if (player.gender === 'm') {           // is male
+    if (player.gender === 'm') {                // is male
                 player.updateHappiness(10 - thisObject.connection);
         player.updateHealth(1);
         return person.name + " and you have sex. Your health improves.";
-    } else {                                 // is female
+    } else {                                   // is female
         player.updateHappiness(1);
         player.updateHealth(1);
         return person.name + " and you have sex. Your health improves.";
     }
 }
 
+// TODO: give_birth
+new Activity('give_birth', 'Give Birth', 'Have your first child', 'Give birth to another child', 0, false);
+function give_birth(person) {
+    return 'placeholder stuff for give birth';
+}
+
+// TODO: new_kid
+new Activity('new_kid', 'Give Birth', 'Have your first child', 'Give birth to another child', 0, false);
+function new_kid(person) {
+    return 'placeholder stuff for give new kid';
+}
 /**
  * STAGE ACTIVITY: setParents
  * @activities: babyTalk, babyFeeding, babysitting, play, monsterDance

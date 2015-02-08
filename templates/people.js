@@ -13,6 +13,133 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
+var _ShakeTrigger;
+var _HealthChange;
+
+/**
+ *
+ * @type {{name: string,
+ * state: string,
+ * gender: string,
+ * health: number,
+ * happiness: number,
+ * inventory: Array,
+ * attachment: number,
+ * diseases: Array,
+ * attributes: string[],
+ * addictions: Array,
+ * obituary: { 0: Array, 1: Array, 2: Array, 3: Array, 4: Array, 5: Array},
+ * causeOfDeath: string,
+ * personDeck: Array}}
+ */
+var player = {
+    name: "Nathan",
+    state: "alive",
+    gender: 'm',
+    health: 15,         // player dies when it reaches 0
+    happiness: 10,      // player loses or gains options when it increases/decreases
+    inventory: [],
+    attachment: 0,
+    diseases: [],
+    attributes: ['single'],
+    addictions: [],
+    obituary: {0:[], 1:[],2:[],3:[],4:[],5:[]},
+    causeOfDeath: 'Unknown',
+    personDeck:[]
+};
+
+player.subjective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'he';
+        case 'f':
+            return 'she';
+        case 'pl':
+            return 'it';
+    }
+};
+
+player.objective = function() {
+    switch (this.gender) {
+        case 'm':
+            return 'him';
+        case 'f':
+            return 'her';
+        case 'pl':
+            return 'it';
+    }
+};
+
+player.possessive = function() {
+    switch(this.gender) {
+        case 'm':
+            return 'his';
+        case 'f':
+            return 'hers';
+        case 'pl':
+            return 'its';
+    }
+};
+
+player.plural = function() {
+    switch(this.gender) {
+        case 'm' || 'f':
+            return 's';
+        case 'pl':
+            return '';
+    }
+};
+
+player.updateObituary = function(updateText) {
+    this.obituary[getCurrentStage().id].push(updateText);
+    console.log(player.obituary[getCurrentStage().id]);
+};
+
+player.updateHealth = function(number) {
+
+//if the number by which update health is being adjusted is negative, then set _ShakeTrigger to true, so
+//that the correct sounds, and animations will be played.
+    if( number < 0) {
+        _ShakeTrigger = true;
+
+    }
+    else
+    {
+        _ShakeTrigger = false;
+    }
+
+    _HealthChange = number;
+    console.log("health:" + number);
+    animateDamageText();
+    this.health += number;
+    $playerHealth.text(player.health);
+    $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
+};
+
+player.updateHappiness = function(number) {
+    _HealthChange = 0;
+    this.happiness += number;
+    $playerHappiness.text(player.happiness);
+    $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
+};
+
+player.removeInventory = function(item) {
+    this.inventory.push(item);
+};
+
+player.addInventory = function(item) {
+    this.inventory.splice(item);
+};
+
+player.addAttribute = function(attr) {
+    this.inventory.push(attr);
+};
+
+player.removeAttribute = function(attr) {
+    this.inventory.splice(attr);
+};
+
 /**************************************************************************************
  * STAGES
  * stages represent the stages of life that a player potentially goes through.
@@ -23,39 +150,22 @@ function getRandomInt(min, max) {
  * @param prompts
  * @constructor
  * **************************************************************************** */
-var _stages = [];
  function Stage(id, name, description, activities, prompts) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.activities = activities;
     this.prompts = prompts;
+    _Stages.push(this);
 }
+var _Stages = [];
 
-_stages.push(new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []));
-_stages.push(new Stage(1, 'Childhood', 'You could be president.',[], []));
-_stages.push(new Stage(2, 'Teen years', 'You have so much potential!',[], []));
-_stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []));
-_stages.push(new Stage(4, 'Adulthood', 'You are an adult now.',[], []));
-_stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.',[], []));
-
-/*************************************************************************************
- * GOALS
- * This feature is not implemented at all. Ideally folks should be able to choose.
- * Currently the goal is hardwired into the game loop (bad).
- * TODO: goals should be chosen at the start of the game and define end conditions.
- * **************************************************************************** */
-
-function Goal(id, name, description, stat, statMeasure) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.stat = stat;
-    this.statMeasure = statMeasure;
-}
-
-var goals = [];
-goals.push(new Goal(0, 'Go to France', 'See the world', 'money', 1000));
+new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []);
+new Stage(1, 'Childhood', 'You could be president.',[], []);
+new Stage(2, 'Teen years', 'You have so much potential!',[], []);
+new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []);
+new Stage(4, 'Adulthood', 'You are an adult now.',[], []);
+new Stage(5, 'Old Age', 'They say life begins at 50.',[], []);
 
 /*****************************************************************************
  * STATUS
@@ -70,12 +180,13 @@ function Status(id, name, description) {
     this.id = id;
     this.name = name;
     this.description = description;
+    _Statuses.push(this);
 }
 
-var statuses = [];
-statuses.push(new Status(0, 'Rich', 'Above 200k/yr'));
-statuses.push(new Status(1, 'Middle Class', '30k-200k/yr'));
-statuses.push(new Status(2, 'Poor', 'Less than 30k/yr'));
+var _Statuses = [];
+new Status(0, 'Rich', 'Above 200k/yr');
+new Status(1, 'Middle Class', '30k-200k/yr');
+new Status(2, 'Poor', 'Less than 30k/yr');
 
 /*****************************************************************************
  * ATTRIBUTES
@@ -89,17 +200,18 @@ statuses.push(new Status(2, 'Poor', 'Less than 30k/yr'));
  * @constructor
  * TODO: Attributes need to be linked to the player's stats
  ************************************************************************************ */
-
+_Attributes = [];
 function Attribute(id, name, type, description, connection) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.description = description;
     this.connection = connection;
-}
-attributes = [];
 
-attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0));
+    _Attributes.push(this);
+}
+
+new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
 
 /****************************************************************
  * PERSONS
@@ -121,7 +233,7 @@ attributes.push(new Attribute('rickets','Rickets','disease','Rickets makes it ha
  *
  *
  *****************************************************************/
-
+_Persons = [];
 function Person(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
@@ -134,6 +246,17 @@ function Person(id, name, fullName, gender, met, activities, connection, happine
     this.state = state;             //
     this.identity = identity;       //
     this.stage = stage;             // stage at which character can be drawn
+
+    _Persons.push(this);
+    for (var i=0; i < _Stages.length; i++) {
+        if (activities[i]) {
+            this.activities[i]= activities[i];
+        } else {
+            this.activities[i] = [];
+        }
+    }
+    player.personDeck.push(this);
+
 }
 
 Person.prototype.subjective = function() {
@@ -179,43 +302,12 @@ Person.prototype.addActivity = function(stage, activityId) {
     this.activities[stage].push(activityId);
 };
 
-var personDeck = [];
-
-/**
- *
- * @param {string} id
- * @param {string} name
- * @param {string} fullName
- * @param {string} gender
- * @param {string} met
- * @param {object} activities
- * @param {number} connection
- * @param {number} happiness
- * @param {string} state
- * @param {string} identity
- * @param {number} stage
- * @returns {Person}
- */
-
-function createPerson(id, name, fullName, gender, met, activities, connection, happiness, state, identity, stage) {
-    var newPerson = new Person(id, name, fullName, gender, met, {}, connection, happiness, state, identity, stage);
-    for (var i=0; i < _stages.length; i++) {
-        if (activities[i]) {
-            newPerson.activities[i]= activities[i];
-        } else {
-            newPerson.activities[i] = [];
-        }
-    }
-    personDeck.push(newPerson);
-    return newPerson;
-}
-
 function getPerson(personId) {
-    return search(personDeck, 'id', personId);
+    return search(player.personDeck, 'id', personId);
 }
 
 function removePerson(person) {
-    personDeck.filter(function (el) {return el.id !== person.id;});
+    player.personDeck.filter(function (el) {return el.id !== person.id;});
 }
 
 
@@ -226,18 +318,11 @@ function Activity(id, name, firstDescription, description, connection) {
     this.firstDescription = firstDescription;
     this.description = description;
     this.connection = connection;
+
+    activityDeck.push(this);
 }
 
 var activityDeck = []; // activityDeck holds all Activity objects
-
-function createActivity(id, name, firstDescription, description, connection, stageNumber) {
-    var newActivity = activityDeck.push(id, name, firstDescription, description, connection);
-    activityDeck.push(newActivity);
-    if(isNaN(stageNumber) === false) {
-        _stages[stageNumber].activities.push(newActivity.id);
-    }
-    return(newActivity);
-}
 
 function getActivity(activityId) {
     return search(activityDeck, 'id', activityId);
@@ -259,7 +344,7 @@ function getFunctionName() {
  */
 
 function removeActivityFromPerson(activityId, person) {
-    for(var i=0; i < _stages.length; i++) {
+    for(var i=0; i < _Stages.length; i++) {
         var index = person.activities[i].indexOf(activityId);
         if (index >= -1) {
             person.activities[i].splice(index);

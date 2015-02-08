@@ -39,6 +39,7 @@ var player = {
     gender: 'm',
     health: 15,         // player dies when it reaches 0
     happiness: 10,      // player loses or gains options when it increases/decreases
+    money: 0,
     inventory: [],
     attachment: 0,
     diseases: [],
@@ -222,7 +223,6 @@ new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
  * @param {string} name
  * @param {string} firstDisplayName
  * @param {string}  gender
- * @param {string}  met
  * @param {Object} activities
  * @param {number}  connection
  * @param {number} happiness
@@ -234,12 +234,11 @@ new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
  *
  *****************************************************************/
 _Persons = [];
-function Person(id, name, firstDisplayName, gender, met, activities, connection, happiness, state, stateDescription, stage) {
+function Person(id, name, firstDisplayName, gender, activities, connection, happiness, state, stateDescription, stage) {
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
     this.firstDisplayName = firstDisplayName;     // for special occasions (driver's license, etc.)
     this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
-    this.met = met;                 // '-' --- to be removed
     this.activities = activities;   // all the activity functions by stage
     this.connection = connection;   // increments as player interacts more
     this.happiness = happiness;     // happiness is currently how you win the game

@@ -310,15 +310,25 @@ function removePerson(person) {
     player.personDeck.filter(function (el) {return el.id !== person.id;});
 }
 
-
-
-function Activity(id, name, firstDescription, description, connection) {
+function Activity(id, name, firstDescription, description, connection, stageNumber) {
     this.id = id;
     this.name = name;
     this.firstDescription = firstDescription;
     this.description = description;
     this.connection = connection;
+    this.stageNumber = stageNumber;
 
+    //try {
+    //    this.run = window[this.id];
+    //} catch (err) {
+    //    console.log(err.message + " -- No function named " + id);
+    //}
+    //console.log('id: '+ id + ' -- stageNumber: ' + stageNumber);
+
+    if(stageNumber !== false) {
+        console.log(id + ' pushing to Stage ' + stageNumber);
+        _Stages[stageNumber].activities.push(id);
+    }
     activityDeck.push(this);
 }
 

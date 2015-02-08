@@ -36,25 +36,25 @@ function firstGrade() {
     var n = getRandomInt(0,0);
     switch (n) {
         case 0:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'bully', 'hot_girl', 1);
-            new Person('bully', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
-            new Person('jock', 'Percy', 'Percival Willackers', 'm', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
-            new Person('nerd', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
+            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['bully'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'bully', 'hot_girl', 1);
+            new Person('bully', 'Sally', 'Sally Hendricks', 'f', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
+            new Person('jock', 'Percy', 'Percival Willackers', 'm', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
+            new Person('nerd', 'Sally', 'Sally Hendricks', 'f', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
             output += 'Th other kids hate you.';
             player.updateObituary('Unpopular in school.');
             break;
         case 1:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
+            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;
         case 2:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
+            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;
         case 3:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', 'school', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
+            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
             output += 'You like school and you feel like you will make lots of friends here.';
             player.updateObituary('Made friends in school.');
             break;

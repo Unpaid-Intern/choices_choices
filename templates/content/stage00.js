@@ -64,24 +64,25 @@ function birth() {
     return output;
 }
 
-new Activity('drugsSugar','Try Sugar', 'Eat some sugar', 'Sugar is very addictive.', 0 , false);
+new Activity('drugsSugar','Sugary Treats', 'Try sugar', 'Your experience tells you this will be delicious.', 0 , false);
 function drugsSugar(person) {
     var thisActivityObject = getActivity('drugsSugar');
     var output ='';
     var stageId = getCurrentStage().id;
-    var n = getRandomInt(0,5);
-    thisActivityObject.connection += n;
+    var n = getRandomInt(0,10);
+    n += thisActivityObject.connection;
     switch (true) {
-        case (n >= 20): // you are totally adduicted. you get obesity if you don't already have it.
-            if (player.diseases['sugar'] === -1) {
+        case (n >= 20): // you are totally addicted. you get obesity if you don't already have it.
+            if (player.diseases['obesity'] === -1) {
                 player.diseases.push('obesity');
+                player.updateObituary('You get diabetes from eating sugar. ');
+                output += 'You have diabetes.';
             }
-                if (player.addictions['sugar'] === -1) {
+            if (player.addictions['sugar'] === -1) {
                 player.addictions.push('sugar');
-            } else {
-
+                output += 'You are completely addicted to sugar! ';
             }
-            output += 'You are completely addicted to sugar! Also you have ';
+
             player.updateHealth(-2);
             drugsSugar(person);
             thisActivityObject.connection += 2;
@@ -96,12 +97,13 @@ function drugsSugar(person) {
             output += 'You eat many healthy treats. While you love them, they are not exactly healthy for ' +
             'you and your health suffers.';
             player.updateHealth(-1);
-            player.updateHappiness(1);
+            player.updateHappiness(2);
             thisActivityObject.connection += 2;
             break;
         default:
-            player.updateHealth(1);
-            output += 'You are exposed to sugar in moderation and you like it.';
+            player.updateHealth(-1);
+            player.updateHappiness(2);
+            output += 'You eat some sugary treats!';
     }
     return output;
 }
@@ -201,30 +203,30 @@ function buyDrugs() {
         case (stageId === 1):         // WAY too young!
             switch (n) {
                 case 0:
-                    output += '';
+                    output += 'You buy the drugs';
                     break;
                 case 1:
-                    output += '';
+                    output += 'You do not buy the drugs.';
                     break;
             }
             break;
         case (stageId === 2):         // too young?
             switch (n) {
                 case 0:
-                    output += '';
+                    output += 'You buy the drugs';
                     break;
                 case 1:
-                    output += '';
+                    output += 'You do not buy the drugs.';
                     break;
             }
             break;
         default:                      // no problem
             switch (n) {
                 case 0:
-                    output += '';
+                    output += 'You buy the drugs';
                     break;
                 case 1:
-                    output += '';
+                    output += 'You do not buy the drugs.';
                     break;
             }
             break;
@@ -294,31 +296,31 @@ function setParents() {
     switch (true) {
         case (n <= 3):           // single mom
             output += 'You are born to a single mom.';
-            new Person('parents','Mom', 'Your mom!', 'f', 'she made you', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
-            new Person('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
-            new Person('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
-            new Person('Freddy','Fred Armitage', '', 'm', 'playdate companion', {0:['play']}, 0, 10, 'parents','parents',0);
+            new Person('parents','Mom', 'Your new mom', 'f', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'mom','Your mom',0);
+            new Person('uncle', 'creepy Uncle Steve', 'Uncle Steve', 'm', {0:['babysitting']}, 0, 10, 'uncle', 'Your uncle',  0);
+            new Person('neighbor','Sally', 'a neighbor kid', 'f', {0:['babysitting']}, 0, 10, 'babysitter', 'friend',  0);
+            new Person('play_date', 'Freddy','another toddler', 'm', {0:['play']}, 0, 10, 'toddler','another random toddler',0);
             player.updateObituary('Born to a loving mother.');
             break;
         case (n === 4 || n === 5): // unhappily married
             output += 'You are born to two loving parents. However they love themselves more than they love you.' +
             'They constantly bicker, fight and use you as a tool or an object to be won.';
-            new Person('parents','Mom and Dad', '', 'pl', 'they made you', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
-            new Person('uncle', 'Uncle Steve', '', 'm', 'family', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
-            new Person('neighbor','Sally Fredricks', 'f', '', 'neighbor', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
+            new Person('parents','Mom and Dad', '', 'pl', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
+            new Person('uncle', 'Uncle Steve', '', 'm', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
+            new Person('neighbor','Sally', 'Sally Firebricks', 'f', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
             player.updateObituary('Born as a mistake.');
             break;
         case (n >= 6 && n <= 8): // happily married
             output += 'You are born to two loving parents.';
-            new Person('parents','Mom & Dad', 'Mom and Dad', 'pl', 'they made you', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
-            new Person('fred','Freddy', 'Fred Armitage', 'm', 'playdate companion', {0:['play']}, 0, 10, 'parents','parents',0);
+            new Person('parents','Mom & Dad', 'Mom and Dad', 'pl', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
+            new Person('fred','Freddy', 'Fred', 'm', {0:['play']}, 0, 10, 'parents','parents',0);
             player.updateObituary('Born into a loving home.');
             break;
         case (n = 9):           // orphan
             output += 'You are an orphan. You do not know your parents';
             GAME_CARD.addActivity(3,'longLostParent');
-            new Person('parents','The nuns', 'The nuns!', 'pl', 'They take care of you', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
-            new Person('monster','Monster Under the Bed', '', 'm', 'long after midnight', {0:['monsterDance']}, 0, 10, 'enemy',  'enemy', 0);
+            new Person('parents','The nuns', 'The nuns!', 'pl', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
+            new Person('monster','Monster Under the Bed', '', 'm', {0:['monsterDance']}, 0, 10, 'enemy',  'enemy', 0);
             player.updateObituary('Born an orphan.');
             break;
     }
@@ -343,7 +345,7 @@ function babyTalk(person) {
     switch (player.attachment) {
         // Good parents
         case 0:
-            output =person.name + ' pay' + person.plural() + ' lots of ' +
+            output = person.name + ' pay' + person.plural() + ' lots of ' +
             'attention to you. They love you and adore you. You create a strong ' +
             'emotional connection and develop language at an advanced rate. ' +
             'With happiness comes improved health.';

@@ -1,4 +1,5 @@
 var _ShakeTrigger;
+var _HealthChange;
 
 /**
  * the player stores basic variables about the player's character.
@@ -79,14 +80,16 @@ player.updateHealth = function(number) {
         _ShakeTrigger = false;
     }
 
-
+    _HealthChange = number;
+    console.log("health:" + number);
+    animateDamageText();
     this.health += number;
     $playerHealth.text(player.health);
     $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
-
 };
 
 player.updateHappiness = function(number) {
+    _HealthChange = 0;
     this.happiness += number;
     $playerHappiness.text(player.happiness);
     $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
@@ -126,6 +129,10 @@ var $playerHealth = $('.player-health');
 var $playerHappiness = $('.player-happiness');
 var $encounterChoice = $('.encounter-choice');
 
+
+var $healthChange = $(".health-change");
+var $happinessChange = $(".happiness-change");
+
 /**************************************************************************
  *
  * DISPLAY FUNCTIONS
@@ -143,6 +150,7 @@ function updateStatus() {
         $playerHealth.text(player.health);
         $playerHappiness.text(player.happiness);
     }
+    else {
 
     //store the image in a variable to prevent removal on refresh
     //var img = $(".status-img").clone();
@@ -152,12 +160,16 @@ function updateStatus() {
     //re-insert image
     //status.append(img);
     //this function evaluates the current state of _ShakeTrigger and plays the appropriate sound
+
     soundTrigger();
     //this function evaluates the current state of _ShakeTrigger and initiates the appropriate animation
     shakeStatusImg();
+    //this function evaluates the current state of _ShakeTrigger and initiates the appropriate animation
+    //to show the amount of damage or health increase rising from player health
+
+    }
     $playerState.text(player.state);
     $currentTurn.text(turn);
-
 }
 
 /****************************************************

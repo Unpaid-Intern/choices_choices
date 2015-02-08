@@ -19,23 +19,26 @@ function getRandomInt(min, max) {
  * @param id
  * @param name
  * @param description
+ * @param activities
+ * @param prompts
  * @constructor
  * **************************************************************************** */
 
- function Stage(id, name, description) {
+ function Stage(id, name, description, activities, prompts) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.activities = [];
+    this.activities = activities;
+    this.prompts = prompts;
 }
 var stages = [];
 
-stages.push(new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.'));
-stages.push(new Stage(1, 'Childhood', 'You could be president.'));
-stages.push(new Stage(2, 'Teen years', 'You have so much potential!'));
-stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.'));
-stages.push(new Stage(4, 'Adulthood', 'You are an adult now.'));
-stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.'));
+stages.push(new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []));
+stages.push(new Stage(1, 'Childhood', 'You could be president.',[], []));
+stages.push(new Stage(2, 'Teen years', 'You have so much potential!',[], []));
+stages.push(new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []));
+stages.push(new Stage(4, 'Adulthood', 'You are an adult now.',[], []));
+stages.push(new Stage(5, 'Old Age', 'They say life begins at 50.',[], []));
 
 /*************************************************************************************
  * GOALS

@@ -1,6 +1,5 @@
 /*
-new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', '0' );
-stages[0].activities.push('example_activity');
+new Activity('example_activity','Example First Description', 'Example activity description', 'Button Name', 0 , false);
 function example_activity() {
     var output ='';
     var n = getRandomInt(0,3);

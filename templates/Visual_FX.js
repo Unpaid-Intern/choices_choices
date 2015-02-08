@@ -23,26 +23,29 @@ function animateDamageText() {
     //if (typeof _HealthChange != "undefined" && turn != 1) {
 
         if (_HealthChange < 0) {
+            $healthChange.empty();
             $playerhealth.toggle("fade");
             $playerhealth.toggle("fade");
             $healthChange.text(_HealthChange);
 
             console.log("DAMAGE: health change: " + _HealthChange);
+
             $healthChange.effect("bounce", {times: 3}, "fast");
             $healthChange
                 .animate({
                     opacity: 1
-                  }, 50)
+                  }, 1)
                 .animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "red"
-            }, 1000, emptyThis());
+            }, 800, reset());
 
 
         }
 
         if (_HealthChange > 0 ) {
+            $healthChange.empty();
             $playerhealth.toggle("fade");
             $playerhealth.toggle("fade");
             $healthChange.text("+" + _HealthChange);
@@ -51,12 +54,12 @@ function animateDamageText() {
             $healthChange
                 .animate({
                 opacity: 1
-                }, 50)
+                }, 1)
                 .animate({
                 opacity: 0.0,
                 fontSize: "5em",
                 color: "blue"
-            }, 1000, emptyThis());
+            }, 800, reset());
 
     }
 
@@ -65,7 +68,7 @@ function animateDamageText() {
 
 
 
-function emptyThis()
+function reset()
 
 {
    // $healthChange.empty();

@@ -141,7 +141,7 @@ function setSocialClass() {
                     output = ' Your are abandoned at an orphanage. You are raised ' +
                     'without any knowledge of your past.' +
                     'While you are there you develop rickets.';
-                    var attribute = search(attributes, 'id', 'rickets');
+                    var attribute = search(_Attributes, 'id', 'rickets');
                     attribute.connection += 2;
                     player.diseases.push('rickets');
                     player.updateObituary('Caught rickets due to poor nutrition.');

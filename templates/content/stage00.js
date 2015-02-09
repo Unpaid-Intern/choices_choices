@@ -120,9 +120,7 @@ function sports() {
             var thisActivity = getActivity('sports');
             player.updateHealth(thisActivity.connection + 3);
             return "Sports is good for your health";
-
     }
-
 }
 
 new Activity('firstTooth', 'Losing first tooth', 'Losing a tooth is a sign of maturity and adulthood.', 'See what the tooth fairy brings.', 0, false);
@@ -149,6 +147,7 @@ function setSocialClass() {
             new Person('churchPeer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 1);
             // TODO: push GAME activities to GAME person
             player.updateObituary('Born into poverty.');
+            player.udpateMoney(50);
             switch (getRandomInt(0,1)) {
                 case 0:
                     output = ' Your are abandoned at an orphanage. You are raised ' +
@@ -166,22 +165,26 @@ function setSocialClass() {
                     player.updateHealth(-5);
                     player.updateObituary('Spent a childhood at daycare.');
                     break;
-            }            break;
+            }
+            break;
         case 1:
             player.socialClass = ['middleClass', 'Middle Class'];
             output += "You are born into a middle class family.";
             player.updateObituary('Middle class neighborhood.');
+            player.udpateMoney(1000);
             switch (getRandomInt(0,0)) {
                 case 0:
                     output += " You will be encouraged to study hard and go to college.";
                     player.health = 10;
                     console.log('Everyone knew you would be a doctor.');
                     break;
-            }            break;
+            }
+            break;
         case 2:
             player.socialClass = ['rich', 'Rich'];
             output += "You are born into a rich family.";
             player.updateObituary('Wanted for nothing.');
+            player.udpateMoney(100000);
             if(player.health <= 10) {
                 output += ' Any health issues are resolved through expensive medical techniques. Only the best for baby!'
             }
@@ -203,10 +206,11 @@ function buyDrugs() {
         case (stageId === 1):         // WAY too young!
             switch (n) {
                 case 0:
-                    output += 'You buy the drugs';
+                    output += 'You are caught trying to buy drugs and are humiliated. ' +
+                              'Aren\'t you a bit young for drugs?';
                     break;
                 case 1:
-                    output += 'You do not buy the drugs.';
+                    output += 'You give $20 to a homeless man to get you drugs and he comes back with oregano.';
                     break;
             }
             break;
@@ -234,7 +238,7 @@ function buyDrugs() {
     return output;
 }
 
-new Activity('church','Example First Description', 'Example activity description', 'Button Name', 0, false);
+new Activity('church','Go to Church', 'Go to Church', 'Worship', 0, false);
 function church() {
     var output ='';
     var n = getRandomInt(0,3);
@@ -367,7 +371,7 @@ function setParents() {
             new Person('play_date', 'Freddy','another toddler', 'm', {0:['play']}, 0, 10, 'toddler','another random toddler',0);
             player.updateObituary('Born to a loving mother.');
             break;
-        case (n === 4 || n === 5): // unhappily married
+        case (n <= 5): // unhappily married
             output += 'You are born to two loving parents. However they love themselves more than they love you.' +
             'They constantly bicker, fight and use you as a tool or an object to be won.';
             new Person('parents','Mom and Dad', '', 'pl', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
@@ -375,7 +379,7 @@ function setParents() {
             new Person('neighbor','Sally', 'Sally Firebricks', 'f', {0:['babysitting']}, 0, 10, 'parents', 'enemy',  0);
             player.updateObituary('Born as a mistake.');
             break;
-        case (n >= 6 && n <= 8): // happily married
+        case (n <= 8): // happily married
             output += 'You are born to two loving parents.';
             new Person('parents','Mom & Dad', 'Mom and Dad', 'pl', {0:['babyTalk', 'babyFeeding']}, 0, 10, 'parents','parents',0);
             new Person('fred','Freddy', 'Fred', 'm', {0:['play']}, 0, 10, 'parents','parents',0);
@@ -388,6 +392,8 @@ function setParents() {
             new Person('monster','Monster Under the Bed', '', 'm', {0:['monsterDance']}, 0, 10, 'enemy',  'enemy', 0);
             player.updateObituary('Born an orphan.');
             break;
+        default:
+            console.log('ERROR: setParents');
     }
     return output;
 }
@@ -436,6 +442,7 @@ function babyTalk(person) {
  Balanced organic foods are best but they're expensive.
  On the other hand babies can suffer from malnutrition even in the best of homes.
  */
+new Activity('babyFeeding', 'Baby Feeding', 'Nipples!', 'Feeling hungry?', 0, false);
 function babyFeeding(person) {
     var output;
     var currentStageId = getCurrentStage().id;
@@ -446,14 +453,17 @@ function babyFeeding(person) {
     }
 
     switch (true) {
-        // Good parents
-        case (num <=10):
+        case (num <=4):                              // Good parents
             output = 'You drink of the finest breast milk.';
             player.updateHealth(10);
             player.updateHappiness(3);
             break;
-        // Bad parents
-        default :
+        case (num <=10):                            // Fine parents
+            output = 'You drink formula. Ho hum.';
+            player.updateHealth(10);
+            player.updateHappiness(3);
+            break;
+        default:                                    // Bad parents
             output = 'Your parents starve you.';
             player.updateHealth(-5);
             player.updateHappiness(-3);
@@ -466,7 +476,6 @@ function babyFeeding(person) {
     }
     return output;
 }
-new Activity('babyFeeding', 'Baby Feeding', 'Nipples!', 'Feeling hungry?', 0, false);
 
 /*
  Nutrition is very important for babies.

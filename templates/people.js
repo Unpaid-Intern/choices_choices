@@ -103,7 +103,6 @@ player.updateHealth = function(number) {
 //that the correct sounds, and animations will be played.
     if( number < 0) {
         _ShakeTrigger = true;
-
     }
     else
     {
@@ -111,18 +110,24 @@ player.updateHealth = function(number) {
     }
 
     _HealthChange = number;
-    console.log("health:" + number);
+    console.log('health: ' + number);
     animateDamageText();
     this.health += number;
     $playerHealth.text(player.health);
-    $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
+    $outputResults.append('Health: ' + getSignedNumber(number));
 };
 
 player.updateHappiness = function(number) {
     _HealthChange = 0;
     this.happiness += number;
     $playerHappiness.text(player.happiness);
-    $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
+    $outputResults.append('Happiness: ' + getSignedNumber(number));
+};
+
+player.updateMoney = function(number) {
+    this.money += number;
+    $playerMoney.text(player.money);
+    $outputResults.append('Money: ' + getSignedNumber(number));
 };
 
 player.removeInventory = function(item) {
@@ -181,6 +186,7 @@ function Status(id, name, description) {
     this.id = id;
     this.name = name;
     this.description = description;
+
     _Statuses.push(this);
 }
 
@@ -193,6 +199,7 @@ new Status(2, 'Poor', 'Less than 30k/yr');
  * ATTRIBUTES
  * Player attributes could be deseases or other status adornments. They could call a function of
  * the same name.
+ *
  * @param {string} id
  * @param {string} name
  * @param {string} type
@@ -231,20 +238,19 @@ new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
  * @param {number} stage
  * @constructor
  *
- *
  *****************************************************************/
 _Persons = [];
 function Person(id, name, firstDisplayName, gender, activities, connection, happiness, state, stateDescription, stage) {
-    this.id = id;                 // string used for searching
-    this.name = name;               // generally used
-    this.firstDisplayName = firstDisplayName;     // for special occasions (driver's license, etc.)
-    this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
-    this.activities = activities;   // all the activity functions by stage
-    this.connection = connection;   // increments as player interacts more
-    this.happiness = happiness;     // happiness is currently how you win the game
-    this.state = state;             //
-    this.stateDescription = stateDescription;       //
-    this.stage = stage;             // stage at which character can be drawn
+    this.id = id;                               // string used for searching
+    this.name = name;                           // generally used
+    this.firstDisplayName = firstDisplayName;   // for special occasions (driver's license, etc.)
+    this.gender = gender;                       // for pronouns: options are 'm', 'f' and 'pl'
+    this.activities = activities;               // all the activity functions by stage
+    this.connection = connection;               // increments as player interacts more
+    this.happiness = happiness;                 // happiness is currently how you win the game
+    this.state = state;                         // describes the current relationship between player and person
+    this.stateDescription = stateDescription;   // display version of 'state'
+    this.stage = stage;                         // stage at which character can be drawn
 
     _Persons.push(this);
     for (var i=0; i < _Stages.length; i++) {
@@ -310,12 +316,12 @@ function removePerson(person) {
 }
 
 function Activity(id, name, firstDescription, description, connection, stageNumber) {
-    this.id = id;
-    this.name = name;
-    this.firstDescription = firstDescription;
-    this.description = description;
-    this.connection = connection;
-    this.stageNumber = stageNumber;
+    this.id = id;                               // unique string
+    this.name = name;                           // what it's called
+    this.firstDescription = firstDescription;   // appears when connection = 0
+    this.description = description;             // appears the rest of the time
+    this.connection = connection;               // incremented on use. stacks. triggers effects.
+    this.stageNumber = stageNumber;             // if this is a stage activity
 
     // adds function this.id as .run method
     if (window[this.id]) {

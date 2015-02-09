@@ -15,6 +15,7 @@ var $playerName = $('.player-name');
 var $playerState = $('.player-state');
 var $playerHealth = $('.player-health');
 var $playerHappiness = $('.player-happiness');
+var $playerMoney = $('.player-money');
 var $encounterChoice = $('.encounter-choice');
 
 
@@ -37,6 +38,7 @@ function updateStatus() {
         $playerState.text(player.state);
         $playerHealth.text(player.health);
         $playerHappiness.text(player.happiness);
+        $playerMoney.text(player.money);
     }
     else {
 

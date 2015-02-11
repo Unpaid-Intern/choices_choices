@@ -147,7 +147,7 @@ function setSocialClass() {
             new Person('churchPeer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 1);
             // TODO: push GAME activities to GAME person
             player.updateObituary('Born into poverty.');
-            player.udpateMoney(50);
+            player.updateMoney(50);
             switch (getRandomInt(0,1)) {
                 case 0:
                     output = ' Your are abandoned at an orphanage. You are raised ' +
@@ -171,7 +171,7 @@ function setSocialClass() {
             player.socialClass = ['middleClass', 'Middle Class'];
             output += "You are born into a middle class family.";
             player.updateObituary('Middle class neighborhood.');
-            player.udpateMoney(1000);
+            player.updateMoney(1000);
             switch (getRandomInt(0,0)) {
                 case 0:
                     output += " You will be encouraged to study hard and go to college.";
@@ -184,7 +184,7 @@ function setSocialClass() {
             player.socialClass = ['rich', 'Rich'];
             output += "You are born into a rich family.";
             player.updateObituary('Wanted for nothing.');
-            player.udpateMoney(100000);
+            player.updateMoney(100000);
             if(player.health <= 10) {
                 output += ' Any health issues are resolved through expensive medical techniques. Only the best for baby!'
             }

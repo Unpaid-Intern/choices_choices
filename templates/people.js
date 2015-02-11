@@ -290,7 +290,9 @@ Person.prototype.possessive = function() {
 };
 Person.prototype.plural = function() {
     switch(this.gender) {
-        case 'm' || 'f':
+        case 'm':
+            return 's';
+        case 'f':
             return 's';
         case 'pl':
             return '';

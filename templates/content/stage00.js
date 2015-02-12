@@ -387,7 +387,7 @@ function babyTalk(person) {
     switch (player.attachment) {
         // Good parents
         case 0:
-            output = person.name + ' pay' + person.plural() + ' lots of ' +
+            output = person.name + ' pay ' + person.plural() + ' lots of ' +
             'attention to you. They love you and adore you. You create a strong ' +
             'emotional connection and develop language at an advanced rate. ' +
             'With happiness comes improved health.';

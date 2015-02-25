@@ -90,6 +90,11 @@ footer{
     max-height:301px;
 
 }
+
+.output-results {
+    color: yellow;
+}
+
 #status{
     min-height:300px;
     max-height:301px;

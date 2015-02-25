@@ -79,7 +79,7 @@ function clearOutput() {
  * @param {[]} choices - takes a list of people
  ***************************************************/
 function displayEncounterChoices(choices) {
-    for (i = 0; i < choices.length; i++) {
+    for (var i = 0; i < choices.length; i++) {
         var person = choices[i][1];
         var activity = choices[i][0];
         var headerText = '';
@@ -128,7 +128,7 @@ function displayEncounterChoices(choices) {
  * @param {object} miniGame - an activity object that's a miniGame
  */
 
-function displayminiGameChoices(miniGame) {
+function displayMiniGameChoices(miniGame) {
     var choices = miniGame.choices;
     var choicesHtml ='<ul class="minigame-choices">';
     for (var i=1; i < choices.length; i++) {
@@ -305,7 +305,7 @@ function getChoices(amt) {
  * TODO: Game loop should refer to victory conditions / goal.
  * *****************************************************/
 
- function evaluateGameState() {
+function evaluateGameState() {
     // win condition
     if (player.happiness >= 100) {
         player.state = "won";
@@ -313,7 +313,7 @@ function getChoices(amt) {
     } else if (player.health <= 0) {
         player.state = "dead";
         gameOverSound();
-        $outputText.append("you died!");
+        $outputResults.append("you died!");
     } else if (!getCurrentStage()) {
         player.state = "dead";
         gameOverSound();
@@ -341,7 +341,8 @@ function evaluateEncounterChoice(activity, person) {
     // decrease connection to other cards
     // call activity with person as argument: activity(person)
     var activityOutput = activity.run((person));
-    $outputText.append("<p>" + activityOutput + "</p>");
+
+    $outputText.typeTo(activityOutput);
 
     //increase connection to cards
     person.connection += CONNECTION_INCREMENT;

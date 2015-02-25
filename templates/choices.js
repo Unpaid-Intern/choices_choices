@@ -246,6 +246,7 @@ var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 1;   // currently a fixed amount
 var TURNS_PER_STAGE = 10;        // currently a fixed amount
 var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
+var _GameState = ''
 var _Turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = 'templates/img/'; //use this instead of a string
 // GAME FUNCTIONS

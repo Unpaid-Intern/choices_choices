@@ -82,7 +82,6 @@ function drugsSugar(person) {
                 player.addictions.push('sugar');
                 output += 'You are completely addicted to sugar! ';
             }
-
             player.updateHealth(-2);
             drugsSugar(person);
             thisActivityObject.connection += 2;
@@ -217,20 +216,20 @@ function buyDrugs() {
         case (stageId === 2):         // too young?
             switch (n) {
                 case 0:
-                    output += 'You buy the drugs';
+                    output += 'You buy the drugs. ';
                     break;
                 case 1:
-                    output += 'You do not buy the drugs.';
+                    output += 'You do not buy the drugs. ';
                     break;
             }
             break;
         default:                      // no problem
             switch (n) {
                 case 0:
-                    output += 'You buy the drugs';
+                    output += 'You buy the drugs. ';
                     break;
                 case 1:
-                    output += 'You do not buy the drugs.';
+                    output += 'You do not buy the drugs. ';
                     break;
             }
             break;
@@ -265,7 +264,7 @@ function sex(person) {
     var output = '';
     var healthMod = 0;
     var happinessMod = 0;
-    var nextStageId = getCurrentStage().id+1;
+    var nextStageId = getCurrentStage().id + 1;
 
     function getPregnant() {
         if (player.gender === 'm') {

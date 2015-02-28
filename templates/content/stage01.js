@@ -122,7 +122,7 @@ new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description 
 function drink(person) {
     player.updateHappiness(1);
     player.updateHealth(-1);
-
+    transportation_accident();
     return person.name + " and you go drinking." + ". Your health = " + player.health;
 }
 

@@ -25,6 +25,7 @@ var _HealthChange;
  * health: number,
  * happiness: number,
  * inventory: Array,
+ * transportation: Array,
  * attachment: number,
  * diseases: Array,
  * attributes: string[],
@@ -41,6 +42,7 @@ var player = {
     happiness: 10,      // player loses or gains options when it increases/decreases
     money: 0,
     inventory: [],
+    transportation: "walking",
     attachment: 0,
     diseases: [],
     attributes: ['single'],

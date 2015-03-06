@@ -244,9 +244,9 @@ function drawCard(array, amt) {
 // GAME SETTINGS
 var CURRENT_STAGE = 0;          // currently a fixed amount
 var CONNECTION_INCREMENT = 1;   // currently a fixed amount
-var TURNS_PER_STAGE = 10;        // currently a fixed amount
-var AMT_CHOICES = 4;            // currently a fixed amount, may depend on happiness later
-var _GameState = ''
+var TURNS_PER_STAGE = 5;        // currently a fixed amount
+var AMT_CHOICES = 3;            // currently a fixed amount, may depend on happiness later
+var _GameState = '';
 var _Turn = 0;                   // turn count for player starts at 0
 var IMAGE_DIR = 'templates/img/'; //use this instead of a string
 // GAME FUNCTIONS
@@ -316,6 +316,12 @@ function evaluateGameState() {
         $outputResults.append("you died!");
     } else if (!getCurrentStage()) {
         player.state = "dead";
+        $("#gameContainer").html("DEMO OVER");
+        gameOverSound();
+        $outputText.append("You died of old age!");
+    } else if (_Turn >= 12) {
+        player.state = "dead";
+        $("#gameContainer").html("DEMO OVER");
         gameOverSound();
         $outputText.append("You died of old age!");
     } else if (player.state === "alive") {

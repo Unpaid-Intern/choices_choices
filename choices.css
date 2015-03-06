@@ -92,7 +92,11 @@ footer{
 }
 
 .output-results {
+}
+
+.output-item {
     color: yellow;
+    margin-right: 3em;
 }
 
 #status{

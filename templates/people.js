@@ -110,24 +110,24 @@ player.updateHealth = function(number) {
     }
 
     _HealthChange = number;
-    console.log('health: ' + number);
+    console.log('<span class="output-item">health: ' + number + '</span>');
     animateDamageText();
     this.health += number;
     $playerHealth.text(player.health);
-    $outputResults.append('Health: ' + getSignedNumber(number));
+    $outputResults.append('<span class="output-item">Health: ' + getSignedNumber(number) + '</span>');
 };
 
 player.updateHappiness = function(number) {
     _HealthChange = 0;
     this.happiness += number;
     $playerHappiness.text(player.happiness);
-    $outputResults.append('Happiness: ' + getSignedNumber(number));
+    $outputResults.append('<span class="output-item">Happiness: ' + getSignedNumber(number) + '</span>');
 };
 
 player.updateMoney = function(number) {
     this.money += number;
     $playerMoney.text(player.money);
-    $outputResults.append('Money: ' + getSignedNumber(number));
+    $outputResults.append('<span class="output-item">Money: ' + getSignedNumber(number) + '</span>');
 };
 
 player.removeInventory = function(item) {
@@ -169,9 +169,9 @@ var _Stages = [];
 new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []);
 new Stage(1, 'Childhood', 'You could be president.',[], []);
 new Stage(2, 'Teen years', 'You have so much potential!',[], []);
-new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []);
-new Stage(4, 'Adulthood', 'You are an adult now.',[], []);
-new Stage(5, 'Old Age', 'They say life begins at 50.',[], []);
+//new Stage(3, 'Young Adulthood', 'You have the whole world ahead of you.',[], []);
+//new Stage(4, 'Adulthood', 'You are an adult now.',[], []);
+//new Stage(5, 'Old Age', 'They say life begins at 50.',[], []);
 
 /*****************************************************************************
  * STATUS
@@ -306,7 +306,12 @@ Person.prototype.plural = function() {
 };
 
 Person.prototype.addActivity = function(stage, activityId) {
-    this.activities[stage].push(activityId);
+    try {
+        this.activities[stage].push(activityId);
+    }
+    catch(err) {
+        console.log('stage' + this.activities[stage] + 'does not exist');
+    }
 };
 
 function getPerson(personId) {

@@ -23,44 +23,6 @@
 
  ************************************************************************************ */
 
-/**
- * STAGE ACTIVITY: firstGrade
- * @activities: bully, smoke, play
- *
- */
-
-new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0, 1);
-//_Stages[1].activities.push('firstGrade');
-function firstGrade() {
-    var output ='';
-    var n = getRandomInt(0,0);
-    switch (n) {
-        case 0:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['bully'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'bully', 'hot_girl', 1);
-            new Person('bully', 'Sally', 'Sally Hendricks', 'f', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
-            new Person('jock', 'Percy', 'Percival Willackers', 'm', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
-            new Person('nerd', 'Sally', 'Sally Hendricks', 'f', {1:['bully']}, 0, 20, 'bully', 'friend', 1);
-            output += 'Th other kids hate you.';
-            player.updateObituary('Unpopular in school.');
-            break;
-        case 1:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
-            output += 'You like school and you feel like you will make lots of friends here.';
-            player.updateObituary('Made friends in school.');
-            break;
-        case 2:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, 0, 20, 'friend', 'hot_girl', 1);
-            output += 'You like school and you feel like you will make lots of friends here.';
-            player.updateObituary('Made friends in school.');
-            break;
-        case 3:
-            new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']},0, 20, 'friend', 'hot_girl', 1);
-            output += 'You like school and you feel like you will make lots of friends here.';
-            player.updateObituary('Made friends in school.');
-            break;
-    }
-    return output;
-}
 
 /*
  Smoking is a bad habit for your health but also very enjoyable. It's easy to get addicted to and has fast diminishing
@@ -75,31 +37,50 @@ function smoke(person) {
     return person.name + " offers you a cigarrette. Your health = " + player.health;
 }
 
+
+/**
+ * STAGE ACTIVITY: firstGrade
+ * @activities: bully, smoke, play
+ *
+ */
+
+new Activity('firstGrade', 'First Day of School', 'Your first day of first grade.', 'Button Name', 0, 1);
+function firstGrade() {
+    var output ='';
+    var n = getRandomInt(0,1);
+    new Person('schoolCrush', 'Sally', 'Sally Hendricks', 'f', {1:['play'],2:['smoke', 'date'], 3:['date'], 4:['date']}, -1, 20, 'hot_girl', 'hot_girl', 1);
+    new Person('bully', 'Sally', 'Sally Hendricks', 'f', {1:['play']}, 0, 20, 'bully', 'friend', 1);
+    new Person('jock', 'TJ', 'TJ Freedman', 'm', {1:['play']}, 0, 20, 'jock', 'friend', 1);
+    new Person('nerd', 'Sally', 'Sally Hendricks', 'f', {1:['play'], 2:['play']}, 0, 20, 'nerd', 'friend', 1);
+    var schoolCrush = getPerson('schoolCrush');
+    var bully = getPerson('bully');
+    var jock = getPerson('jock');
+    var nerd = getPerson('nerd');
+    switch (n) {
+        case 0:
+            output += 'The other kids hate you.';
+            player.updateObituary('Unpopular in school.');
+            schoolCrush.connection = -10;
+            bully.connection = -10;
+            jock.connection = -10;
+            nerd.connection = +3;
+            break;
+        case 1:
+            output += 'You like school and you feel like you will make lots of friends here.';
+            player.updateObituary('Made friends in school.');
+            schoolCrush.connection = 2;
+            bully.connection = 0;
+            jock.connection = 2;
+            nerd.connection = 0;
+            break;
+    }
+    return output;
+}
+
 new Activity('date', 'Dating', 'First Description Placeholder', 'Description Placeholder', 0, false);
 function date(person) {
     player.updateHealth(1);
     return person.name + " and you date. Your health improves."
-}
-
-new Activity('bully','Example First Description', 'Example activity description', 'Button Name', 0 , false);
-function bully() {
-    var output ='';
-    var n = getRandomInt(0,3);
-    switch (n) {
-        case 0:
-            output += '';
-            break;
-        case 1:
-            output += '';
-            break;
-        case 2:
-            output += '';
-            break;
-        case 3:
-            output += '';
-            break;
-    }
-    return output;
 }
 
 /*********************************************************
@@ -107,18 +88,15 @@ function bully() {
  *
  *  BULLY VS BULLIED VS BOTH
  FIRST LOVE
- BEING A WALLFLOWER
  SUICIDAL FRIEND
  UNREQUITED LOVE
  DRIVER'S LICENSE, LOSING VIRGINITY, FIRST KISS, DRUG EXPERIENCES, COLLEGE/CAREER, SCHOOL DANCES, OPPOSITE SEX IN GENERAL IS WEIRD
  STUDYING FOR TEST, NOT BEING SOCIALIZED IS TOUGH
  HAVING A PARENT WITH A MENTAL ILLNESS
-
-
  */
 
 
-new Activity('drink', 'Drinking', 'First Description Placeholder', 'Description Placeholder', 0, false);
+new Activity('drink', 'Drinking', 'Try alcohol', 'Drink with friends', 0, false);
 function drink(person) {
     player.updateHappiness(1);
     player.updateHealth(-1);
@@ -126,7 +104,7 @@ function drink(person) {
     return person.name + " and you go drinking." + ". Your health = " + player.health;
 }
 
-new Activity('party', 'Partying', 'First Description Placeholder', 'Description Placeholder', 0, false);
+new Activity('party', 'Partying', 'Everyone is going to the party', 'Go partying!', 0, false);
 function party(person) {
     player.happiness += 1;
     player.updateHealth(0);

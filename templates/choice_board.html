@@ -1,31 +1,32 @@
-<div class="row-fluid">
-    <div class="hero-unit span6" id="output-container">
-        <div class="output-prompt"></div>
-        <div class="output-text"></div>
+<div id="gameContainer">
+    <div class="row-fluid">
+        <div class="hero-unit span6" id="output-container">
+            <div class="output-prompt"></div>
+            <div class="output-text"></div>
+
+        </div>
+
+        <div class="hero-unit span6" id="status">
+            <!-- TODO: remove inline styling -->
+            <img style="height:100px;width:100px;"class="status-img" src="templates/img/status.png">
+            <p>Player Name: <span class="player-name"></span></p>
+            <p>State: <span class="player-state"></span></p>
+            <p>Health: <span class="player-health"></span><span class="health-change"></span></p>
+            <p>Happiness: <span class="player-happiness"></span><span class="happiness-change"></span></p>
+            <p>Money: <span class="player-money"></span><span class="money-change"></span></p>
+            <p>---------</p>
+            <div class="output-results"></div>
+
+        </div>
 
     </div>
+    <hr />
+    <div class="row-fluid" id="input-container">
 
-    <div class="hero-unit span6" id="status">
-        <!-- TODO: remove inline styling -->
-        <img style="height:100px;width:100px;"class="status-img" src="templates/img/status.png">
-        <p>Player Name: <span class="player-name"></span></p>
-        <p>State: <span class="player-state"></span></p>
-        <p>Health: <span class="player-health"></span><span class="health-change"></span></p>
-        <p>Happiness: <span class="player-happiness"></span><span class="happiness-change"></span></p>
-        <p>Money: <span class="player-money"></span><span class="money-change"></span></p>
-        <p>---------</p>
-        <div class="output-results"></div>
-
+        <p>input container</p>
     </div>
-
-</div>
-<hr />
-<div class="row-fluid" id="input-container">
-
-    <p>input container</p>
 </div>
 <br />
-<hr />
 <a class="btn" href="#start_screen">Back to Main Menu</a>
 
 <script src="templates/people.js" type="text/javascript-lazy"></script>

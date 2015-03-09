@@ -306,6 +306,22 @@ function getChoices(amt) {
  * *****************************************************/
 
 function evaluateGameState() {
+
+    gameOverText = '' +
+    '<h1 class="banner-text">DEMO OVER</div>' +
+    '<p>Thanks for playing this demo of the choices game. It was written from "scratch" with lots of love by </p>' +
+    '<a href="mailto:scottybrackett@gmail.com">Scott Brackett</a> and <a href="mailto:nathanlivni@gmail.com">Nathan Livni</a> ' +
+    'as a proof of concept for creating a game that simulated human addiction to repetitive stimuli.</p>' +
+    '<p>Aside from <b>html/css/javascript</b>, the following technologies were not harmed in the making of this game:' +
+    '<ul>' +
+    '<li><a href="http://knockoutjs.com/">knockout.js</a>: we probably didn\'t need it but we wanted to play with it.</li>' +
+    '<li><a hreft="http://cosmos.layervault.com/typer-js.html">typer.js</a>: a cool little script that worked great ' +
+    'for typing out the text like a console.</li>' +
+    '<li><a hreft="https://github.com/Unpaid-Intern/choices_choices/">github</a>: Our first time working with it. You can' +
+    'find our code there along with some ridiculous commit messages should you want to tinker with this yourself.</li>' +
+    '</ul>' +
+    '</p>';
+
     // win condition
     if (player.happiness >= 100) {
         player.state = "won";
@@ -316,12 +332,12 @@ function evaluateGameState() {
         $outputResults.append("you died!");
     } else if (!getCurrentStage()) {
         player.state = "dead";
-        $("#gameContainer").html("DEMO OVER");
+        $("#gameContainer").html(gameOverText);
         gameOverSound();
         $outputText.append("You died of old age!");
     } else if (_Turn >= 12) {
         player.state = "dead";
-        $("#gameContainer").html("DEMO OVER");
+        $("#gameContainer").html(gameOverText);
         gameOverSound();
         $outputText.append("You died of old age!");
     } else if (player.state === "alive") {

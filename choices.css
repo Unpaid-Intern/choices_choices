@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
 
 body{
     display:block;
@@ -107,8 +108,15 @@ footer{
 
 
 .health-change{
-
     float:right;
+}
 
+.banner-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 28px;
+}
 
+li {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

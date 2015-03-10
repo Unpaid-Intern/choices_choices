@@ -110,7 +110,17 @@ footer{
 }
 
 .about-title{
-    font-size:x-large;
-    font-stretch: ultra-expanded;
+ text-align: left;
+
+}
+
+.nathan-about{
+    border:solid;
+
+
+}
+.scott-about{
+    border:solid;
+
 
 }

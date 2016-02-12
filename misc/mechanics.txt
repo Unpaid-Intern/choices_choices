@@ -1,18 +1,29 @@
 POTENTIAL MECHANIC
-but that's not the point. here's how it might work. instead of playing with made up folks. you play with previous players. you play with in other words when you die you will become an npc.  everything is a stat check. that;s how you handle the consequences. you query the dtabase for folks who would fit the event. then you do a stat check. like if it's girlfriend you would maybe need to add both players stats together to overcome a threshhold. OR you might take the difference and ensure it wasn't more than 2.
-
 the main idea or problem at the moment is that thre's a ton of content to generate and we're having to do all these characers etc. it seems like it wants to be a multiplayer game. and it can be. it can be a nonrelational database style game.
 
-i could play with meteor
+instead of playing with made up folks. you play with previous players (plus a starting pack).
+when the your character dies it will become an npc.
 
 each stage has, say a question per year. each year has events associated with it. So for your 5th year of age it might have a physical, an emotional, and a financial event. like tooth coming out, new best friend, or you get some allowance.
 (it might be able to tie in which possibilities there are based on your top skills).
 
-you choose the event for the year, then you do a skills check. if you pass the skills check you improve in the skill and get a happiness.
 
+
+you query the database for folks who would fit the event. then you do a stat check.
+you handle all consequences with stat checks.
+you choose the event for the year, then you do a skills check.
+If it's girlfriend you would maybe need to add both players stats together to overcome a threshhold. OR you might take the difference and ensure it wasn't more than 2.
+the events are good or bad depending on the relationship mostly. taking either a sum or a difference.
+
+If you pass the skills check you improve in the skill and get a happiness.
 IF you fail the skill check, you improve in the skill, you get a grit, but you don't get a happiness. grit gets you an extra card pull every stage.
 
-If you hover over the character on the card, you get a lightbox Which as their history up to that point on it. Oh wow. what if they were doomed to repeat their lives. they would always have a bad date... they would always be the bad friend. oh maybe the events are good or bad depending on the relationship mostly. taking either a sum or a difference.
+If you hover over the character on the card, you get a lightbox Which as their history up to that point on it.
+
+What if they were doomed to repeat their lives. they would always have a bad date... they would always be the bad friend.
+
+i could play with meteor
+
 
 for instance:
 

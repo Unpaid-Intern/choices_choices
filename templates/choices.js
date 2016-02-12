@@ -256,8 +256,8 @@ var IMAGE_DIR = 'templates/img/'; //use this instead of a string
  ***************************************************/
 function getChoices(amt) {
     // 1. creates array of person choices based on
-    // - they have instructions for the current stage AND
-    // - they're assigned to this stage OR they have a preexisting connection
+    // - if they are associated with the current question OR
+    // - they're assigned to this stage
     var personChoices = [];
     var stageActivities = _Stages[CURRENT_STAGE.id].activities;
     if(stageActivities.length > 0) {

@@ -5,6 +5,7 @@
 
 
 
+
 /*******************************************************************
  * UTILITY FUNCTIONS
  ************************************************************************************ */
@@ -34,6 +35,7 @@ var _HealthChange;
  * causeOfDeath: string,
  * personDeck: Array}}
  */
+
 var player = {
     name: "Nathan",
     state: "alive",
@@ -215,6 +217,47 @@ function Attribute(id, name, type, description, connection) {
 }
 
 new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
+
+
+
+function Player(
+    id,
+    gender,
+    title,
+    firstName,
+    lastName,
+    city,
+    state,
+    zip,
+    dob,
+    phone,
+    cell,
+    DNI,
+    picture_portrait,
+    picture_icon,
+    picture_pix_portrait,
+    picture_pix_icon,
+    nationality) {
+        id=id;
+        gender =gender;
+        title = title;
+        firstName = firstName;
+        lastName;
+        city;
+        state;
+        zip;
+        dob;
+        phone;
+        cell;
+        DNI;
+        picture_portrait;
+        picture_icon;
+        picture_pix_portrait;
+        picture_pix_icon;
+        nationality
+}
+
+
 
 /****************************************************************
  * PERSONS

@@ -1,5 +1,5 @@
 /*Created by currentuser on 1/21/15.*/
-//will need to trigger this sound with choices.js code instead of event listener
+//will need to trigger this sound with engine.js code instead of event listener
 function soundTrigger()
     {
         if(_ShakeTrigger == true) {

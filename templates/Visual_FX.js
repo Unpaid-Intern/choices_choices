@@ -17,7 +17,7 @@ function shakeStatusImg()
 
 function animateDamageText() {
 
-//remove later and replace with global variable $playerHealth in choices.js
+//remove later and replace with global variable $playerHealth in engine.js
     var $playerhealth = $(".player-health");
 
     //if (typeof _HealthChange != "undefined" && turn != 1) {

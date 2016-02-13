@@ -1,6 +1,7 @@
 /*************************************************************************************
  * This contains most of the database structure of the game. Most of the minigame logic is stored
- * in activities.js.
+ * in helpers.js.
+ * 2/13/16 - this may no longer be true -nlivni
  * ***********************************************************************************/
 
 

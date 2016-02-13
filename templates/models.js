@@ -4,145 +4,15 @@
  * 2/13/16 - this may no longer be true -nlivni
  * ***********************************************************************************/
 
-
-
-/*******************************************************************
- * UTILITY FUNCTIONS
- ************************************************************************************ */
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
 var _ShakeTrigger;
 var _HealthChange;
 
-/**
- *
- * @type {{name: string,
- * state: string,
- * gender: string,
- * health: number,
- * happiness: number,
- * inventory: Array,
- * transportation: Array,
- * attachment: number,
- * diseases: Array,
- * attributes: string[],
- * addictions: Array,
- * obituary: { 0: Array, 1: Array, 2: Array, 3: Array, 4: Array, 5: Array},
- * causeOfDeath: string,
- * personDeck: Array}}
- */
-var player = {
-    name: "Nathan",
-    state: "alive",
-    gender: 'm',
-    health: 15,         // player dies when it reaches 0
-    happiness: 10,      // player loses or gains options when it increases/decreases
-    money: 0,
-    inventory: [],
-    transportation: "walking",
-    attachment: 0,
-    diseases: [],
-    attributes: ['single'],
-    addictions: [],
-    obituary: {0:[], 1:[],2:[],3:[],4:[],5:[]},
-    causeOfDeath: 'Unknown',
-    personDeck:[]
-};
-
-player.subjective = function() {
-    switch (this.gender) {
-        case 'm':
-            return 'he';
-        case 'f':
-            return 'she';
-        case 'pl':
-            return 'it';
-    }
-};
-
-player.objective = function() {
-    switch (this.gender) {
-        case 'm':
-            return 'him';
-        case 'f':
-            return 'her';
-        case 'pl':
-            return 'it';
-    }
-};
-
-player.possessive = function() {
-    switch(this.gender) {
-        case 'm':
-            return 'his';
-        case 'f':
-            return 'hers';
-        case 'pl':
-            return 'its';
-    }
-};
-
-player.plural = function() {
-    switch(this.gender) {
-        case 'm' || 'f':
-            return 's';
-        case 'pl':
-            return '';
-    }
-};
-
-player.updateObituary = function(updateText) {
-    this.obituary[getCurrentStage().id].push(updateText);
-    console.log(player.obituary[getCurrentStage().id]);
-};
-
-player.updateHealth = function(number) {
-
-//if the number by which update health is being adjusted is negative, then set _ShakeTrigger to true, so
-//that the correct sounds, and animations will be played.
-    if( number < 0) {
-        _ShakeTrigger = true;
-
-    }
-    else
-    {
-        _ShakeTrigger = false;
-    }
-
-    _HealthChange = number;
-    console.log("health:" + number);
-    animateDamageText();
-    this.health += number;
-    $playerHealth.text(player.health);
-    $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
-};
-
-player.updateHappiness = function(number) {
-    _HealthChange = 0;
-    this.happiness += number;
-    $playerHappiness.text(player.happiness);
-    $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
-};
-
-player.removeInventory = function(item) {
-    this.inventory.push(item);
-};
-
-player.addInventory = function(item) {
-    this.inventory.splice(item);
-};
-
-player.addAttribute = function(attr) {
-    this.inventory.push(attr);
-};
-
-player.removeAttribute = function(attr) {
-    this.inventory.splice(attr);
-};
+var _Stages = [];
+var _Activities = []; // _Activities holds all Activity objects
+var _Statuses = [];
+var _Diseases = [];
+var _Addictions = [];
+var _Persons = [];
 
 /**************************************************************************************
  * STAGES
@@ -162,7 +32,6 @@ player.removeAttribute = function(attr) {
     this.prompts = prompts;
     _Stages.push(this);
 }
-var _Stages = [];
 
 new Stage(0, 'Infancy', 'The first 4 years of life are sometimes the most influential in determining habits and patterns.',[], []);
 new Stage(1, 'Childhood', 'You could be president.',[], []);
@@ -187,35 +56,45 @@ function Status(id, name, description) {
     _Statuses.push(this);
 }
 
-var _Statuses = [];
 new Status(0, 'Rich', 'Above 200k/yr');
 new Status(1, 'Middle Class', '30k-200k/yr');
 new Status(2, 'Poor', 'Less than 30k/yr');
 
 /*****************************************************************************
- * ATTRIBUTES
+ * DISEASES
  * Player attributes could be deseases or other status adornments. They could call a function of
  * the same name.
  * @param {string} id
  * @param {string} name
- * @param {string} type
  * @param  {string} description
- * @param  {number} connection
  * @constructor
  * TODO: Attributes need to be linked to the player's stats
  ************************************************************************************ */
-_Attributes = [];
-function Attribute(id, name, type, description, connection) {
+function Disease(id, name, description) {
     this.id = id;
     this.name = name;
-    this.type = type;
     this.description = description;
-    this.connection = connection;
 
-    _Attributes.push(this);
+    _Diseases.push(this);
 }
 
-new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
+/*****************************************************************************
+ * ADDICTIONS
+ * Player attributes could be deseases or other status adornments. They could call a function of
+ * the same name.
+ * @param {string} id
+ * @param {string} name
+ * @param  {string} description
+ * @constructor
+ * TODO: Attributes need to be linked to the player's stats
+ ************************************************************************************ */
+function Addiction(id, name, description) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+
+    _Addictions.push(this);
+}
 
 /****************************************************************
  * PERSONS
@@ -225,19 +104,32 @@ new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
  * @param {string} id
  * @param {string} name
  * @param {string} firstDisplayName
- * @param {string}  gender
- * @param {Object} activities
- * @param {number}  connection
- * @param {number} happiness
  * @param {string} state
  * @param {string} stateDescription
  * @param {number} stage
+
+ * @param {string} gender
+ * @param {Object} activities
+ * @param {number} connection
+ * @param {number} happiness
+ *
+ * @param {number} health
+ * @param {number} money
+ * @param {object} inventory
+ * @param {string} transportation
+ * @param {string} relationshipStatus
+ * @param {object} diseases
+ * @param {object} addictions
+ * @param {object} obituary
+ * @param {string} causeOfDeath
+ * @param {object} personDeck
  * @constructor
  *
  *
  *****************************************************************/
-_Persons = [];
-function Person(id, name, firstDisplayName, gender, activities, connection, happiness, state, stateDescription, stage) {
+function Person(id, name, firstDisplayName, gender, activities, connection, happiness, state,
+                stateDescription, stage, health, money, inventory, transportation, diseases,
+                relationshipStatus, addictions, obituary, causeOfDeath, personDeck) {
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
     this.firstDisplayName = firstDisplayName;     // for special occasions (driver's license, etc.)
@@ -248,6 +140,20 @@ function Person(id, name, firstDisplayName, gender, activities, connection, happ
     this.state = state;             //
     this.stateDescription = stateDescription;       //
     this.stage = stage;             // stage at which character can be drawn
+    this.inventory = [];
+    this.personDeck =[];
+
+
+    // ATTRIBUTES
+    this.health = health; // player dies when it reaches 0
+    this.happiness = happiness;      // player loses or gains options when it increases/decreases
+    this.money = 0;
+    this.transportation = "walking";
+    this.diseases = [{'chickenPox':1},];
+    this.addictions = [];
+    this.relationshipStatus = 'single';
+    this.obituary = {0:[], 1:[],2:[],3:[],4:[],5:[]};
+    this.causeOfDeath = 'Unknown';
 
     _Persons.push(this);
     for (var i=0; i < _Stages.length; i++) {
@@ -302,17 +208,68 @@ Person.prototype.plural = function() {
     }
 };
 
+Person.prototype.updateObituary = function(updateText) {
+    this.obituary[getCurrentStage().id].push(updateText);
+    console.log(player.obituary[getCurrentStage().id]);
+};
+
+Person.prototype.updateHealth = function(number) {
+
+//if the number by which update health is being adjusted is negative, then set _ShakeTrigger to true, so
+//that the correct sounds, and animations will be played.
+    if( number < 0) {
+        _ShakeTrigger = true;
+    }
+    else
+    {
+        _ShakeTrigger = false;
+    }
+
+    _HealthChange = number;
+    console.log("health:" + number);
+    animateDamageText();
+    this.health += number;
+    $playerHealth.text(player.health);
+    $outputResults.append('<p>Health: ' + getSignedNumber(number) + '</p>');
+};
+
+Person.prototype.updateHappiness = function(number) {
+    _HealthChange = 0;
+    this.happiness += number;
+    $playerHappiness.text(player.happiness);
+    $outputResults.append('<p>Happiness: ' + getSignedNumber(number) + '</p>');
+};
+
+Person.prototype.addInventory = function(item) {
+    this.inventory.splice(item);
+};
+
+Person.prototype.removeInventory = function(item) {
+    this.inventory.push(item);
+};
+
+Person.prototype.addAttribute = function(attr) {
+    this.inventory.push(attr);
+};
+
+Person.prototype.removeAttribute = function(attr) {
+    this.inventory.splice(attr);
+};
+
 Person.prototype.addActivity = function(stage, activityId) {
     this.activities[stage].push(activityId);
 };
 
-function getPerson(personId) {
-    return search(player.personDeck, 'id', personId);
-}
-
-function removePerson(person) {
-    player.personDeck.filter(function (el) {return el.id !== person.id;});
-}
+/**
+ *  ACTIVITY
+ * @param {number} id
+ * @param {string} name
+ * @param {string} firstDescription
+ * @param {string} description
+ * @param {string} connection
+ * @param {number} stageNumber
+ * @constructor
+ */
 
 function Activity(id, name, firstDescription, description, connection, stageNumber) {
     this.id = id;
@@ -339,32 +296,3 @@ function Activity(id, name, firstDescription, description, connection, stageNumb
     _Activities.push(this);
 }
 
-var _Activities = []; // _Activities holds all Activity objects
-
-function getActivity(activityId) {
-    return search(_Activities, 'id', activityId);
-}
-
-/**
- * returns the name of the function that called it.
- * @returns {Function}
- */
-function getFunctionName() {
-    return arguments.callee.caller;
-}
-
-
-/**
- * cycles through an Person's stages, removing the activity entirely from that person
- * @param activityId
- * @param person
- */
-
-function removeActivityFromPerson(activityId, person) {
-    for(var i=0; i < _Stages.length; i++) {
-        var index = person.activities[i].indexOf(activityId);
-        if (index >= -1) {
-            person.activities[i].splice(index);
-        }
-    }
-}

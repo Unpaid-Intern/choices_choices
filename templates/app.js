@@ -10,7 +10,6 @@ choicesApp.config(['$routeProvider',
 {
 
     //choicesApp.registerCtrl = $controllerProvider.register;
-
     $routeProvider
         .when('/start_screen', {
                 templateUrl: 'templates/start_screen.html'
@@ -32,8 +31,6 @@ choicesApp.config(['$routeProvider',
                 redirectTo: '/start_screen'
             });
     }]);
-
-
 
 /*
 choicesApp.controller('choice_board_controller', function($scope) {

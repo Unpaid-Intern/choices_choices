@@ -133,10 +133,14 @@ function Person(id, name, firstDisplayName, gender, activities, connection, happ
     this.id = id;                 // string used for searching
     this.name = name;               // generally used
     this.firstDisplayName = firstDisplayName;     // for special occasions (driver's license, etc.)
-    this.gender = gender;           // for pronouns: options are 'm', 'f' and 'pl'
-    this.activities = activities;   // all the activity functions by stage
-    this.connection = connection;   // increments as player interacts more
+    this.gender = gender;           //
+    this.strength = strength;   //
+    this.dexterity = dexterity;   //
+    this.intelligence = intelligence;   //
+    this.wisdom = wisdom;   //
+    this.comliness = comliness;   //
     this.happiness = happiness;     // happiness is currently how you win the game
+    this.activities = activities;   // all the activity functions by stage. {0:['act1', 'act2'],1:['act1', 'act2']}
     this.state = state;             //
     this.stateDescription = stateDescription;       //
     this.stage = stage;             // stage at which character can be drawn
@@ -149,10 +153,10 @@ function Person(id, name, firstDisplayName, gender, activities, connection, happ
     this.happiness = happiness;      // player loses or gains options when it increases/decreases
     this.money = 0;
     this.transportation = "walking";
-    this.diseases = [{'chickenPox':1},];
-    this.addictions = [];
+    //this.diseases = [{'chickenPox':1},{'rickets':0}];
+    //this.addictions = [];
     this.relationshipStatus = 'single';
-    this.obituary = {0:[], 1:[],2:[],3:[],4:[],5:[]};
+    this.obituary = [[],[],[],[],[],[]];
     this.causeOfDeath = 'Unknown';
 
     _Persons.push(this);

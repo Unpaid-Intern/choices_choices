@@ -145,8 +145,6 @@ function setSocialClass() {
         case 0:
             player.socialClass = ['poor', 'Poor'];
             output += "You are born into a poor family.";
-            new Person('hobo','Hobo Pete', 'xxx', 'm', 'the street', {1:['buyDrugs'], 2:['buyDrugs'], 3:['buyDrugs'], 4:['buyDrugs']}, 0, 10, 'friend',  'friend', 1);
-            new Person('churchPeer','Dana', 'Wallace', 'f', 'the bar', {3:['church'], 4:['sex', 'church'],  5:['sex', 'church']}, 0, 10, 'friend',  'friend', 1);
             // TODO: push GAME activities to GAME person
             player.updateObituary('Born into poverty.');
             switch (getRandomInt(0,1)) {

@@ -56,10 +56,6 @@ function Status(id, name, description) {
     _Statuses.push(this);
 }
 
-new Status(0, 'Rich', 'Above 200k/yr');
-new Status(1, 'Middle Class', '30k-200k/yr');
-new Status(2, 'Poor', 'Less than 30k/yr');
-
 /*****************************************************************************
  * DISEASES
  * Player attributes could be deseases or other status adornments. They could call a function of
@@ -282,6 +278,34 @@ function Activity(id, name, firstDescription, description, connection, stageNumb
     this.description = description;
     this.connection = connection;
     this.stageNumber = stageNumber;
+
+    // adds function this.id as .run method
+    if (window[this.id]) {
+        this.run = window[this.id];
+    } else {
+        // returns error to console if matching function not found
+        console.log("ERROR -- No function named " + id);
+    }
+
+    //console.log('id: '+ id + ' -- stageNumber: ' + stageNumber);
+
+    if(stageNumber !== false) {
+        //console.log(id + ' pushing to Stage ' + stageNumber);
+        _Stages[stageNumber].activities.push(id);
+    }
+    _Activities.push(this);
+}
+
+
+function Event(id, stageNumber, name, description, operation, randomRange, responses) {
+    this.id = id;
+    this.stageNumber = stageNumber;
+    this.name = name;
+    this.description = description;
+    this.operation = operation;
+    this.RandomRange = randomRange;
+    this.operation = operation;
+    this.responses = responses;
 
     // adds function this.id as .run method
     if (window[this.id]) {

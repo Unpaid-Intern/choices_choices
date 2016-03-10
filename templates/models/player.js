@@ -21,8 +21,6 @@ var player = {
     personDeck:[]
 };
 
-
-
 var _ShakeTrigger;
 var _HealthChange;
 

@@ -2,6 +2,8 @@
  * Created by Nathan on 3/6/2016.
  */
 
+_Attributes = [];
+
 /*****************************************************************************
  * ATTRIBUTES
  * Player attributes could be deseases or other status adornments. They could call a function of
@@ -14,7 +16,7 @@
  * @constructor
  * TODO: Attributes need to be linked to the player's stats
  ************************************************************************************ */
-_Attributes = [];
+
 function Attribute(id, name, type, description, connection) {
     this.id = id;
     this.name = name;
@@ -24,7 +26,5 @@ function Attribute(id, name, type, description, connection) {
 
     _Attributes.push(this);
 }
-
-new Attribute('rickets','Rickets','disease','Rickets makes it hard to walk.',0);
 
 

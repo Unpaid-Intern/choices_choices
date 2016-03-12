@@ -4,7 +4,7 @@
 
 var _Activities = []; // _Activities holds all Activity objects
 
-function Activity(id, name, firstDescription, description, connection, stageNumber) {
+function Activity(id, name, description, age) {
     this.id = id;
     this.name = name;
     this.firstDescription = firstDescription;

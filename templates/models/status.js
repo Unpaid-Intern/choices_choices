@@ -2,7 +2,7 @@
  * Created by Nathan on 3/6/2016.
  */
 
-var _Statuses = [];
+var _socialStatuses = [];
 
 /*****************************************************************************
  * STATUS
@@ -13,10 +13,10 @@ var _Statuses = [];
  * @constructor
  ************************************************************************************ */
 
-function Status(id, name, description) {
+function socialStatus(id, name, description) {
     this.id = id;
     this.name = name;
     this.description = description;
-    _Statuses.push(this);
+    _socialStatuses.push(this);
 }
 
